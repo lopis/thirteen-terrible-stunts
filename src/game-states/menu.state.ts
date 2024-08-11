@@ -1,11 +1,9 @@
 import { State } from '@/core/state';
-import { controls } from '@/core/controls';
-import { colorDark } from '@/core/draw-engine';
 import { stopAudio } from '@/core/audio';
 
 class MenuState implements State {
   private selectedButton = 0;
-  private buttons = [this.startGame, this.continueGame];
+  private hasChanged = true;
 
   onEnter() {
     stopAudio();
@@ -15,30 +13,33 @@ class MenuState implements State {
   }
 
   onUpdate() {
-    this.updateControls();
+    if (this.hasChanged) {
+      this.hasChanged = false;
+      Array.from(document.getElementsByClassName('selected')).forEach(e => e.classList.remove('selected'));
+      document.getElementById(`item${this.selectedButton + 1}`)?.classList.add('selected');
+    }
   }
 
-  updateControls() {
-    if (controls.isUp && !controls.previousState.isUp) {
-      this.selectedButton--;
-      if (this.selectedButton < 0) {
-        this.selectedButton = this.buttons.length - 1;
-      }
+  onUp() {
+    console.log('up');
+    this.hasChanged = true;
+    this.selectedButton--;
+    if (this.selectedButton < 0) {
+      this.selectedButton = 4;
     }
+  }
 
-    if (controls.isDown && !controls.previousState.isDown) {
-      this.selectedButton++;
-      if (this.selectedButton >= this.buttons.length) {
-        this.selectedButton = 0;
-      }
+  onDown() {
+    console.log('down');
+    this.hasChanged = true;
+    this.selectedButton++;
+    if (this.selectedButton > 4) {
+      this.selectedButton = 0;
     }
+  }
 
-    if (controls.isConfirm && !controls.previousState.isConfirm) {
-      const func = this.buttons[this.selectedButton];
-      if (func) {
-        func();
-      }
-    }
+  onConfirm() {
+    console.log('ok');
   }
 
   startGame() {

@@ -9,7 +9,7 @@ export const levelColors = [
 function getStorage(): string {
   const storage = localStorage.getItem('') || "";
 
-  return storage
+  return storage;
 }
 
 class GameData {
