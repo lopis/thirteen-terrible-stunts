@@ -1,0 +1,41 @@
+:root {
+
+}
+
+#c2d, #plane {
+  position: fixed;
+  width: 100vmin;
+  aspect-ratio: 1;
+  max-width: 900px;
+  image-rendering: pixelated;
+}
+
+html, body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+* {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+
+html {
+  font-size: 20px;
+}
+
+#fps {
+  position: fixed;
+  top: 0;
+  left: 0;
+  color: var(--color-1);
+  padding: 1vh;
+  font-size: 10px;
+}
