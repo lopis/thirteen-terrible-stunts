@@ -1,5 +1,5 @@
 import { State } from '@/core/state';
-import { stopAudio } from '@/core/audio';
+import { startAudio, stopAudio } from '@/core/audio';
 
 class MenuState implements State {
   private selectedButton = 0;
@@ -40,6 +40,7 @@ class MenuState implements State {
 
   onConfirm() {
     console.log('ok');
+    startAudio();
   }
 
   startGame() {

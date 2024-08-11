@@ -1,9 +1,0 @@
-<svg x="0px" y="0px" width="400px" height="402px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-     <defs>
-          <path stroke-dashoffset="500" id="wave" stroke-width="20" stroke="#e7d9ff18" stroke-dasharray="305 210" fill="none" stroke-linecap="round" d="M.564 117.041c26.9 0 23.285-34.968 49.732-34.968 26.448 0 25.52 35.411 50.235 35.411s24.62-35.41 50.235-35.41c25.614 0 21.507 35.41 50.234 35.41 26.901 0 23.285-34.968 49.733-34.968 26.447 0 25.52 35.41 50.234 35.41 24.715 0 24.62-35.41 50.235-35.41s21.507 35.41 50.235 35.41">
-               <!-- <animate id="anim" attributeName="stroke-dashoffset" dur="20s" values="0;515" repeatCount="indefinite" calcMode="linear"/> -->
-          </path>
-     </defs>
-     <use xlink:href="#wave" x="0" y="0" />
-     <use xlink:href="#wave" x="-400" y="200" transform="scale(-1,1)"/>
-</svg>
