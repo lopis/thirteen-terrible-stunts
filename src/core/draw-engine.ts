@@ -1,12 +1,9 @@
-var bodyStyles = window.getComputedStyle(document.body);
-export const colorWhite = bodyStyles.getPropertyValue('--color-white');
-export const color1 = bodyStyles.getPropertyValue('--color-1');
-export const color2 = bodyStyles.getPropertyValue('--color-2');
-export const color3 = bodyStyles.getPropertyValue('--color-3');
-export const color4 = bodyStyles.getPropertyValue('--color-4');
-export const color5 = bodyStyles.getPropertyValue('--color-5');
-export const color6 = bodyStyles.getPropertyValue('--color-6');
-export const colorDark = bodyStyles.getPropertyValue('--color-dark');
+export const colors = {
+  black: '#0c0c0d',
+  gray: '#3f3d47',
+  light: '#8b7d73',
+  white: '#cdb27b',
+};
 
 /**
  * Rounds numbers larger than 0.95 to 1, and smaller than 0.05 to 0.

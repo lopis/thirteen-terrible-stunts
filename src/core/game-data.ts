@@ -1,16 +1,8 @@
-import { color4, color5, color6 } from "./draw-engine";
+// function getStorage(): string {
+//   const storage = localStorage.getItem('') || "";
 
-export const levelColors = [
-  color6,
-  color5,
-  color4,
-];
-
-function getStorage(): string {
-  const storage = localStorage.getItem('') || "";
-
-  return storage;
-}
+//   return storage;
+// }
 
 class GameData {
   level = 0;
