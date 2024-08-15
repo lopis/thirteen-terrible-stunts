@@ -13,19 +13,24 @@ let previousTime = 0;
 let fpsBacklog: number[] = [];
 initAudio();
 
-(function draw(currentTime: number) {
-  drawEngine.clear();
+function draw(currentTime: number) {
   const delta = currentTime - previousTime;
+  
   previousTime = currentTime;
-
-  const state = gameStateMachine.getState();
-  controls.onUpdate(state);
-  state.onUpdate(delta);
-
   fpsBacklog.push(1000 / delta);
   if (fpsBacklog.length === 15) {
     fps.innerHTML = `${Math.round(fpsBacklog.reduce((a, b) => a + b) / 15)} FPS`;
     fpsBacklog = [];
   }
+
+  if (document.hasFocus()) {
+    drawEngine.clear();
+  
+    const state = gameStateMachine.getState();
+    controls.onUpdate(state);
+    state.onUpdate(delta);
+  }
   requestAnimationFrame(draw);
-})(0);
+};
+
+requestAnimationFrame(draw);

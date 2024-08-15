@@ -60,23 +60,48 @@ class Controls {
     }
     this.queryController();
 
-    if(state.onUp && this.isUp && !this.previousState.isUp) {
-      state.onUp();
+    if(this.isUp) {
+      if (!this.previousState.isUp) {
+        typeof state.onUp == 'function' && state.onUp();
+      } else {
+        typeof state.whileDown == 'function' && state.whileDown();
+      }
     }
-    if(state.onDown && this.isDown && !this.previousState.isDown) {
-      state.onDown();
+
+    if(this.isDown) {
+      if (!this.previousState.isDown) {
+        typeof state.onDown == 'function' && state.onDown();
+      } else {
+        typeof state.whileDown == 'function' && state.whileDown();
+      }
     }
-    if(state.onLeft && this.isLeft && !this.previousState.isLeft) {
-      state.onLeft();
+
+    if(this.isRight) {
+      if (!this.previousState.isRight) {
+        typeof state.onRight == 'function' && state.onRight();
+      } else {
+        typeof state.whileRight == 'function' && state.whileRight();
+      }
     }
-    if(state.onRight && this.isRight && !this.previousState.isRight) {
-      state.onRight();
+
+    if(this.isLeft) {
+      if (!this.previousState.isLeft) {
+        typeof state.onLeft == 'function' && state.onLeft();
+      } else {
+        typeof state.whileLeft == 'function' && state.whileLeft();
+      }
     }
-    if(state.onConfirm && this.isConfirm && !this.previousState.isConfirm) {
-      state.onConfirm();
+
+    if(this.isConfirm) {
+      if (!this.previousState.isConfirm) {
+        typeof state.onConfirm == 'function' && state.onConfirm();
+      }
     }
-    if(state.onEscape && this.isEscape && !this.previousState.isEscape) {
-      state.onEscape();
+
+    if(this.isEscape) {
+      if (!this.previousState.isEscape) {
+        typeof state.onEscape == 'function' && state.onEscape();
+      }
     }
 
     this.changed = false;

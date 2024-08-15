@@ -1,3 +1,5 @@
+import { drawText, DrawTextProps } from "./font";
+
 export const colors = {
   black: '#0c0c0d',
   gray: '#3f3d47',
@@ -86,6 +88,10 @@ class DrawEngine {
 
   drawWalkingIcon(iconIndex: number) {
     drawIcon(this.ctx, walkAnimation[iconIndex], 100, 100);
+  }
+
+  drawText(options: DrawTextProps) {
+    drawText(this.ctx, options);
   }
 
   clear() {
