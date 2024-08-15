@@ -1,12 +1,15 @@
 :root {
-
+  --color-black: #0c0c0d;
+  --color-gray: #3f3d47;
+  --color-light: #8b7d73;
+  --color-white: #cdb27b;
 }
 
-#c2d, #plane {
+#c2d {
   position: fixed;
   width: 100vmin;
   aspect-ratio: 1;
-  max-width: 900px;
+  /* max-width: 900px; */
   image-rendering: pixelated;
 }
 
@@ -20,6 +23,37 @@ html, body {
   font-family: Arial, Helvetica, sans-serif;
   overscroll-behavior: none;
   touch-action: none;
+  background: var(--color-white);
+}
+
+body {
+  background: 
+  linear-gradient(
+    0deg,
+    var(--color-black) 2%,
+    transparent 2%,
+    transparent 8%,
+    var(--color-black) 8%,
+
+    var(--color-black) 10%,
+    var(--color-white) 10%,
+    var(--color-white) 90%,
+    var(--color-black) 90%,
+
+    var(--color-black) 92%,
+    transparent 92%,
+    transparent 98%,
+    var(--color-black) 98%
+  ),
+  repeating-linear-gradient(
+    90deg,
+    var(--color-black),
+    var(--color-black) 2.5%,
+    transparent 2.5%,
+    transparent 7.5%,
+    var(--color-black) 7.5%,
+    var(--color-black) 10%
+  )
 }
 
 * {

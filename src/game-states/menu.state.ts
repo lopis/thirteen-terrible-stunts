@@ -1,5 +1,6 @@
 import { State } from '@/core/state';
 import { startAudio, stopAudio } from '@/core/audio';
+import { character } from '@/core/character';
 
 class MenuState implements State {
   private selectedButton = 0;
@@ -12,12 +13,14 @@ class MenuState implements State {
   onLeave() {
   }
 
-  onUpdate() {
+  onUpdate(delta: number) {
     if (this.hasChanged) {
       this.hasChanged = false;
       Array.from(document.getElementsByClassName('selected')).forEach(e => e.classList.remove('selected'));
       document.getElementById(`item${this.selectedButton + 1}`)?.classList.add('selected');
     }
+
+    character.drawWalking(delta);
   }
 
   onUp() {

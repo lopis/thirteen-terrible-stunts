@@ -2,6 +2,7 @@ import { menuState } from './game-states/menu.state';
 import { createGameStateMachine, gameStateMachine } from './game-state-machine';
 import { controls } from '@/core/controls';
 import { initAudio } from './core/audio';
+import { drawEngine } from './core/draw-engine';
 
 // @ts-ignore -- is not undefined for sure
 document.querySelector('link[type="image/x-icon"]').href = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ctext y=\'.9em\' font-size=\'90\'%3E🎞%3C/text%3E%3C/svg%3E';
@@ -13,6 +14,7 @@ let fpsBacklog: number[] = [];
 initAudio();
 
 (function draw(currentTime: number) {
+  drawEngine.clear();
   const delta = currentTime - previousTime;
   previousTime = currentTime;
 

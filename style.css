@@ -9,7 +9,7 @@
   position: fixed;
   width: 100vmin;
   aspect-ratio: 1;
-  max-width: 900px;
+  /* max-width: 900px; */
   image-rendering: pixelated;
 }
 
