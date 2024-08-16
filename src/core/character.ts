@@ -1,4 +1,4 @@
-import { Pos } from "@/util/types";
+import { Vec2 } from "@/util/types";
 import { drawEngine, icons } from "./draw-engine";
 
 export class Character {
@@ -6,7 +6,7 @@ export class Character {
   timeAccumulator = 0;
   currentFrame = 0;
 
-  drawWalking(delta: number, pos: Pos) {
+  drawWalking(delta: number, pos: Vec2) {
     // Add the time elapsed since the last update
     this.timeAccumulator += delta;
 
@@ -23,7 +23,7 @@ export class Character {
     drawEngine.drawWalkingIcon(this.currentFrame, pos);
   }
 
-  drawStanding(pos: Pos) {
+  drawStanding(pos: Vec2) {
     drawEngine.drawIcon(icons.base, pos);
   }
 }

@@ -1,12 +1,12 @@
 import { character } from '@/core/character';
 import { controls } from '@/core/controls';
 import { State } from '@/core/state';
-import { Pos } from '@/util/types';
+import { Vec2 } from '@/util/types';
 import { cap, clampNearZero } from '@/util/util';
 
 export class MoveGame implements State {
-  charPos: Pos = {x: 0, y: 0};
-  velocity: Pos = {x: 0, y: 0};
+  charPos: Vec2 = {x: 0, y: 0};
+  velocity: Vec2 = {x: 0, y: 0};
   maxSpeed = 1.5;
   acceleration = 0.01;
 

@@ -1,4 +1,4 @@
-import { Pos } from "@/util/types";
+import { Vec2 } from "@/util/types";
 import { drawText, DrawTextProps } from "./font";
 
 export const colors = {
@@ -23,7 +23,7 @@ const walkAnimation = [
   upperBody + "PUUUAPijjVPdjjZDQUUUQ@TUUA@@E@E@@T@T@@@@PA@"
 ];
 
-const drawIcon = (ctx: CanvasRenderingContext2D, icon: string, {x, y}: Pos) => {
+const drawIcon = (ctx: CanvasRenderingContext2D, icon: string, {x, y}: Vec2) => {
   const imageData : number[] = [];
 
   [...icon].map(c => {
@@ -78,20 +78,21 @@ class DrawEngine {
     const resize = () => {
       const min = Math.min(window.innerHeight, window.innerWidth);
       // // eslint-disable-next-line id-denylist
-      c2d.style.height = `${Math.floor(min / 320) * 320}px`;
+      c2d.style.height = `${Math.floor(min / 260) * 260}px`;
       // eslint-disable-next-line id-denylist
       c2d.style.width = `${Math.floor(min / 320) * 320}px`;
     };
 
     window.addEventListener('resize', resize);
     resize();
+    c2d.classList.remove('hidden');
   }
 
-  drawIcon(icon: string, pos: Pos) {
+  drawIcon(icon: string, pos: Vec2) {
     drawIcon(this.ctx, icon, pos);
   }
 
-  drawWalkingIcon(iconIndex: number, pos: Pos) {
+  drawWalkingIcon(iconIndex: number, pos: Vec2) {
     drawIcon(this.ctx, walkAnimation[iconIndex], pos);
   }
 
