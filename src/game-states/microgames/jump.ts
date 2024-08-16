@@ -1,4 +1,4 @@
-import { character } from '@/core/character';
+import { character, CHARACTER_WIDTH } from '@/core/character';
 import { controls } from '@/core/controls';
 import { State } from '@/core/state';
 import { Vec2 } from '@/util/types';
@@ -11,8 +11,12 @@ export class JumpGame implements State {
   maxSpeed = 5;
   acceleration = { x: 0.3, y: 0.1 };
   jumpSpeed = 10;
+
   timeJumping = 0;
   maxTimeJumping = 200;
+
+  jumps = 0;
+  maxJumps = 2;
 
   onEnter() {
     // gameStateMachine.setState();
@@ -31,8 +35,8 @@ export class JumpGame implements State {
     }
 
     this.charPos = {
-      x: Math.round(this.charPos.x + this.velocity.x),
-      y: Math.round(this.charPos.y + this.velocity.y)
+      x: cap(Math.round(this.charPos.x + this.velocity.x), 0, c2d.width - CHARACTER_WIDTH),
+      y: cap(Math.round(this.charPos.y + this.velocity.y), 0, c2d.height)
     };
 
     // Ensure character doesn't fall below the floor
@@ -40,6 +44,7 @@ export class JumpGame implements State {
       this.charPos.y = this.floor;
       this.velocity.y = 0;
       this.timeJumping = 0;
+      this.jumps = 0;
     }
 
     if (this.velocity.x != 0 || this.velocity.y != 0) {
@@ -50,10 +55,25 @@ export class JumpGame implements State {
   }
 
   queryControls(delta: number) {
-    if (controls.isUp && this.timeJumping < this.maxTimeJumping) {
+    if (
+      controls.isUp
+      && this.timeJumping < this.maxTimeJumping
+      && this.jumps < this.maxJumps
+    ) {
+      if (!controls.previousState.isUp) {
+        if (this.jumps === 1) {
+          console.log('jump again');
+          this.timeJumping -= this.maxTimeJumping / 2;
+        }
+        this.jumps++;
+      }
       this.timeJumping += delta;
       this.velocity.y = -this.jumpSpeed;
     }
+
+    // if (!controls.isUp) {
+    //   this.jumpSpeed = 0;
+    // }
 
     if (controls.isLeft) {
       this.velocity.x -= this.acceleration.x * delta;

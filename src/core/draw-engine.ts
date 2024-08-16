@@ -77,10 +77,11 @@ class DrawEngine {
 
     const resize = () => {
       const min = Math.min(window.innerHeight, window.innerWidth);
+      const ratio = Math.max(1, Math.min(min / 260, min / 320));
       // // eslint-disable-next-line id-denylist
-      c2d.style.height = `${Math.floor(min / 260) * 260}px`;
+      c2d.style.height = `${ratio * 260}px`;
       // eslint-disable-next-line id-denylist
-      c2d.style.width = `${Math.floor(min / 320) * 320}px`;
+      c2d.style.width = `${ratio * 320}px`;
     };
 
     window.addEventListener('resize', resize);

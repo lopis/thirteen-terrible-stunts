@@ -1,6 +1,8 @@
 import { Vec2 } from "@/util/types";
 import { drawEngine, icons } from "./draw-engine";
 
+export const CHARACTER_WIDTH = 16;
+
 export class Character {
   frameDuration = 60; //ms
   timeAccumulator = 0;
