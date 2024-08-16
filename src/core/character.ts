@@ -1,13 +1,12 @@
-import { drawEngine } from "./draw-engine";
+import { Pos } from "@/util/types";
+import { drawEngine, icons } from "./draw-engine";
 
 export class Character {
   frameDuration = 60; //ms
   timeAccumulator = 0;
   currentFrame = 0;
 
-  drawWalking(delta: number) {
-    console.log('currentFrame', this.currentFrame);
-    
+  drawWalking(delta: number, pos: Pos) {
     // Add the time elapsed since the last update
     this.timeAccumulator += delta;
 
@@ -21,7 +20,11 @@ export class Character {
     }
 
     // Draw the current frame
-    drawEngine.drawWalkingIcon(this.currentFrame);
+    drawEngine.drawWalkingIcon(this.currentFrame, pos);
+  }
+
+  drawStanding(pos: Pos) {
+    drawEngine.drawIcon(icons.base, pos);
   }
 }
 

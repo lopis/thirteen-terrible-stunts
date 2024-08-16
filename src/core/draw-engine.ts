@@ -1,3 +1,4 @@
+import { Pos } from "@/util/types";
 import { drawText, DrawTextProps } from "./font";
 
 export const colors = {
@@ -9,9 +10,9 @@ export const colors = {
 
 const palette = '0c0c0dcdb27b3f3d478b7d73';
 const upperBody = '@@@@@@PUUE@PjjjA@ijjF@dZjY@PjjjA@iZeF@djjZ@';
-// const icons = {
-//   "base":  upperBody + "PUUUAPijjFPdjjZQPUUUQ@TUUA@PA@E@@E@T@@T@PA@",
-// };
+export const icons = {
+  "base":  upperBody + "PUUUAPijjFPdjjZQPUUUQ@TUUA@PA@E@@E@T@@T@PA@",
+};
 
 const walkAnimation = [
   upperBody + "TUUUADijjVPdjjZDPUUUQ@TUUA@PA@E@@@@T@@@@PA@",
@@ -22,7 +23,7 @@ const walkAnimation = [
   upperBody + "PUUUAPijjVPdjjZDQUUUQ@TUUA@@E@E@@T@T@@@@PA@"
 ];
 
-const drawIcon = (ctx: CanvasRenderingContext2D, icon: string, x: number, y: number) => {
+const drawIcon = (ctx: CanvasRenderingContext2D, icon: string, {x, y}: Pos) => {
   const imageData : number[] = [];
 
   [...icon].map(c => {
@@ -86,8 +87,12 @@ class DrawEngine {
     resize();
   }
 
-  drawWalkingIcon(iconIndex: number) {
-    drawIcon(this.ctx, walkAnimation[iconIndex], 100, 100);
+  drawIcon(icon: string, pos: Pos) {
+    drawIcon(this.ctx, icon, pos);
+  }
+
+  drawWalkingIcon(iconIndex: number, pos: Pos) {
+    drawIcon(this.ctx, walkAnimation[iconIndex], pos);
   }
 
   drawText(options: DrawTextProps) {

@@ -11,8 +11,6 @@ class Controls {
   isEscape = false;
   inputDirection: DOMPoint;
 
-  changed = true;
-
   keyMap: Map<string, boolean> = new Map();
   previousState = {
     isUp: this.isUp,
@@ -55,40 +53,29 @@ class Controls {
   }
 
   onUpdate(state: State) {
-    if (!this.changed) {
-      return;
-    }
     this.queryController();
 
     if(this.isUp) {
       if (!this.previousState.isUp) {
         typeof state.onUp == 'function' && state.onUp();
-      } else {
-        typeof state.whileDown == 'function' && state.whileDown();
       }
     }
 
     if(this.isDown) {
       if (!this.previousState.isDown) {
         typeof state.onDown == 'function' && state.onDown();
-      } else {
-        typeof state.whileDown == 'function' && state.whileDown();
       }
     }
 
     if(this.isRight) {
       if (!this.previousState.isRight) {
         typeof state.onRight == 'function' && state.onRight();
-      } else {
-        typeof state.whileRight == 'function' && state.whileRight();
       }
     }
 
     if(this.isLeft) {
       if (!this.previousState.isLeft) {
         typeof state.onLeft == 'function' && state.onLeft();
-      } else {
-        typeof state.whileLeft == 'function' && state.whileLeft();
       }
     }
 
@@ -103,12 +90,9 @@ class Controls {
         typeof state.onEscape == 'function' && state.onEscape();
       }
     }
-
-    this.changed = false;
   }
 
   private toggleKey(event: KeyboardEvent, isPressed: boolean) {
-    this.changed = true;
     this.keyMap.set(event.code, isPressed);
   }
 }

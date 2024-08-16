@@ -1,6 +1,8 @@
 import { State } from '@/core/state';
-import { startAudio, stopAudio } from '@/core/audio';
+import { stopAudio } from '@/core/audio';
 import { colors, drawEngine } from '@/core/draw-engine';
+import { gameStateMachine } from '@/game-state-machine';
+import { MoveGame } from './microgames/move.game';
 
 const menu = [
   'new game',
@@ -48,16 +50,9 @@ class MenuState implements State {
   }
 
   onConfirm() {
-    console.log('ok');
-    startAudio();
-  }
-
-  startGame() {
-
-  }
-
-  continueGame() {
-
+    if (this.selectedButton === 0) {
+      gameStateMachine.setState(new MoveGame());
+    }
   }
 }
 

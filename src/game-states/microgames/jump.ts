@@ -8,7 +8,7 @@ export class MoveGame implements State {
   charPos: Pos = {x: 0, y: 0};
   velocity: Pos = {x: 0, y: 0};
   maxSpeed = 1.5;
-  acceleration = 0.01;
+  acceleration = 0.04;
 
   onEnter() {
     // gameStateMachine.setState();
