@@ -13,8 +13,13 @@
   image-rendering: pixelated;
   background: var(--color-white);
   border-radius: 5%;
-  box-shadow: 0 0 10vmin 0 var(--color-black) inset, 0 0 1vmin 0.2vmin var(--color-black) inset;
 }
+
+/* #c2d::before {
+  content: "";
+  position: absolute;
+  box-shadow: 0 0 10vmin 0 var(--color-black) inset, 0 0 1vmin 0.2vmin var(--color-black) inset;
+} */
 
 html, body {
   margin: 0;

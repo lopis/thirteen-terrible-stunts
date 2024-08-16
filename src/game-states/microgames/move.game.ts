@@ -1,4 +1,4 @@
-import { character } from '@/core/character';
+import { character } from '@/core/entities/character';
 import { controls } from '@/core/controls';
 import { State } from '@/core/state';
 import { Vec2 } from '@/util/types';
@@ -26,10 +26,11 @@ export class MoveGame implements State {
       y: clampNearZero(cap(this.velocity.y, -this.maxSpeed, this.maxSpeed)),
     };
 
+    character.pos = this.charPos;
     if (this.velocity.x != 0 || this.velocity.y != 0) {
-      character.drawWalking(delta, this.charPos);
+      character.drawWalking(delta);
     } else {
-      character.drawStanding(this.charPos);
+      character.drawStanding();
     }
   }
 

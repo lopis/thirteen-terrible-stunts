@@ -1,28 +1,41 @@
-import { character, CHARACTER_WIDTH } from '@/core/character';
+import { character, CHARACTER_SIZE } from '@/core/entities/character';
 import { controls } from '@/core/controls';
 import { State } from '@/core/state';
 import { Vec2 } from '@/util/types';
 import { cap, clampNearZero } from '@/util/util';
+import { Collider } from '@/core/entities/collider';
+import { colors, drawEngine } from '@/core/draw-engine';
 
 export class JumpGame implements State {
-  floor = 200;
-  charPos: Vec2 = {x: 0, y: this.floor};
   velocity: Vec2 = {x: 0, y: 0};
   maxSpeed = 5;
   acceleration = { x: 0.3, y: 0.1 };
-  jumpSpeed = 10;
+  jumpSpeed = 5;
 
   timeJumping = 0;
   maxTimeJumping = 200;
 
   jumps = 0;
   maxJumps = 2;
+  platforms: Collider[] = [];
+  death: Collider = new Collider(
+    { x: 0, y: c2d.height },
+    { x: c2d.width, y: 10 },
+  );
 
   onEnter() {
-    // gameStateMachine.setState();
+    character.pos = {x: 0, y: 50};
+    this.platforms.push(
+      new Collider({x: 0, y: 100 + CHARACTER_SIZE}, {x: 100, y: 200}),
+      new Collider({x: c2d.width - 100, y: 120 + CHARACTER_SIZE}, {x: 100, y: 200}),
+    );
   }
 
   onUpdate(delta: number) {
+    if(this.death.collides(character)) {
+      alert('you are fired');
+    }
+
     this.queryControls(delta);
     
     this.velocity = {
@@ -30,27 +43,36 @@ export class JumpGame implements State {
       y: clampNearZero(this.velocity.y),
     };
 
-    if (this.charPos.y < this.floor) {
-      this.velocity.y += this.acceleration.y * delta;
-    }
-
-    this.charPos = {
-      x: cap(Math.round(this.charPos.x + this.velocity.x), 0, c2d.width - CHARACTER_WIDTH),
-      y: cap(Math.round(this.charPos.y + this.velocity.y), 0, c2d.height)
+    character.pos = {
+      x: cap(Math.round(character.pos.x + this.velocity.x), 0, c2d.width - CHARACTER_SIZE),
+      y: cap(Math.round(character.pos.y + this.velocity.y), 0, c2d.height) + 1,
     };
+    const platform = this.platforms.find(p => p.standsOn(character));
+
+    this.platforms.forEach(p => {
+      drawEngine.ctx.fillStyle = colors.gray;
+      drawEngine.ctx.fillRect(
+        p.pos.x,
+        p.pos.y,
+        p.size.x,
+        p.size.y,
+      );
+    });
 
     // Ensure character doesn't fall below the floor
-    if (this.charPos.y >= this.floor) {
-      this.charPos.y = this.floor;
+    if (platform) {
+      character.pos.y = platform.pos.y - CHARACTER_SIZE;
       this.velocity.y = 0;
       this.timeJumping = 0;
       this.jumps = 0;
+    } else {
+      this.velocity.y += this.acceleration.y * delta;
     }
 
-    if (this.velocity.x != 0 || this.velocity.y != 0) {
-      character.drawWalking(delta, this.charPos);
+    if (this.velocity.x === 0 && this.velocity.y === 0) {
+      character.drawStanding();
     } else {
-      character.drawStanding(this.charPos);
+      character.drawWalking(delta);
     }
   }
 

@@ -1,14 +1,16 @@
 import { Vec2 } from "@/util/types";
-import { drawEngine, icons } from "./draw-engine";
+import { drawEngine, icons } from "../draw-engine";
 
-export const CHARACTER_WIDTH = 16;
+export const CHARACTER_SIZE = 16;
 
 export class Character {
   frameDuration = 60; //ms
   timeAccumulator = 0;
   currentFrame = 0;
+  size: Vec2 = {x: CHARACTER_SIZE, y: CHARACTER_SIZE};
+  pos: Vec2 = {x: 0, y: 0};
 
-  drawWalking(delta: number, pos: Vec2) {
+  drawWalking(delta: number) {
     // Add the time elapsed since the last update
     this.timeAccumulator += delta;
 
@@ -22,11 +24,13 @@ export class Character {
     }
 
     // Draw the current frame
-    drawEngine.drawWalkingIcon(this.currentFrame, pos);
+    drawEngine.drawWalkingIcon(this.currentFrame, this.pos);
   }
 
-  drawStanding(pos: Vec2) {
-    drawEngine.drawIcon(icons.base, pos);
+  drawStanding() {
+    this.timeAccumulator = 0;
+    this.currentFrame = 0;
+    drawEngine.drawIcon(icons.base, this.pos);
   }
 }
 
