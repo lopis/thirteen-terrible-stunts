@@ -28,9 +28,15 @@ export class Character {
   }
 
   drawStanding() {
-    this.timeAccumulator = 0;
-    this.currentFrame = 0;
     drawEngine.drawIcon(icons.base, this.pos);
+  }
+
+  drawJumping() {
+    drawEngine.drawIcon(icons.jumping, this.pos);
+  }
+
+  drawFalling() {
+    drawEngine.drawIcon(icons.falling, this.pos);
   }
 }
 

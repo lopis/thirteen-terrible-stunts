@@ -10,12 +10,12 @@ import { menuState } from '../menu.state';
 
 export class JumpGame implements State {
   velocity: Vec2 = {x: 0, y: 0};
-  maxSpeed = 5;
-  acceleration = { x: 0.3, y: 0.1 };
-  jumpSpeed = 5;
+  maxSpeed = 4;
+  acceleration = { x: 0.3, y: 0.05 };
+  jumpSpeed = 7;
 
   timeJumping = 0;
-  maxTimeJumping = 200;
+  maxTimeJumping = 100;
 
   jumps = 0;
   maxJumps = 2;
@@ -76,26 +76,28 @@ export class JumpGame implements State {
 
     if (this.velocity.x === 0 && this.velocity.y === 0) {
       character.drawStanding();
-    } else {
+    } else if(this.velocity.y === 0) {
       character.drawWalking(delta);
+    } else if(this.velocity.y > 0) {
+      character.drawFalling();
+    } else if(this.velocity.y < 0) {
+      character.drawJumping();
     }
   }
 
   queryControls(delta: number) {
     if (
       controls.isUp
-      && this.timeJumping < this.maxTimeJumping
       && this.jumps < this.maxJumps
     ) {
       if (!controls.previousState.isUp) {
-        if (this.jumps === 1) {
-          console.log('jump again');
-          this.timeJumping -= this.maxTimeJumping / 2;
-        }
+        this.timeJumping = 0;
+        this.velocity.y = Math.min(0, this.velocity.y);
         this.jumps++;
+      } else if (this.timeJumping < this.maxTimeJumping) {
+        this.timeJumping += delta;
+        this.velocity.y = -this.jumpSpeed;
       }
-      this.timeJumping += delta;
-      this.velocity.y = -this.jumpSpeed;
     }
 
     // if (!controls.isUp) {
