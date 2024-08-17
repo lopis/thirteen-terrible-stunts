@@ -11,17 +11,31 @@ export type DrawTextProps = {
   y: number,
   color?: string,
   textAlign?: CanvasTextAlign,
+  size?: number,
 }
 
-export const drawText = (ctx: CanvasRenderingContext2D, { text, x, y, color = colors.black, textAlign = 'left' } : DrawTextProps) => {
+export const drawText = (
+  ctx: CanvasRenderingContext2D,
+  {
+    text,
+    x,
+    y,
+    color = colors.black,
+    textAlign = 'left',
+    size = 2,
+  } : DrawTextProps
+) => {
   if (!text) text = ' ';
-  const width = 6 * text.length;
+  const letterWidth = 5 * size;
+  const spacing = 1 * size;
+  const spaced = letterWidth + spacing;
+  const width = spaced * text.length;
   const id = text+color;
   const offsetX = textAlign === 'left' ? 0 : textAlign === 'center' ? width / 2 : width;
   if (bitmaps[id]) {
     ctx.drawImage(bitmaps[id], x - offsetX, y);
   } else {
-    const imageData = new ImageData(width, 5);
+    const imageData = new ImageData(width, letterWidth);
     // this.context.getImageData(x - offsetX, y + offsetY, width, 5);
     const [r, g, b, a] = hexToRgb(color);
     text.toUpperCase().split('').forEach((character: string, i) => {
@@ -30,17 +44,32 @@ export const drawText = (ctx: CanvasRenderingContext2D, { text, x, y, color = co
       const paddedBinary = String(parseInt(letter, 36).toString(2)).padStart(25, '0');
       paddedBinary.split('').forEach((bit, j) => {
         if (bit !== '0') {
-          const index = (i * 6 + j % 5 + width * Math.floor(j / 5)) * 4;
-          imageData.data[index] =     r;
-          imageData.data[index + 1] = g;
-          imageData.data[index + 2] = b;
-          imageData.data[index + 3] = a || 255;
+          for (let q = 0; q < size; q++) {
+            const jSize = j * size;
+            const baseIndex = (
+              (i * spaced) + // character
+              (jSize % (letterWidth)) + // pixel
+              (size * width * Math.floor(jSize / letterWidth)) + // line
+              (width * q)
+              // something missing here??
+            ) * 4;
+
+            // Draw 1 pixel (4 channels)
+            for (let p = 0; p < size; p++) {
+              const index = p*4 + baseIndex;
+              imageData.data[index] = r;
+              imageData.data[index + 1] = g;
+              imageData.data[index + 2] = b;
+              imageData.data[index + 3] = a || 255;
+            }
+          }
         }
       });
     });
     createImageBitmap(imageData)
     .then(bitmap => {
       bitmaps[id] = bitmap;
+      ctx.drawImage(bitmaps[id], x - offsetX, y);
     });
   }
 };

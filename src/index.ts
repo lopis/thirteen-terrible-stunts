@@ -23,13 +23,13 @@ function draw(currentTime: number) {
     fpsBacklog = [];
   }
 
-  if (document.hasFocus()) {
+  // if (document.hasFocus()) {
     drawEngine.clear();
   
     const state = gameStateMachine.getState();
     controls.onUpdate(state);
     state.onUpdate(delta);
-  }
+  // }
   requestAnimationFrame(draw);
 };
 

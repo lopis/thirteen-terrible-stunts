@@ -26,7 +26,7 @@ class MenuState implements State {
       drawEngine.drawText({
         text,
         x: c2d.width / 2,
-        y: 100 + i * 8,
+        y: 80 + i * 16,
         textAlign: 'center',
         color: i === this.selectedButton ? colors.black : colors.light,
       });

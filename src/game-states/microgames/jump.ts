@@ -5,6 +5,8 @@ import { Vec2 } from '@/util/types';
 import { cap, clampNearZero } from '@/util/util';
 import { Collider } from '@/core/entities/collider';
 import { colors, drawEngine } from '@/core/draw-engine';
+import { gameStateMachine } from '@/game-state-machine';
+import { menuState } from '../menu.state';
 
 export class JumpGame implements State {
   velocity: Vec2 = {x: 0, y: 0};
@@ -22,6 +24,7 @@ export class JumpGame implements State {
     { x: 0, y: c2d.height },
     { x: c2d.width, y: 10 },
   );
+  isGrounded = false;
 
   onEnter() {
     character.pos = {x: 0, y: 50};
@@ -33,7 +36,7 @@ export class JumpGame implements State {
 
   onUpdate(delta: number) {
     if(this.death.collides(character)) {
-      alert('you are fired');
+      gameStateMachine.setState(menuState);
     }
 
     this.queryControls(delta);
@@ -65,8 +68,10 @@ export class JumpGame implements State {
       this.velocity.y = 0;
       this.timeJumping = 0;
       this.jumps = 0;
+      this.isGrounded = true;
     } else {
       this.velocity.y += this.acceleration.y * delta;
+      this.isGrounded = false;
     }
 
     if (this.velocity.x === 0 && this.velocity.y === 0) {
@@ -97,15 +102,17 @@ export class JumpGame implements State {
     //   this.jumpSpeed = 0;
     // }
 
-    if (controls.isLeft) {
-      this.velocity.x -= this.acceleration.x * delta;
-    } else if (controls.isRight) {
-      this.velocity.x += this.acceleration.x * delta;
-    } else if (this.velocity.y == 0) {
-      if (this.velocity.x > 0) {
-        this.velocity.x = Math.max(0, this.velocity.x - this.acceleration.x * delta);
-      } else if (this.velocity.x < 0) {
-        this.velocity.x = Math.min(0, this.velocity.x + this.acceleration.x * delta);
+    if (this.isGrounded) {
+      if (controls.isLeft) {
+        this.velocity.x -= this.acceleration.x * delta;
+      } else if (controls.isRight) {
+        this.velocity.x += this.acceleration.x * delta;
+      } else if (this.velocity.y == 0) {
+        if (this.velocity.x > 0) {
+          this.velocity.x = Math.max(0, this.velocity.x - this.acceleration.x * delta);
+        } else if (this.velocity.x < 0) {
+          this.velocity.x = Math.min(0, this.velocity.x + this.acceleration.x * delta);
+        }
       }
     }
   }
