@@ -1,7 +1,7 @@
 import { hexToRgb } from "@/util/colors";
 import { colors } from "./draw-engine";
 
-export const tinyFont = /* font-start */',2rwzo,,58jgo,jp1dr,jz6rj,2pav8,dehn9,34ao,3o,b28,3k,20o0o,9a7vy,jbmjj,jhza7,ivhmm,etrs7,ju8e7,jalrz,jyn66,jwdj3,jwdlv,2t8g,2t8s,34yo,lskg,m2yo,jf4lo,jysjy,98ruh,j8htq,9v7zj,j8d32,ju78f,ju8t4,9ul2n,g44e1,8tjm6,jewdq,g4rbt,fgsgv,hha5t,g6xgz,98rou,j8d7c,98uwe,j8d7d,9x3i6,jfm2s,g3zn2,g3z9g,b1ipn,h4qu3,c8oz2,jhyfz,,,,'/* font-end */.split(',');
+export const tinyFont = /* font-start */',2rwzo,,58jgo,jp1dr,jz6rj,2pav8,dehn9,34ao,3o,b28,3k,20o0o,9a7vy,jbmjj,jhza7,ivhmm,etrs7,ju8e7,jalrz,jyn66,jwdj3,jwdlv,2t8g,2t8s,34yo,lskg,m2yo,jf4lo,jysjy,98ruh,j8htq,9v7zj,j8d32,ju78f,ju8t4,9ul2n,g44e1,90kge,jewdq,g4rbt,fgsgv,hha5t,g6xgz,98rou,j8d7c,98uwe,j8d7d,9xgxq,jykqs,g3zn2,g3z9g,b1ipn,h4qu3,c8oz2,jhyfz,,,,'/* font-end */.split(',');
 
 const bitmaps: {[key: string]: ImageBitmap} = {};
 
@@ -51,7 +51,6 @@ export const drawText = (
               (jSize % (letterWidth)) + // pixel
               (size * width * Math.floor(jSize / letterWidth)) + // line
               (width * q)
-              // something missing here??
             ) * 4;
 
             // Draw 1 pixel (4 channels)

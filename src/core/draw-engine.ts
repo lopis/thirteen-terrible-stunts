@@ -9,11 +9,18 @@ export const colors = {
 };
 
 const palette = Object.values(colors).join('').replace(/#/g, '');
+const paletteDark = colors.black.repeat(4).replace(/#/g, '');
 const upperBody = '@@@@@@PUUE@PjjjA@ijjF@dZjY@PjjjA@iZeF@djjZ@';
 export const icons = {
   base:  upperBody + "PUUUAPijjFPdjjZQPUUUQ@TUUA@PA@E@@E@T@@T@PA@",
   falling: "@@@@@@@@@@@@@@@@@TUUA@djjZ@PjjjA@ijjF@dZjY@PjjjA@iZeF@TUUU@TjjjEDijjFQTUUUD@UUU@@@EPA@",
-  jumping: "@TUUA@djjZ@PjifA@ijjF@djUZ@PjjjQ@ijjFATUUUATjjjADiejFPTUUU@@UUU@@PAU@@@@U@@@@T@@@@@@@@"
+  jumping: "@TUUA@djjZ@PjifA@ijjF@djUZ@PjjjQ@ijjFATUUUATjjjADiejFPTUUU@@UUU@@PAU@@@@U@@@@T@@@@@@@@",
+
+  boss1: "@@@@@@@UUE@@UUUA@ijjU@dfZZAPjYjE@YiVV@deZYAPjjjF@iUeZ@dZUjA@ijjA@PUUA@TjjZAdjjjZPUUUUA",
+  boss2: "@@@@@@PUUE@PeZUAPijjU@ijjVAeUVYUTjifVQijjZEejjjUPjUjVAijjZ@PjjZ@@TiU@@@dF@@PUVUAPUUUU@",
+  boss3: "@@@@@@PUUA@PYYU@PijZE@ijjV@TUUUAPVYeF@YeUZ@djjjAPjjjF@iUjZ@PjjZ@@TiV@@@dZ@@PUUUAPUUUU@",
+  boss4: "@PA@E@PU@UAPUUUU@UiVUAPijUA@djZA@PfiF@@YfZ@@djjATdjjFPejjZ@djjZ@@UUU@@@@U@@@@UE@@PUUE@"
+
 };
 
 const walkAnimation = [
@@ -25,8 +32,9 @@ const walkAnimation = [
   upperBody + "PUUUAPijjVPdjjZDQUUUQ@TUUA@@E@E@@T@T@@@@PA@"
 ];
 
-const drawIcon = (ctx: CanvasRenderingContext2D, icon: string, {x, y}: Vec2) => {
+const drawIcon = (ctx: CanvasRenderingContext2D, icon: string, {x, y}: Vec2, dark = false) => {
   const imageData : number[] = [];
+  const iconPalette = dark ? paletteDark : palette;
 
   [...icon].map(c => {
     const z = c.charCodeAt(0);
@@ -42,7 +50,7 @@ const drawIcon = (ctx: CanvasRenderingContext2D, icon: string, {x, y}: Vec2) => 
     for (let i = 0; i < size; i++) {
       if (imageData[j * size + i]) {
         const index = 6 * (imageData[j * size + i] - 1);
-        ctx.fillStyle = '#' + palette.substring(index, index + 6);        
+        ctx.fillStyle = '#' + iconPalette.substring(index, index + 6);        
         ctx.fillRect(x + i, y + j, 1, 1);
       }
     }
@@ -91,8 +99,8 @@ class DrawEngine {
     c2d.classList.remove('hidden');
   }
 
-  drawIcon(icon: string, pos: Vec2) {
-    drawIcon(this.ctx, icon, pos);
+  drawIcon(icon: string, pos: Vec2, dark = false) {
+    drawIcon(this.ctx, icon, pos, dark);
   }
 
   drawWalkingIcon(iconIndex: number, pos: Vec2) {
@@ -108,11 +116,13 @@ class DrawEngine {
   }
 
   drawRect(pos: Vec2, size: Vec2, stroke: string, fill: string) {
+    this.ctx.save();
     this.ctx.strokeStyle = stroke;
     this.ctx.fillStyle = fill;
     this.ctx.fillRect(pos.x, pos.y, size.x, size.y);
     // The extra 0.5 allows drawing a crisp stroke without aliasing.
     this.ctx.strokeRect(pos.x + 0.5, pos.y + 0.5, size.x, size.y);
+    this.ctx.restore();
   }
 }
 

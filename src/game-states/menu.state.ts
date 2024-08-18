@@ -2,7 +2,7 @@ import { State } from '@/core/state';
 import { stopAudio } from '@/core/audio';
 import { colors, drawEngine } from '@/core/draw-engine';
 import { gameStateMachine } from '@/game-state-machine';
-import { JumpGame } from './microgames/jump';
+import { levelsState } from './levels.state';
 
 const menu = [
   'new game',
@@ -51,7 +51,7 @@ class MenuState implements State {
 
   onConfirm() {
     if (this.selectedButton === 0) {
-      gameStateMachine.setState(new JumpGame());
+      gameStateMachine.setState(levelsState);
     }
   }
 }
