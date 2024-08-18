@@ -2,13 +2,13 @@ import { Vec2 } from "@/util/types";
 import { drawText, DrawTextProps } from "./font";
 
 export const colors = {
-  black: '#0c0c0d',
-  gray: '#3f3d47',
-  light: '#8b7d73',
-  white: '#cdb27b',
+  black: '#2e2622',
+  white: '#cccec7',
+  gray: '#77746f',
+  light: '#a09f97',
 };
 
-const palette = '0c0c0dcdb27b3f3d478b7d73';
+const palette = Object.values(colors).join('').replace(/#/g, '');
 const upperBody = '@@@@@@PUUE@PjjjA@ijjF@dZjY@PjjjA@iZeF@djjZ@';
 export const icons = {
   base:  upperBody + "PUUUAPijjFPdjjZQPUUUQ@TUUA@PA@E@@E@T@@T@PA@",
@@ -105,6 +105,14 @@ class DrawEngine {
 
   clear() {
     this.ctx.clearRect(0, 0, c2d.width, c2d.height);
+  }
+
+  drawRect(pos: Vec2, size: Vec2, stroke: string, fill: string) {
+    this.ctx.strokeStyle = stroke;
+    this.ctx.fillStyle = fill;
+    this.ctx.fillRect(pos.x, pos.y, size.x, size.y);
+    // The extra 0.5 allows drawing a crisp stroke without aliasing.
+    this.ctx.strokeRect(pos.x + 0.5, pos.y + 0.5, size.x, size.y);
   }
 }
 

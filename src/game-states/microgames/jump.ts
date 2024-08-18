@@ -4,9 +4,9 @@ import { State } from '@/core/state';
 import { Vec2 } from '@/util/types';
 import { cap, clampNearZero } from '@/util/util';
 import { Collider } from '@/core/entities/collider';
-import { colors, drawEngine } from '@/core/draw-engine';
 import { gameStateMachine } from '@/game-state-machine';
 import { menuState } from '../menu.state';
+import { Building } from '@/core/entities/building';
 
 export class JumpGame implements State {
   velocity: Vec2 = {x: 0, y: 0};
@@ -19,7 +19,7 @@ export class JumpGame implements State {
 
   jumps = 0;
   maxJumps = 2;
-  platforms: Collider[] = [];
+  platforms: Building[] = [];
   death: Collider = new Collider(
     { x: 0, y: c2d.height },
     { x: c2d.width, y: 10 },
@@ -29,8 +29,8 @@ export class JumpGame implements State {
   onEnter() {
     character.pos = {x: 0, y: 50};
     this.platforms.push(
-      new Collider({x: 0, y: 100 + CHARACTER_SIZE}, {x: 100, y: 200}),
-      new Collider({x: c2d.width - 100, y: 120 + CHARACTER_SIZE}, {x: 100, y: 200}),
+      new Building({x: 2, y: 100 + CHARACTER_SIZE}),
+      new Building({x: c2d.width - 102, y: 120 + CHARACTER_SIZE}),
     );
   }
 
@@ -53,13 +53,7 @@ export class JumpGame implements State {
     const platform = this.platforms.find(p => p.standsOn(character));
 
     this.platforms.forEach(p => {
-      drawEngine.ctx.fillStyle = colors.gray;
-      drawEngine.ctx.fillRect(
-        p.pos.x,
-        p.pos.y,
-        p.size.x,
-        p.size.y,
-      );
+      p.draw();
     });
 
     // Ensure character doesn't fall below the floor
