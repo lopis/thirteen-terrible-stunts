@@ -7,8 +7,8 @@ import { cap, clampNearZero } from '@/util/util';
 export class MoveGame implements State {
   charPos: Vec2 = {x: 0, y: 0};
   velocity: Vec2 = {x: 0, y: 0};
-  maxSpeed = 1.5;
-  acceleration = 0.01;
+  maxSpeed = 3;
+  acceleration = 0.02;
 
   onEnter() {
     // gameStateMachine.setState();
@@ -49,8 +49,10 @@ export class MoveGame implements State {
 
     if (controls.isLeft) {
       this.velocity.x -= this.acceleration * delta;
+      character.mirror = true;
     } else if (controls.isRight) {
       this.velocity.x += this.acceleration * delta;
+      character.mirror = false;
     } else {
       if (this.velocity.x > 0) {
         this.velocity.x = Math.max(0, this.velocity.x - this.acceleration * delta);

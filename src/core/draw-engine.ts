@@ -10,53 +10,26 @@ export const colors = {
 
 const palette = Object.values(colors).join('').replace(/#/g, '');
 const paletteDark = colors.black.repeat(4).replace(/#/g, '');
-const upperBody = '@@@@@@PUUE@PjjjA@ijjF@dZjY@PjjjA@iZeF@djjZ@';
+const upperBody = '@@@@@@PUUE@PjjjA@ijjF@dZjY@PjjjA@iZeF@djjZ@PUUUAPijjFPdjjZQPUUUQ@TUUA@';
 export const icons = {
-  base:  upperBody + "PUUUAPijjFPdjjZQPUUUQ@TUUA@PA@E@@E@T@@T@PA@",
-  falling: "@@@@@@@@@@@@@@@@@TUUA@djjZ@PjjjA@ijjF@dZjY@PjjjA@iZeF@TUUU@TjjjEDijjFQTUUUD@UUU@@@EPA@",
-  jumping: "@TUUA@djjZ@PjifA@ijjF@djUZ@PjjjQ@ijjFATUUUATjjjADiejFPTUUU@@UUU@@PAU@@@@U@@@@T@@@@@@@@",
+  base:  upperBody + 'PA@E@@E@T@@T@PA@',
+  falling: '@@@@@@@@@@@@@@@@@TUUA@djjZ@PjjjA@ijjF@dZjY@PjjjA@iZeF@TUUU@TjjjEDijjFQTUUUD@UUU@@@EPA@',
+  jumping: '@TUUA@djjZ@PjifA@ijjF@djUZ@PjjjQ@ijjFATUUUATjjjADiejFPTUUU@@UUU@@PAU@@@@U@@@@T@@@@@@@@',
 
-  boss1: "@@@@@@@UUE@@UUUA@ijjU@dfZZAPjYjE@YiVV@deZYAPjjjF@iUeZ@dZUjA@ijjA@PUUA@TjjZAdjjjZPUUUUA",
-  boss2: "@@@@@@PUUE@PeZUAPijjU@ijjVAeUVYUTjifVQijjZEejjjUPjUjVAijjZ@PjjZ@@TiU@@@dF@@PUVUAPUUUU@",
-  boss3: "@@@@@@PUUA@PYYU@PijZE@ijjV@TUUUAPVYeF@YeUZ@djjjAPjjjF@iUjZ@PjjZ@@TiV@@@dZ@@PUUUAPUUUU@",
-  boss4: "@PA@E@PU@UAPUUUU@UiVUAPijUA@djZA@PfiF@@YfZ@@djjATdjjFPejjZ@djjZ@@UUU@@@@U@@@@UE@@PUUE@"
-
+  boss1: '@@@@@@@UUE@@UUUA@ijjU@dfZZAPjYjE@YiVV@deZYAPjjjF@iUeZ@dZUjA@ijjA@PUUA@TjjZAdjjjZPUUUUA',
+  boss2: '@@@@@@PUUE@PeZUAPijjU@ijjVAeUVYUTjifVQijjZEejjjUPjUjVAijjZ@PjjZ@@TiU@@@dF@@PUVUAPUUUU@',
+  boss3: '@@@@@@PUUA@PYYU@PijZE@ijjV@TUUUAPVYeF@YeUZ@djjjAPjjjF@iUjZ@PjjZ@@TiV@@@dZ@@PUUUAPUUUU@',
+  boss4: '@PA@E@PU@UAPUUUU@UiVUAPijUA@djZA@PfiF@@YfZ@@djjATdjjFPejjZ@djjZ@@UUU@@@@U@@@@UE@@PUUE@'
 };
 
 const walkAnimation = [
-  upperBody + "TUUUADijjVPdjjZDPUUUQ@TUUA@PA@E@@@@T@@@@PA@",
-  upperBody + "TUUUADijjVPdjjZDPUUUQ@TUUA@@E@E@@T@T@@@@PA@",
-  upperBody + "PUUUAPijjVPdjjZDQUUUQ@TUUA@@EPA@@T@E@@PA@@@",
-  upperBody + "PUUUEPijjFQdjjZDQUUUA@TUUA@@EPA@@T@@@@PA@@@",
-  upperBody + "PUUUEPijjFQdjjZDQUUUA@TUUA@@E@E@@T@T@@PA@@@",
-  upperBody + "PUUUAPijjVPdjjZDQUUUQ@TUUA@@E@E@@T@T@@@@PA@"
+  upperBody + 'PA@E@@@@T@@@@PA@',
+  upperBody + '@E@E@@T@T@@@@PA@',
+  upperBody + '@EPA@@T@E@@PA@@@',
+  upperBody + '@EPA@@T@@@@PA@@@',
+  upperBody + '@E@E@@T@T@@PA@@@',
+  upperBody + '@E@E@@T@T@@@@PA@'
 ];
-
-const drawIcon = (ctx: CanvasRenderingContext2D, icon: string, {x, y}: Vec2, dark = false) => {
-  const imageData : number[] = [];
-  const iconPalette = dark ? paletteDark : palette;
-
-  [...icon].map(c => {
-    const z = c.charCodeAt(0);
-    
-    imageData.push(z&3);
-    imageData.push((z>>2)&3);
-    imageData.push((z>>4)&3);  
-    
-  });
-
-  const size = Math.floor(Math.sqrt(imageData.length));
-  for (let j = 0; j < size; j++) {
-    for (let i = 0; i < size; i++) {
-      if (imageData[j * size + i]) {
-        const index = 6 * (imageData[j * size + i] - 1);
-        ctx.fillStyle = '#' + iconPalette.substring(index, index + 6);        
-        ctx.fillRect(x + i, y + j, 1, 1);
-      }
-    }
-  }
-};
-
 
 /**
  * Rounds numbers larger than 0.95 to 1, and smaller than 0.05 to 0.
@@ -99,12 +72,41 @@ class DrawEngine {
     c2d.classList.remove('hidden');
   }
 
-  drawIcon(icon: string, pos: Vec2, dark = false) {
-    drawIcon(this.ctx, icon, pos, dark);
+  drawIcon(icon: string, pos: Vec2, dark = false, mirrored = false) {
+    const imageData : number[] = [];
+    const iconPalette = dark ? paletteDark : palette;
+  
+    [...icon].map(c => {
+      const z = c.charCodeAt(0);
+      
+      imageData.push(z&3);
+      imageData.push((z>>2)&3);
+      imageData.push((z>>4)&3);  
+      
+    });
+  
+    const size = Math.floor(Math.sqrt(imageData.length));
+    this.ctx.save();
+    this.ctx.translate(pos.x + (mirrored ? size : 0), pos.y);
+    this.ctx.save();
+    this.ctx.scale(mirrored ? -1 : 1, 1);
+
+    for (let j = 0; j < size; j++) {
+      for (let i = 0; i < size; i++) {
+        if (imageData[j * size + i]) {
+          const index = 6 * (imageData[j * size + i] - 1);
+          this.ctx.fillStyle = '#' + iconPalette.substring(index, index + 6);        
+          this.ctx.fillRect(i, j, 1, 1);
+        }
+      }
+    }
+
+    this.ctx.restore();
+    this.ctx.restore();
   }
 
-  drawWalkingIcon(iconIndex: number, pos: Vec2) {
-    drawIcon(this.ctx, walkAnimation[iconIndex], pos);
+  drawWalkingIcon(iconIndex: number, pos: Vec2, mirrored: boolean) {
+    this.drawIcon(walkAnimation[iconIndex], pos, false, mirrored);
   }
 
   drawText(options: DrawTextProps) {

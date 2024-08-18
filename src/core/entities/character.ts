@@ -9,6 +9,7 @@ export class Character {
   currentFrame = 0;
   size: Vec2 = {x: CHARACTER_SIZE, y: CHARACTER_SIZE};
   pos: Vec2 = {x: 0, y: 0};
+  mirror = false;
 
   drawWalking(delta: number) {
     // Add the time elapsed since the last update
@@ -24,19 +25,19 @@ export class Character {
     }
 
     // Draw the current frame
-    drawEngine.drawWalkingIcon(this.currentFrame, this.pos);
+    drawEngine.drawWalkingIcon(this.currentFrame, this.pos, this.mirror);
   }
 
   drawStanding() {
-    drawEngine.drawIcon(icons.base, this.pos);
+    drawEngine.drawIcon(icons.base, this.pos, false, this.mirror);
   }
 
   drawJumping() {
-    drawEngine.drawIcon(icons.jumping, this.pos);
+    drawEngine.drawIcon(icons.jumping, this.pos, false, this.mirror);
   }
 
   drawFalling() {
-    drawEngine.drawIcon(icons.falling, this.pos);
+    drawEngine.drawIcon(icons.falling, this.pos, false, this.mirror);
   }
 }
 

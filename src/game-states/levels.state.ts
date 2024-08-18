@@ -2,7 +2,7 @@ import { State } from '@/core/state';
 import { stopAudio } from '@/core/audio';
 import { colors, drawEngine, icons } from '@/core/draw-engine';
 import { gameStateMachine } from '@/game-state-machine';
-import { JumpGame } from './microgames/jump';
+import { MoveGame } from './microgames/move.game';
 
 const menu: [string, number][] = [
   [' Story mode', 80],
@@ -85,7 +85,7 @@ class LevelsState implements State {
 
   onConfirm() {
     if (this.selectedButton === 0) {
-      gameStateMachine.setState(new JumpGame());
+      gameStateMachine.setState(new MoveGame());
     }
   }
 }
