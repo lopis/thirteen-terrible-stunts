@@ -2,6 +2,14 @@ import { gameStateMachine } from "@/game-state-machine";
 import { menuState } from "@/game-states/menu.state";
 import { State } from "./state";
 
+interface KeyboardLayoutMap {
+  get: (key: string) => string
+}
+
+interface Keyboard extends EventTarget {
+  getLayoutMap: () => Promise<KeyboardLayoutMap>
+}
+
 class Controls {
   isUp = false;
   isDown = false;
@@ -20,8 +28,12 @@ class Controls {
     isConfirm: this.isConfirm,
     isEscape: this.isEscape
   };
+  keyboard: Keyboard | unknown;
 
   constructor() {
+    if ('keyboard' in navigator) {
+      this.keyboard = navigator.keyboard;
+    }
     document.addEventListener('keydown', event => this.toggleKey(event, true));
     document.addEventListener('keyup', event => this.toggleKey(event, false));
     this.inputDirection = new DOMPoint();
@@ -33,9 +45,9 @@ class Controls {
     this.previousState.isConfirm = this.isConfirm;
     this.previousState.isEscape = this.isEscape;
 
-    const leftVal = (this.keyMap.get('KeyA') || this.keyMap.get('ArrowLeft')) ? -1 : 0;
+    const leftVal = (this.keyMap.get('KeyA') || this.keyMap.get('KeyQ') || this.keyMap.get('ArrowLeft')) ? -1 : 0;
     const rightVal = (this.keyMap.get('KeyD') || this.keyMap.get('ArrowRight')) ? 1 : 0;
-    const upVal = (this.keyMap.get('KeyW') || this.keyMap.get('ArrowUp')) ? -1 : 0;
+    const upVal = (this.keyMap.get('KeyW') || this.keyMap.get('KeyZ') || this.keyMap.get('ArrowUp')) ? -1 : 0;
     const downVal = (this.keyMap.get('KeyS') || this.keyMap.get('ArrowDown')) ? 1 : 0;
     this.inputDirection.x = (leftVal + rightVal) || 0;
     this.inputDirection.y = (upVal + downVal) || 0;
@@ -44,7 +56,7 @@ class Controls {
     this.isDown = this.inputDirection.y > 0;
     this.isLeft = this.inputDirection.x < 0;
     this.isRight = this.inputDirection.x > 0;
-    this.isConfirm = Boolean(this.keyMap.get('Enter'));
+    this.isConfirm = Boolean(this.keyMap.get('Enter')) || Boolean(this.keyMap.get('KeyZ'));
     this.isEscape = Boolean(this.keyMap.get('Escape'));
 
     if (this.isEscape) {

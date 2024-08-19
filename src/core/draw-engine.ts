@@ -126,6 +126,54 @@ class DrawEngine {
     this.ctx.strokeRect(pos.x + 0.5, pos.y + 0.5, size.x, size.y);
     this.ctx.restore();
   }
+
+  drawControls() {
+    const keySize = 10;
+    const padding = 2;
+    const space = keySize + padding;
+    this.ctx.save();
+    this.ctx.translate(80, 80);
+    [
+      {x: space, y: 0},
+      {x: 0, y: space},
+      {x: space, y: space},
+      {x: space*2, y: space},
+    ].forEach(({x, y}) => {
+      this.drawRect({x, y}, {x: keySize, y: keySize}, colors.gray, colors.light);
+    });
+    this.drawText({
+      text: 'move',
+      x: Math.round(space * 1.5),
+      y: keySize * 3,
+      textAlign: 'center',
+      size: 2,
+    });
+    this.ctx.restore();
+
+    this.ctx.save();
+    this.ctx.translate(c2d.width - 80 - keySize*4, 80);
+    [
+      {text: 'enter', y: 0},
+      {text: 'shift', y: space},
+    ].forEach(({text, y}) => {
+      this.drawRect({x: 0, y}, {x: keySize*4, y: keySize}, colors.gray, colors.light);
+      this.drawText({
+        text,
+        x: keySize * 2,
+        y: y + 3,
+        size: 1,
+        textAlign: 'center',
+      });
+    });
+    this.drawText({
+      text: 'action',
+      x: keySize * 2,
+      y: keySize * 3,
+      textAlign: 'center',
+      size: 2,
+    });
+    this.ctx.restore();
+  }
 }
 
 export const drawEngine = new DrawEngine();

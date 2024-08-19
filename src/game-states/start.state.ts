@@ -15,6 +15,8 @@ export class StartState implements State {
   }
 
   onUpdate(delta: number) {
+    drawEngine.drawControls();
+
     this.timePassed += delta;
     if(this.timePassed >= this.timePerLetter) {
       this.letterIndex++;

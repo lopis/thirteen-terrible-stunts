@@ -12,8 +12,8 @@ export type Boss = {
 const bossData: Boss[] = [
   {
     // https://en.wikipedia.org/wiki/D._W._Griffith
-    name: 'Dave',
-    intro: 'So you want to make it big in Hollywood, kid? You better do as I say!',
+    name: 'Assistant Dave',
+    intro: 'If you want to make it big in Hollywood kid, you better do as I say!',
     final: 'Is that all you got?',
     outro: 'I guess you\'re not totally worthless!',
     gameover: 'Stop wasting my time kid!',
@@ -21,7 +21,7 @@ const bossData: Boss[] = [
   },
   {
     //https://de.wikipedia.org/wiki/Leni_Riefenstahl
-    name: 'Elena',
+    name: 'Producer Elena',
     intro: 'Just do as you\'re told and don\'t get in my way.',
     final: 'Hurry, I don\'t have all day',
     outro: 'Obedient and disciplined. You\'ll get far, child.',
@@ -30,7 +30,7 @@ const bossData: Boss[] = [
   },
   {
     // https://en.wikipedia.org/wiki/Alfred_Hitchcock
-    name: 'Alfred',
+    name: 'Director Alfred',
     intro: 'Good evening. Are you ready to face your fears?',
     final: 'Time for your final act',
     outro: 'Well done. I must admit, you handled the tension admirably.',
@@ -40,7 +40,7 @@ const bossData: Boss[] = [
   {
     // https://en.wikipedia.org/wiki/Walt_Disney
     name: 'Wally',
-    intro: 'You come well referenced boy. Let us see what you can do, ha ha.',
+    intro: 'I\'ve been following you growth. Show me what you got, ha ha.',
     final: 'The wheel must keep spinning, ha ha!',
     outro: 'Splendid. I can definitely use you, ha ha!',
     gameover: 'This just won\'t do ha ha',
