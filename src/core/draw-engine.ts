@@ -18,7 +18,7 @@ export const icons = {
 
   boss1: '@@@@@@@UUE@@UUUA@ijjU@dfZZAPjYjE@YiVV@deZYAPjjjF@iUeZ@dZUjA@ijjA@PUUA@TjjZAdjjjZPUUUUA',
   boss2: '@@@@@@PUUE@PeZUAPijjU@ijjVAeUVYUTjifVQijjZEejjjUPjUjVAijjZ@PjjZ@@TiU@@@dF@@PUVUAPUUUU@',
-  boss3: '@@@@@@PUUA@PYYU@PijZE@ijjV@TUUUAPVYeF@YeUZ@djjjAPjjjF@iUjZ@PjjZ@@TiV@@@dZ@@PUUUAPUUUU@',
+  boss3: "@TUU@@djjF@djjjAPUUUF@ijjV@djjjAPVjeF@ijjZ@djjjAPjUjF@djjF@@ejF@@@iF@@TeZU@TUYUEPUUUU@",
   boss4: '@PA@E@PU@UAPUUUU@UiVUAPijUA@djZA@PfiF@@YfZ@@djjATdjjFPejjZ@djjZ@@UUU@@@@U@@@@UE@@PUUE@'
 };
 

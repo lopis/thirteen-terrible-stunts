@@ -2,7 +2,7 @@ import { State } from '@/core/state';
 import { stopAudio } from '@/core/audio';
 import { colors, drawEngine, icons } from '@/core/draw-engine';
 import { gameStateMachine } from '@/game-state-machine';
-import { MoveGame } from './microgames/move.game';
+import { StartState } from './start.state';
 
 const menu: [string, number][] = [
   [' Story mode', 80],
@@ -13,6 +13,7 @@ class LevelsState implements State {
   private selectedButton = 0;
 
   onEnter() {
+    this.selectedButton = 0;
     stopAudio();
   }
 
@@ -85,7 +86,7 @@ class LevelsState implements State {
 
   onConfirm() {
     if (this.selectedButton === 0) {
-      gameStateMachine.setState(new MoveGame());
+      gameStateMachine.setState(new StartState());
     }
   }
 }
