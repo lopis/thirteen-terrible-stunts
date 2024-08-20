@@ -24,6 +24,10 @@ export const icons = {
   chair: "p@@@@kC@@@lN@@@pz@@@@k@|njjCp~jjN@kkjz@lnjjCpzjjN@k@ljjjCpjjjN@kz@l~kCp@|O@",
   table: "@C@kjjz@kjjjNkjjjjojjjj~jjjjzkjjjjojjjj~kjjj~{jjjns~oCljjjCpO@kCpz@lN@kCp@|O@",
   plant: "@@C@@pkzC@pjjz@pjnkNpjnkjCkkjnNlkjj{pzznkCkznjNpjjjN@|O@@pz@@@|@@pjjC@@ojO@@pO@@",
+
+  npc1: "@@@@@@PUUA@PjjZ@@ijjA@dZZF@PjiY@@iZiA@djjF@PUUU@PiZiEPdjjFAQUUUDPUUUE@PAPA@@E@E@@@@@@@",
+  npc2: "@@@@@@TUUA@TejZATUffEPUYZV@UejZAPeZiA@djjF@PUUU@PijjEPdjjFAQjjZDPUUUE@PAPA@@E@E@@@@@@@",
+  npc3: "@@@@@@PUUA@PUUU@@ijjA@TUUE@PZiU@@ijjA@djjF@PUUU@PUUVEPTUYEAQUUUDPUUUE@PAPA@@E@E@@@@@@@"
 };
 
 const walkAnimation = [
@@ -34,6 +38,8 @@ const walkAnimation = [
   upperBody + '@E@E@@T@T@@PA@@@',
   upperBody + '@E@E@@T@T@@@@PA@'
 ];
+
+export type Icon = typeof icons[keyof typeof icons];
 
 /**
  * Rounds numbers larger than 0.95 to 1, and smaller than 0.05 to 0.
@@ -155,12 +161,13 @@ class DrawEngine {
     this.ctx.restore();
 
     this.ctx.save();
-    this.ctx.translate(c2d.width - 80 - keySize*4, 80);
+    this.ctx.translate(c2d.width - 80 - keySize*4, 70);
     [
       {text: 'enter', y: 0},
-      {text: 'shift', y: space},
+      {text: 'or', y: space},
+      {text: 'shift', y: space*2},
     ].forEach(({text, y}) => {
-      this.drawRect({x: 0, y}, {x: keySize*4, y: keySize}, colors.gray, colors.light);
+      text !== 'or' && this.drawRect({x: 0, y}, {x: keySize*4, y: keySize}, colors.gray, colors.light);
       this.drawText({
         text,
         x: keySize * 2,
@@ -172,7 +179,7 @@ class DrawEngine {
     this.drawText({
       text: 'action',
       x: keySize * 2,
-      y: keySize * 3,
+      y: keySize * 4,
       textAlign: 'center',
       size: 2,
     });

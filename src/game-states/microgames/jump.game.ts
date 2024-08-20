@@ -35,7 +35,7 @@ export class JumpGame implements State {
   }
 
   onUpdate(delta: number) {
-    if(this.death.collides(character)) {
+    if(this.death.collision(character).collides) {
       gameStateMachine.setState(menuState);
     }
 

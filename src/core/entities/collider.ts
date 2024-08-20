@@ -1,6 +1,14 @@
 import { Vec2 } from "@/util/types";
 import { Character } from "./character";
 
+type CollisionMap = {
+  right: boolean
+  left: boolean
+  top: boolean
+  bottom: boolean
+  collides: boolean
+}
+
 export class Collider {
   pos: Vec2;
   size: Vec2;
@@ -14,18 +22,25 @@ export class Collider {
    * Returns true if the character is colliding with this collider.
    * @param character the character, which has a pos and a size.
    */
-  collides(character: Character): boolean {
+  collision(character: Character): CollisionMap {
     const charRight = character.pos.x + character.size.x;
     const charBottom = character.pos.y + character.size.y;
     const colliderRight = this.pos.x + this.size.x;
     const colliderBottom = this.pos.y + this.size.y;
 
-    return (
-      character.pos.x < colliderRight &&
-      charRight > this.pos.x &&
-      character.pos.y < colliderBottom &&
-      charBottom > this.pos.y
-    );
+    const inRight = character.pos.x < colliderRight;
+    const inLeft = charRight > this.pos.x;
+    const inBottom = character.pos.y < colliderBottom;
+    const inTop = charBottom > this.pos.y;
+    const collides = inRight && inLeft && inBottom && inTop;
+    
+    return {
+      collides,
+      right: inRight && character.pos.x > this.pos.x,
+      left: inLeft && character.pos.x < this.pos.x,
+      bottom: inBottom && character.pos.y > this.pos.y,
+      top: inTop && character.pos.y < this.pos.y,
+    };
   }
 
   standsOn(character: Character): boolean {
