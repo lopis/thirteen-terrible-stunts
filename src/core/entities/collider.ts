@@ -34,12 +34,29 @@ export class Collider {
     const inTop = charBottom > this.pos.y;
     const collides = inRight && inLeft && inBottom && inTop;
     
+    if (!collides) {
+      return {
+        collides: false,
+        right: false,
+        left: false,
+        bottom: false,
+        top: false,
+      };
+    }
+  
+    const distRight = colliderRight - character.pos.x;
+    const distLeft = charRight - this.pos.x;
+    const distBottom = colliderBottom - character.pos.y;
+    const distTop = charBottom - this.pos.y;
+  
+    const minDist = Math.min(distRight, distLeft, distBottom, distTop);
+  
     return {
       collides,
-      right: inRight && character.pos.x > this.pos.x,
-      left: inLeft && character.pos.x < this.pos.x,
-      bottom: inBottom && character.pos.y > this.pos.y,
-      top: inTop && character.pos.y < this.pos.y,
+      right: minDist === distRight,
+      left: minDist === distLeft,
+      bottom: minDist === distBottom,
+      top: minDist === distTop,
     };
   }
 

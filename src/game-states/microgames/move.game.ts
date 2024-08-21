@@ -8,7 +8,6 @@ import { Entity } from '@/core/entities/entity';
 export class MoveGame implements State {
   furniture: Entity[] = [];
 
-  charPos: Vec2 = {x: 0, y: 0};
   velocity: Vec2 = {x: 0, y: 0};
   maxSpeed = 3;
   acceleration = 0.02;
@@ -16,38 +15,43 @@ export class MoveGame implements State {
   onUpdate(delta: number) {
     this.queryControls(delta);
 
-    const collisions = this.furniture.filter(f => f.collision(character).collides);
-    
-    if (collisions.length > 0) {
-      // Handle collisions
-      collisions.forEach(f => {
-        // Adjust position and velocity based on collision
-        if (this.velocity.x > 0) {
-          this.charPos.x = f.pos.x - character.size.x;
-        } else if (this.velocity.x < 0) {
-          this.charPos.x = f.pos.x + f.size.x;
+    this.furniture.forEach(f => {
+      const collision = f.collision(character);
+      if (collision.collides) {
+        if (collision.right) {
+          console.log('right');
+          this.velocity.x = -this.velocity.x;
+          character.pos.x -= -this.velocity.x;
         }
-        if (this.velocity.y > 0) {
-          this.charPos.y = f.pos.y - character.size.y;
-        } else if (this.velocity.y < 0) {
-          this.charPos.y = f.pos.y + f.size.y;
+        if (collision.left) {
+          console.log('left');
+          this.velocity.x = -this.velocity.x;
+          character.pos.x -= -this.velocity.x;
         }
-        this.velocity = {x: 0, y: 0};
-      });
-    } else {
-      // Update position if no collision
-      this.charPos = {
-        x: Math.round(this.charPos.x + this.velocity.x),
-        y: Math.round(this.charPos.y + this.velocity.y)
-      };
-    }
+        if (collision.bottom) {
+          console.log('bottom');
+          this.velocity.y = -this.velocity.y;
+          character.pos.y -= -this.velocity.y;
+        }
+        if (collision.top) {
+          console.log('top');
+          this.velocity.y = -this.velocity.y;
+          character.pos.y -= -this.velocity.y;
+        }
+      }
+    });
+
+    character.pos = {
+      x: Math.round(character.pos.x + this.velocity.x),
+      y: Math.round(character.pos.y + this.velocity.y)
+    };
     
     this.velocity = {
       x: clampNearZero(cap(this.velocity.x, -this.maxSpeed, this.maxSpeed)),
       y: clampNearZero(cap(this.velocity.y, -this.maxSpeed, this.maxSpeed)),
     };
 
-    character.pos = this.charPos;
+    character.pos = character.pos;
     if (this.velocity.x != 0 || this.velocity.y != 0) {
       character.drawWalking(delta);
     } else {
