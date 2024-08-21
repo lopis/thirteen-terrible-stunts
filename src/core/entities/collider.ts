@@ -12,11 +12,14 @@ type CollisionMap = {
 export class Collider {
   pos: Vec2;
   size: Vec2;
+  hasCollided = false;
 
   constructor(pos: Vec2, size: Vec2) {
     this.pos = pos;
     this.size = size;
   }
+
+  update() {}
 
   /**
    * Returns true if the character is colliding with this collider.
@@ -51,6 +54,7 @@ export class Collider {
   
     const minDist = Math.min(distRight, distLeft, distBottom, distTop);
   
+    this.hasCollided = true;
     return {
       collides,
       right: minDist === distRight,

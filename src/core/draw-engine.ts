@@ -5,7 +5,7 @@ export const colors = {
   black: '#2e2622',
   white: '#cccec7',
   gray: '#77746f',
-  light: '#a09f97',
+  light: '#bbbab2',
 };
 
 const palette = Object.values(colors).join('').replace(/#/g, '');
@@ -24,11 +24,15 @@ export const icons = {
   chair: "p@@@@kC@@@lN@@@pz@@@@k@|njjCp~jjN@kkjz@lnjjCpzjjN@k@ljjjCpjjjN@kz@l~kCp@|O@",
   table: "@C@kjjz@kjjjNkjjjjojjjj~jjjjzkjjjjojjjj~kjjj~{jjjns~oCljjjCpO@kCpz@lN@kCp@|O@",
   plant: "@@C@@pkzC@pjjz@pjnkNpjnkjCkkjnNlkjj{pzznkCkznjNpjjjN@|O@@pz@@@|@@pjjC@@ojO@@pO@@",
-
-  npc1: "@@@@@@PUUA@PjjZ@@ijjA@dZZF@PjiY@@iZiA@djjF@PUUU@PiZiEPdjjFAQUUUDPUUUE@PAPA@@E@E@@@@@@@",
-  npc2: "@@@@@@TUUA@TejZATUffEPUYZV@UejZAPeZiA@djjF@PUUU@PijjEPdjjFAQjjZDPUUUE@PAPA@@E@E@@@@@@@",
-  npc3: "@@@@@@PUUA@PUUU@@ijjA@TUUE@PZiU@@ijjA@djjF@PUUU@PUUVEPTUYEAQUUUDPUUUE@PAPA@@E@E@@@@@@@"
+  camera: "@pOpO@pjsjC@kNkNLlzozpCj@{sjz@l~kjCpzojN@{s@|@pN@p@pjC@@p~{@@pNpN@pN@lCpN@@{@O@@pC",
+  coffee: "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|C@@@pW@@@@C@@@|K@@@@J@@@@@@@@@@@@@@@@@",
 };
+
+export const npcIcons = [
+  "@@@@@@TUUA@TejZATUffEPUYZV@UejZAPeZiA@djjF@PUUU@PijjEPdjjFAQjjZDPUUUE@PAPA@@E@E@@@@@@@",
+  "@@@@@@PUUA@PjjZ@@ijjA@dZZF@PjiY@@iZiA@djjF@PUUU@PiZiEPdjjFAQUUUDPUUUE@PAPA@@E@E@@@@@@@",
+  "@@@@@@PUUA@PUUU@@ijjA@TUUE@PZiU@@ijjA@djjF@PUUU@PUUVEPTUYEAQUUUDPUUUE@PAPA@@E@E@@@@@@@",
+];
 
 const walkAnimation = [
   upperBody + 'PA@E@@@@T@@@@PA@',

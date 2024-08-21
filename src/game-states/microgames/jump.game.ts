@@ -53,7 +53,7 @@ export class JumpGame implements State {
     const platform = this.platforms.find(p => p.standsOn(character));
 
     this.platforms.forEach(p => {
-      p.draw();
+      p.update();
     });
 
     // Ensure character doesn't fall below the floor

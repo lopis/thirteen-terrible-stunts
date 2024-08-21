@@ -1,22 +1,29 @@
-import { Icon, icons } from "@/core/draw-engine";
+import { colors, drawEngine, Icon, icons, npcIcons } from "@/core/draw-engine";
 import { MoveGame } from "./move.game";
 import { Entity } from "@/core/entities/entity";
 import { Vec2 } from "@/util/types";
+import { NPC } from "@/core/entities/npc";
 
-const objects: [Icon, Vec2, boolean?][] = [
+type ObjectProps = [Icon, Vec2, boolean?]
+let objects: ObjectProps[] = [
   [icons.chair, {x: 100, y: 101}],
-  [icons.chair, {x: 100, y: 116}],
-  [icons.chair, {x: 100, y: 131}],
+  [icons.chair, {x: 132, y: 101}, true],
 
   [icons.table, {x: 116, y: 101}],
+  
   [icons.table, {x: 116, y: 116}],
-  [icons.table, {x: 116, y: 131}],
-
-  [icons.chair, {x: 132, y: 101}, true],
   [icons.chair, {x: 132, y: 116}, true],
-  [icons.chair, {x: 132, y: 131}, true],
+  [icons.chair, {x: 100, y: 116}],
 
+  [icons.plant, {x: 100, y: 80}],
   [icons.plant, {x: 116, y: 80}],
+  [icons.plant, {x: 132, y: 80}],
+  [icons.camera, {x: 200, y: 116}, true],
+];
+objects = objects.sort((a,b) => (a[1].y) - (b[1].y));
+
+let npcs: Vec2[] = [
+  {x: 260, y: 116},
 ];
 
 export class CoffeeGame extends MoveGame {  
@@ -26,12 +33,31 @@ export class CoffeeGame extends MoveGame {
 
   onEnter(): void {
     objects.forEach(([icon, pos, mirror = false]) => {
-      this.furniture.push(new Entity(pos, icon, mirror));
+      this.entities.push(new Entity(pos, icon, mirror));
+    });
+    npcs.forEach((pos, i) => {
+      this.entities.push(new NPC(pos, npcIcons[i], false));
     });
   }
 
   onUpdate(delta: number): void {
+    for(let plank = 0; plank < this.planks; plank++) {
+      drawEngine.drawRect(
+        {x: -1, y: plank * this.plankSize},
+        {x: c2d.width +1, y: this.plankSize},
+        colors.light,
+        colors.white,
+      );
+    }
+    drawEngine.drawRect(
+      {x: 180, y: 20},
+      {x: 130, y: c2d.height - 40},
+      colors.light,
+      colors.white,
+    );
     super.onUpdate(delta);
-    this.furniture.forEach(f => f.draw());
+    this.entities.forEach((f) => {
+      f.update();
+    });
   }
 }

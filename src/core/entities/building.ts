@@ -25,7 +25,7 @@ export class Building extends Collider {
     drawEngine.drawRect({x: 0, y: height}, {x: width, y: height}, colors.gray, colors.white);
   }
 
-  draw() {
+  update() {
     drawEngine.drawRect(this.pos, this.size, colors.gray, colors.light);
 
     [0, 50, 100, 150].forEach((y) => {
