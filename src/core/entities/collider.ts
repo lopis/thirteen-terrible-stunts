@@ -19,7 +19,7 @@ export class Collider {
     this.size = size;
   }
 
-  update() {}
+  update(_delta: number) {}
 
   /**
    * Returns true if the character is colliding with this collider.

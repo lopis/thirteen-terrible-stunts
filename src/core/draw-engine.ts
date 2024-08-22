@@ -26,6 +26,7 @@ export const icons = {
   plant: "@@C@@pkzC@pjjz@pjnkNpjnkjCkkjnNlkjj{pzznkCkznjNpjjjN@|O@@pz@@@|@@pjjC@@ojO@@pO@@",
   camera: "@pOpO@pjsjC@kNkNLlzozpCj@{sjz@l~kjCpzojN@{s@|@pN@p@pjC@@p~{@@pNpN@pN@lCpN@@{@O@@pC",
   coffee: "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|C@@@pW@@@@C@@@|K@@@@J@@@@@@@@@@@@@@@@@",
+  bigCoffee: "@@@@@@@@@@@@@@@@@@@@@@TUUA@PjjVA@YjZP@dijAAPZjVA@djF@@UUUE@PUUE@@@@@@@@@@@@@@@@@@@@@@@",
 };
 
 export const npcIcons = [

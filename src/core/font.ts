@@ -1,7 +1,7 @@
 import { hexToRgb } from "@/util/colors";
 import { colors } from "./draw-engine";
 
-export const tinyFont = /* font-start */',2rwzo,,58jgo,55eyo,,,,34ao,7k,b28,m0,20o0o,9a7vy,jbmjj,jhza7,ivhmm,etrs7,ju8e7,jalrz,jyn66,jwdj3,jwdlv,2t8g,2t8s,34yo,lskg,m2yo,jf4lo,jysjy,98ruh,j8htq,9v7zj,j8d32,ju78f,ju8t4,9ul2n,g44e1,jykrj,jewdq,g4rbt,fgsgv,hha5t,g6xgz,98rou,j8d7c,98uwe,j8d7d,9xgxq,jyy6c,g3zn2,g3z9g,b1ipn,h4qu3,c8oz2,jhyfz,,,,'/* font-end */.split(',');
+export const tinyFont = /* font-start */'6v7ic,2rwzo,,58jgo,55eyo,,,,34ao,7k,b28,m0,20o0o,9a7vy,jbmjj,jhza7,ivhmm,etrs7,ju8e7,jalrz,jyn66,jwdj3,jwdlv,2t8g,2t8s,34yo,lskg,m2yo,jf4lo,jysjy,98ruh,j8htq,9v7zj,j8d32,ju78f,ju8t4,9ul2n,g44e1,jykrj,jewdq,g4rbt,fgsgv,hha5t,g6xgz,98rou,j8d7c,98uwe,j8d7d,9xgxq,jyy6c,g3zn2,g3z9g,b1ipn,h4qu3,c8oz2,jhyfz,,,,'/* font-end */.split(',');
 
 const bitmaps: {[key: string]: ImageBitmap} = {};
 

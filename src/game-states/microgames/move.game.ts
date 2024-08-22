@@ -4,14 +4,17 @@ import { State } from '@/core/state';
 import { Vec2 } from '@/util/types';
 import { cap, clampNearZero } from '@/util/util';
 import { Collider } from '@/core/entities/collider';
+import { Entity } from '@/core/entities/entity';
 
 export class MoveGame implements State {
-  entities: Collider[] = [
+  walls: Collider[] = [
     [-10, -10, 10, c2d.height],
     [-10, -10, c2d.width, 10],
     [c2d.width, -10, 10, c2d.height],
     [-10, c2d.height, c2d.width, 10],
   ].map(([x,y,w,h]) => new Collider({x,y}, {x:w, y:h}));
+
+  entities: Entity[] = [];
 
   velocity: Vec2 = {x: 0, y: 0};
   maxSpeed = 3;
@@ -22,26 +25,22 @@ export class MoveGame implements State {
   onUpdate(delta: number) {
     this.queryControls(delta);
 
-    this.entities.forEach(f => {
+    [...this.entities, ...this.walls].forEach(f => {
       const collision = f.collision(character);
       if (collision.collides) {
         if (collision.right) {
-          console.log('right');
           this.velocity.x = -this.velocity.x;
           character.pos.x -= -this.velocity.x;
         }
         if (collision.left) {
-          console.log('left');
           this.velocity.x = -this.velocity.x;
           character.pos.x -= -this.velocity.x;
         }
         if (collision.bottom) {
-          console.log('bottom');
           this.velocity.y = -this.velocity.y;
           character.pos.y -= -this.velocity.y;
         }
         if (collision.top) {
-          console.log('top');
           this.velocity.y = -this.velocity.y;
           character.pos.y -= -this.velocity.y;
         }

@@ -1,5 +1,5 @@
 import { Vec2 } from "@/util/types";
-import { drawEngine, icons } from "../draw-engine";
+import { drawEngine, Icon, icons } from "../draw-engine";
 
 export const CHARACTER_SIZE = 16;
 
@@ -10,6 +10,28 @@ export class Character {
   size: Vec2 = {x: CHARACTER_SIZE, y: CHARACTER_SIZE};
   pos: Vec2 = {x: 0, y: 0};
   mirror = false;
+  holding: Icon[] = [];
+
+  setPos(x: number, y: number) {
+    this.pos = {x, y};
+  }
+
+  draw(icon: Icon) {
+    drawEngine.drawIcon(icon, this.pos, false, this.mirror);
+    this.drawHolding();
+  }
+
+  drawHolding() {
+    this.holding.forEach((holding, i) => {
+      drawEngine.drawIcon(
+        holding,
+        {
+          ...this.pos,
+          y: this.pos.y - (i+1)*12
+        }
+      );
+    });
+  }
 
   drawWalking(delta: number) {
     // Add the time elapsed since the last update
@@ -26,18 +48,23 @@ export class Character {
 
     // Draw the current frame
     drawEngine.drawWalkingIcon(this.currentFrame, this.pos, this.mirror);
+    this.drawHolding();
   }
 
   drawStanding() {
-    drawEngine.drawIcon(icons.base, this.pos, false, this.mirror);
+    this.draw(icons.base);
   }
 
   drawJumping() {
-    drawEngine.drawIcon(icons.jumping, this.pos, false, this.mirror);
+    this.draw(icons.jumping);
   }
 
   drawFalling() {
-    drawEngine.drawIcon(icons.falling, this.pos, false, this.mirror);
+    this.draw(icons.falling);
+  }
+
+  hold(coffee: Icon) {
+    this.holding.push(coffee);
   }
 }
 

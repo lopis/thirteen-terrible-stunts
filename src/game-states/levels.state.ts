@@ -69,7 +69,6 @@ class LevelsState implements State {
   }
 
   onUp() {
-    console.log('up');
     this.selectedButton--;
     if (this.selectedButton < 0) {
       this.selectedButton = menu.length - 1;
@@ -77,7 +76,6 @@ class LevelsState implements State {
   }
 
   onDown() {
-    console.log('down');
     this.selectedButton++;
     if (this.selectedButton > menu.length - 1) {
       this.selectedButton = 0;
