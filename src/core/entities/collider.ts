@@ -23,6 +23,7 @@ export class Collider {
   update(_delta: number) {
     // DEBUG
     drawEngine.drawRect(this.pos, this.size, '#00ff0055', '#00ff0022');
+    this.hasCollided = false;
   }
 
   /**
@@ -42,6 +43,7 @@ export class Collider {
     const collides = inRight && inLeft && inBottom && inTop;
     
     if (!collides) {
+      this.hasCollided = false;
       return {
         collides: false,
         right: false,

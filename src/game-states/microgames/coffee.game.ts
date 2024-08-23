@@ -19,8 +19,6 @@ let objects: ObjectProps[] = [
   [icons.plant, {x: 116, y: 80}],
   [icons.plant, {x: 132, y: 80}],
   [icons.camera, {x: 200, y: 116}, true],
-  
-  [icons.table, {x: 50, y: 200}],
 ];
 objects = objects.sort((a,b) => (a[1].y) - (b[1].y));
 
@@ -29,7 +27,8 @@ let npcs: Vec2[] = [
 ];
 
 class CoffeeGame extends MoveGame {
-  coffee: Entity = new Entity({x: 50, y: 195}, icons.bigCoffee);
+  coffeeMaker: Entity = new Entity({x: 50, y: 195}, icons.coffeMachine, {mirror: true});
+  maxCofees = 1;
 
   onEnter(): void {
     this.text = 'Bring coffee';
@@ -37,15 +36,15 @@ class CoffeeGame extends MoveGame {
 
     super.onEnter();
     character.setPos(30, 30);
+    character.holding = [];
     objects.forEach(([icon, pos, mirror = false]) => {
       this.entities.push(new Entity(pos, icon, {mirror}));
     });
     npcs.forEach((pos, i) => {
       this.entities.push(new Entity(pos, npcIcons[i], {isNPC: true}));
     });
-    this.coffee.hasCollided = false;
-    this.coffee.hide = false;
-    this.entities.push(this.coffee);
+    this.coffeeMaker.hasCollided = false;
+    this.entities.push(this.coffeeMaker);
   }
 
   onUpdate(delta: number): void {
@@ -56,7 +55,7 @@ class CoffeeGame extends MoveGame {
         if (!f.holding && character.holding.length > 0) {
           f.holding = icons.coffee;
           f.say('TY#');
-          character.holding.pop();
+          character.pop();
           this.nextLevel();
         } else {
           f.hasCollided = false;
@@ -64,10 +63,8 @@ class CoffeeGame extends MoveGame {
       }
     });
 
-    if (this.coffee.hasCollided && !this.coffee.hide) {
-      this.entities = this.entities.filter((entity) => entity !== this.coffee);
+    if (this.coffeeMaker.hasCollided && character.holding.length < this.maxCofees) {
       character.hold(icons.bigCoffee);
-      this.coffee.hide = true;
     }
     super.onUpdate(delta);
   }

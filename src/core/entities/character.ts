@@ -71,6 +71,10 @@ export class Character {
   hold(coffee: Icon) {
     this.holding.push(coffee);
   }
+
+  pop() {
+    this.holding.pop();
+  }
 }
 
 export const character = new Character();
