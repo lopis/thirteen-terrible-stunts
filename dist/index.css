@@ -1,8 +1,8 @@
 :root {
-  --color-black: #2e2622;
-  --color-gray: #77746f;
-  --color-light: #a09f97;
-  --color-white: #cccec7;
+  --color-black: #1F0A00;
+  --color-white: #FFFCEA;
+  --color-gray: #A29782;
+  --color-light: #CEC6AD;
 }
 
 #c2d {
@@ -31,7 +31,7 @@ html, body {
   font-family: Arial, Helvetica, sans-serif;
   overscroll-behavior: none;
   touch-action: none;
-  background: var(--color-light);
+  background: var(--color-gray);
 }
 
 body {
