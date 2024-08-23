@@ -1,12 +1,12 @@
 import { character } from '@/core/entities/character';
 import { controls } from '@/core/controls';
-import { State } from '@/core/state';
 import { Vec2 } from '@/util/types';
 import { cap, clampNearZero } from '@/util/util';
 import { Collider } from '@/core/entities/collider';
 import { Entity } from '@/core/entities/entity';
+import { GameBase } from './base.game';
 
-export class MoveGame implements State {
+export class MoveGame extends GameBase {
   walls: Collider[] = [
     [-10, -10, 10, c2d.height],
     [-10, -10, c2d.width, 10],
@@ -47,22 +47,22 @@ export class MoveGame implements State {
       }
     });
 
-    character.pos = {
-      x: Math.round(character.pos.x + this.velocity.x),
-      y: Math.round(character.pos.y + this.velocity.y)
-    };
+    character.move(
+      this.velocity.x,
+      this.velocity.y
+    );
     
     this.velocity = {
       x: clampNearZero(cap(this.velocity.x, -this.maxSpeed, this.maxSpeed)),
       y: clampNearZero(cap(this.velocity.y, -this.maxSpeed, this.maxSpeed)),
     };
 
-    character.pos = character.pos;
     if (this.velocity.x != 0 || this.velocity.y != 0) {
       character.drawWalking(delta);
     } else {
       character.drawStanding();
     }
+    super.onUpdate(delta);
   }
 
   queryControls(delta: number) {

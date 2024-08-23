@@ -1,5 +1,6 @@
 import { Vec2 } from "@/util/types";
 import { drawEngine, Icon, icons } from "../draw-engine";
+import { roundVec } from "@/util/util";
 
 export const CHARACTER_SIZE = 16;
 
@@ -13,7 +14,11 @@ export class Character {
   holding: Icon[] = [];
 
   setPos(x: number, y: number) {
-    this.pos = {x, y};
+    this.pos = roundVec({x, y});
+  }
+
+  move(x: number, y: number) {
+    this.setPos(this.pos.x + x, this.pos.y + y);
   }
 
   draw(icon: Icon) {

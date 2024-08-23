@@ -1,4 +1,9 @@
+import buildingJumpGame from "@/game-states/microgames/building-jump.game";
 import { icons } from "./draw-engine";
+import { gameStateMachine } from "@/game-state-machine";
+import coffeeGame from "@/game-states/microgames/coffee.game";
+import { GameBase } from "@/game-states/microgames/templates/base.game";
+import { menuState } from "@/game-states/menu.state";
 
 export type Boss = {
   name: string
@@ -54,15 +59,41 @@ const bossData: Boss[] = [
 //   return storage;
 // }
 
+export const levels: GameBase[][] = [
+  [
+    coffeeGame,
+    buildingJumpGame,
+  ],
+  [
+    coffeeGame,
+    buildingJumpGame,
+  ],
+];
+
 class GameData {
-  level = 0;
+  boss = 0;
+  level = -1;
   maxLevel = 0;
+  lives = 3;
 
   constructor() {
   }
 
   getBoss(): Boss {
-    return bossData[this.level];
+    return bossData[this.boss];
+  }
+
+  nextLevel() {
+    this.level++;
+    this.lives = 3;
+    const level = levels[this.boss][this.level] || menuState;
+    gameStateMachine.setState(level);
+  }
+
+  restartLevel() {
+    const fn = gameStateMachine.getState().onEnter;
+    // @ts-ignore
+    fn && gameStateMachine.getState().onEnter();
   }
 }
 

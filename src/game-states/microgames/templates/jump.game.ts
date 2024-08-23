@@ -1,14 +1,12 @@
 import { character, CHARACTER_SIZE } from '@/core/entities/character';
 import { controls } from '@/core/controls';
-import { State } from '@/core/state';
 import { Vec2 } from '@/util/types';
 import { cap, clampNearZero } from '@/util/util';
 import { Collider } from '@/core/entities/collider';
-import { gameStateMachine } from '@/game-state-machine';
-import { menuState } from '../menu.state';
 import { Building } from '@/core/entities/building';
+import { GameBase } from './base.game';
 
-export class JumpGame implements State {
+export default class JumpGame extends GameBase {
   velocity: Vec2 = {x: 0, y: 0};
   maxSpeed = 4;
   acceleration = { x: 0.3, y: 0.05 };
@@ -20,23 +18,23 @@ export class JumpGame implements State {
   jumps = 0;
   maxJumps = 2;
   platforms: Building[] = [];
-  death: Collider = new Collider(
-    { x: 0, y: c2d.height },
-    { x: c2d.width, y: 10 },
-  );
+  deathColliders: Collider[] = [];
+  goalColliders: Collider[] = [];
   isGrounded = false;
 
   onEnter() {
-    character.pos = {x: 0, y: 50};
-    this.platforms.push(
-      new Building({x: 2, y: 100 + CHARACTER_SIZE}),
-      new Building({x: c2d.width - 102, y: 120 + CHARACTER_SIZE}),
-    );
+    super.onEnter();
+    character.pos = {x: 20, y: 20};
+    this.velocity = {x: 0, y: 0};
   }
 
   onUpdate(delta: number) {
-    if(this.death.collision(character).collides) {
-      gameStateMachine.setState(menuState);
+    if(!this.isEnding && this.deathColliders.some((c) => c.collision(character).collides)) {
+      this.loseLife();
+    }
+
+    if(!this.isEnding && this.goalColliders.some((c) => c.collision(character).collides)) {
+      this.nextLevel();
     }
 
     this.queryControls(delta);
@@ -46,14 +44,14 @@ export class JumpGame implements State {
       y: clampNearZero(this.velocity.y),
     };
 
-    character.pos = {
-      x: cap(Math.round(character.pos.x + this.velocity.x), 0, c2d.width - CHARACTER_SIZE),
-      y: cap(Math.round(character.pos.y + this.velocity.y), 0, c2d.height) + 1,
-    };
+    character.setPos(
+      cap(character.pos.x + this.velocity.x, 0, c2d.width - CHARACTER_SIZE),
+      cap(character.pos.y + this.velocity.y, 0, c2d.height) + 1,
+    );
     const platform = this.platforms.find(p => p.standsOn(character));
 
-    this.platforms.forEach(p => {
-      p.update();
+    [...this.platforms, ...this.deathColliders, ...this.goalColliders].forEach(p => {
+      p.update(delta);
     });
 
     // Ensure character doesn't fall below the floor
@@ -77,6 +75,8 @@ export class JumpGame implements State {
     } else if(this.velocity.y < 0) {
       character.drawJumping();
     }
+
+    super.onUpdate(delta);
   }
 
   queryControls(delta: number) {
@@ -93,10 +93,6 @@ export class JumpGame implements State {
         this.velocity.y = -this.jumpSpeed;
       }
     }
-
-    // if (!controls.isUp) {
-    //   this.jumpSpeed = 0;
-    // }
 
     if (this.isGrounded) {
       if (controls.isLeft) {

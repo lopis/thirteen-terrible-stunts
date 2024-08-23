@@ -1,5 +1,6 @@
 import { Vec2 } from "@/util/types";
 import { Character } from "./character";
+import { drawEngine } from "../draw-engine";
 
 type CollisionMap = {
   right: boolean
@@ -19,7 +20,10 @@ export class Collider {
     this.size = size;
   }
 
-  update(_delta: number) {}
+  update(_delta: number) {
+    // DEBUG
+    drawEngine.drawRect(this.pos, this.size, '#00ff0055', '#00ff0022');
+  }
 
   /**
    * Returns true if the character is colliding with this collider.

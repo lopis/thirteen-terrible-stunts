@@ -1,5 +1,5 @@
 import { colors, drawEngine, Icon, icons, npcIcons } from "@/core/draw-engine";
-import { MoveGame } from "./move.game";
+import { MoveGame } from "./templates/move.game";
 import { Entity } from "@/core/entities/entity";
 import { Vec2 } from "@/util/types";
 import { character } from "@/core/entities/character";
@@ -28,14 +28,14 @@ let npcs: Vec2[] = [
   {x: 260, y: 116},
 ];
 
-export class CoffeeGame extends MoveGame {
-  coffee: Entity | null = new Entity({x: 50, y: 195}, icons.bigCoffee);
-
-  constructor() {
-    super();
-  }
+class CoffeeGame extends MoveGame {
+  coffee: Entity = new Entity({x: 50, y: 195}, icons.bigCoffee);
 
   onEnter(): void {
+    this.text = 'Bring coffee';
+    this.entities = [];
+
+    super.onEnter();
     character.setPos(30, 30);
     objects.forEach(([icon, pos, mirror = false]) => {
       this.entities.push(new Entity(pos, icon, {mirror}));
@@ -43,10 +43,36 @@ export class CoffeeGame extends MoveGame {
     npcs.forEach((pos, i) => {
       this.entities.push(new Entity(pos, npcIcons[i], {isNPC: true}));
     });
-    this.coffee && this.entities.push(this.coffee);
+    this.coffee.hasCollided = false;
+    this.coffee.hide = false;
+    this.entities.push(this.coffee);
   }
 
   onUpdate(delta: number): void {
+    this.render();
+    this.entities.forEach((f) => {
+      f.update(delta);
+      if (f.isNPC && f.hasCollided) {
+        if (!f.holding && character.holding.length > 0) {
+          f.holding = icons.coffee;
+          f.say('TY#');
+          character.holding.pop();
+          this.nextLevel();
+        } else {
+          f.hasCollided = false;
+        }
+      }
+    });
+
+    if (this.coffee.hasCollided && !this.coffee.hide) {
+      this.entities = this.entities.filter((entity) => entity !== this.coffee);
+      character.hold(icons.bigCoffee);
+      this.coffee.hide = true;
+    }
+    super.onUpdate(delta);
+  }
+
+  render() {
     for(let plank = 0; plank < this.planks; plank++) {
       drawEngine.drawRect(
         {x: -1, y: plank * this.plankSize},
@@ -61,20 +87,7 @@ export class CoffeeGame extends MoveGame {
       colors.light,
       colors.white,
     );
-    super.onUpdate(delta);
-    this.entities.forEach((f) => {
-      f.update(delta);
-      if (f.isNPC && f.hasCollided && !f.holding && character.holding.length > 0) {
-        f.holding = icons.coffee;
-        f.say('TY#');
-        character.holding.pop();
-      }
-    });
-
-    if (this?.coffee?.hasCollided) {
-      this.entities = this.entities.filter((entity) => entity !== this.coffee);
-      character.hold(icons.bigCoffee);
-      this.coffee = null;
-    }
   }
 }
+
+export default new CoffeeGame();

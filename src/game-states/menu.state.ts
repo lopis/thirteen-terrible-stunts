@@ -2,6 +2,7 @@ import { State } from '@/core/state';
 import { stopAudio } from '@/core/audio';
 import { colors, drawEngine } from '@/core/draw-engine';
 import { gameStateMachine } from '@/game-state-machine';
+import { gameData } from '@/core/game-data';
 import { levelsState } from './levels.state';
 
 const menu = [
@@ -50,6 +51,8 @@ class MenuState implements State {
 
   onConfirm() {
     if (this.selectedButton === 0) {
+      gameData.boss = 0;
+      gameData.level = -1;
       gameStateMachine.setState(levelsState);
     }
   }

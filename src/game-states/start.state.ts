@@ -1,9 +1,7 @@
 import { colors, drawEngine } from '@/core/draw-engine';
 import { gameData } from '@/core/game-data';
 import { State } from '@/core/state';
-import { gameStateMachine } from '@/game-state-machine';
 import { lineSplit } from '@/util/util';
-import { CoffeeGame } from './microgames/coffee.game';
 
 export class StartState implements State {
   timePassed = 0;
@@ -63,6 +61,6 @@ export class StartState implements State {
   }
 
   onConfirm() {
-    gameStateMachine.setState(new CoffeeGame());
+    gameData.nextLevel();
   }
 }

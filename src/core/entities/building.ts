@@ -2,11 +2,12 @@ import { Vec2 } from "@/util/types";
 import { colors, drawEngine } from "../draw-engine";
 import { Collider } from "./collider";
 
+export const BUILDING_WIDTH = 130;
 export class Building extends Collider {
   ctx: CanvasRenderingContext2D;
 
   constructor(pos: Vec2) {
-    const size = {x: 130, y: 200};
+    const size = {x: BUILDING_WIDTH, y: 200};
     super(pos, size);
     this.ctx = drawEngine.ctx;
   }

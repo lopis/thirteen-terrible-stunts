@@ -1,11 +1,12 @@
 import { Vec2 } from "@/util/types";
 import { drawText, DrawTextProps } from "./font";
+import { roundVec } from "@/util/util";
 
 export const colors = {
-  black: '#2e2622',
-  white: '#cccec7',
-  gray: '#77746f',
-  light: '#bbbab2',
+  black: '#1F0A00',
+  white: '#FFFCEA',
+  gray: '#A29782',
+  light: '#CEC6AD',
 };
 
 const palette = Object.values(colors).join('').replace(/#/g, '');
@@ -46,20 +47,8 @@ const walkAnimation = [
 
 export type Icon = typeof icons[keyof typeof icons];
 
-/**
- * Rounds numbers larger than 0.95 to 1, and smaller than 0.05 to 0.
- * This is used to avoid the long tail of easing functions.
- * @param x Number from 0 to 1
- * @returns 
- */
-function cap(x: number): number {
-  return x > 0.95 ? 1
-    : x < 0.05 ? 0
-    : x;
-}
-
 export function easeInOutSine (x: number): number {
-  return cap(-(Math.cos(Math.PI * x) - 1) / 2);
+  return -(Math.cos(Math.PI * x) - 1) / 2;
 };
 
 export function exponencialSmoothing(value: number, target: number, elapsedMilis: number, speed: number = 3) {
@@ -133,12 +122,13 @@ class DrawEngine {
   }
 
   drawRect(pos: Vec2, size: Vec2, stroke: string, fill: string) {
+    const {x, y} = roundVec(pos);
     this.ctx.save();
     this.ctx.strokeStyle = stroke;
     this.ctx.fillStyle = fill;
-    this.ctx.fillRect(pos.x, pos.y, size.x, size.y);
+    this.ctx.fillRect(x, y, size.x, size.y);
     // The extra 0.5 allows drawing a crisp stroke without aliasing.
-    this.ctx.strokeRect(pos.x + 0.5, pos.y + 0.5, size.x, size.y);
+    this.ctx.strokeRect(x + 0.5, y + 0.5, size.x, size.y);
     this.ctx.restore();
   }
 
@@ -158,7 +148,7 @@ class DrawEngine {
     });
     this.drawText({
       text: 'move',
-      x: Math.round(space * 1.5),
+      x: space * 1.5,
       y: keySize * 3,
       textAlign: 'center',
       size: 2,
