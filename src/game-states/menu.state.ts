@@ -22,14 +22,27 @@ class MenuState implements State {
   }
 
   onUpdate(_delta: number) {
+    ['THIRTEEN', 'TERRIBLE', 'STUNTS'].forEach(
+      (text, i) => [colors.light, colors.black].forEach(
+        (color, c) => drawEngine.drawText({
+          text,
+          x: WIDTH / 2 - c,
+          y: 40 + i * 15 - c,
+          textAlign: 'center',
+          color,
+          size: 2,
+        })
+      )
+    );
+
     menu.forEach((text, i) => {
       drawEngine.drawText({
         text,
         x: WIDTH / 2,
-        y: 80 + i * 16 - (i === this.selectedButton ? 2 : 0),
+        y: 120 + i * 16,
         textAlign: 'center',
         color: i === this.selectedButton ? colors.black : colors.gray,
-        size: i === this.selectedButton ? 2 : 1,
+        size: 1,
       });
     });
   }
