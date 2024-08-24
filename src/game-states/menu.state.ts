@@ -1,6 +1,6 @@
 import { State } from '@/core/state';
 import { stopAudio } from '@/core/audio';
-import { colors, drawEngine } from '@/core/draw-engine';
+import { colors, drawEngine, WIDTH } from '@/core/draw-engine';
 import { gameStateMachine } from '@/game-state-machine';
 import { gameData } from '@/core/game-data';
 import { levelsState } from './levels.state';
@@ -25,7 +25,7 @@ class MenuState implements State {
     menu.forEach((text, i) => {
       drawEngine.drawText({
         text,
-        x: c2d.width / 2,
+        x: WIDTH / 2,
         y: 80 + i * 16 - (i === this.selectedButton ? 2 : 0),
         textAlign: 'center',
         color: i === this.selectedButton ? colors.black : colors.gray,

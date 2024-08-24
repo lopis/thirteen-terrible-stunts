@@ -1,6 +1,6 @@
 import { State } from '@/core/state';
 import { stopAudio } from '@/core/audio';
-import { colors, drawEngine, icons } from '@/core/draw-engine';
+import { colors, drawEngine, HEIGHT, icons, WIDTH } from '@/core/draw-engine';
 import { gameStateMachine } from '@/game-state-machine';
 import { StartState } from './start.state';
 
@@ -24,7 +24,7 @@ class LevelsState implements State {
     // title
     drawEngine.drawText({
       text: 'Levels',
-      x: c2d.width / 2,
+      x: WIDTH / 2,
       y: 30,
       textAlign: 'center',
       color: colors.gray,
@@ -32,7 +32,7 @@ class LevelsState implements State {
     });
 
     const width = 16 + 5;
-    const x = c2d.width / 2 - 4 * width;
+    const x = WIDTH / 2 - 4 * width;
     [
       ...menu,
       ['&', this.selectedButton === 0 ? menu[0][1] : menu[1][1]] as [string, number],
@@ -48,8 +48,8 @@ class LevelsState implements State {
 
     drawEngine.drawText({
       text: 'Press ENTER to start',
-      x: c2d.width / 2,
-      y: c2d.height - 20,
+      x: WIDTH / 2,
+      y: HEIGHT - 20,
       textAlign: 'center',
       color: colors.gray,
       size: 1,
@@ -61,7 +61,7 @@ class LevelsState implements State {
       drawEngine.ctx.save();
       drawEngine.ctx.scale(2, 2);
       const pos = {x: width * i, y: 0};
-      drawEngine.drawRect(pos, {x: 16, y: 16}, 'transparent', colors.light);
+      drawEngine.drawRect(pos, {x: 16, y: 16}, colors.light, colors.light);
       drawEngine.drawIcon(boss, pos, true);
       drawEngine.ctx.restore();
     });

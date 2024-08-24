@@ -32,6 +32,7 @@ function draw(currentTime: number) {
     state.onUpdate(delta);
     updateTimeEvents(delta);
   // }
+
   requestAnimationFrame(draw);
 };
 

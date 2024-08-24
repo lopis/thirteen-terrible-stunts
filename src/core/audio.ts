@@ -78,3 +78,68 @@ export const stopAudio = () => {
   player && player.stop();
 };
 
+
+// Voice Effects
+export const voiceFn = function(i: number, syllables: number, pitchShift: number): number {
+  const n = syllables * 3e3;
+  if (i > n) return 0;
+  return Math.sin(pitchShift * i/25 - Math.sin(i/5)* 0.5) * Math.sin(i / (n/syllables) * Math.PI) * 0.2;
+};
+
+// Sound Effect player
+export const startVoiceEffect = (syllables: number, pitchShift: number, onEnded: () => void) => {
+  const A = new AudioContext(),
+  bufferSize = (syllables + 0.25) * 3e3,
+  m = A.createBuffer(1,bufferSize,48e3),
+  b = m.getChannelData(0);
+  for(let i = bufferSize; i--;) {
+    b[i] = voiceFn(i, syllables, pitchShift);
+  }
+  const s = A.createBufferSource();
+  s.buffer = m;
+  s.connect(A.destination);
+  s.start();
+  s.addEventListener("ended", onEnded);
+};
+
+export const playWord = (word: string, onEnded: () => void) => {
+  const syllables = Math.floor(word.replace(/[^a-zA-Z\s]/g, '').length/2) || 1;
+  const pitchShift = 1 + (Math.random() - 0.5) * 0.5;
+  startVoiceEffect(syllables, pitchShift, onEnded);
+};
+
+let isPlayingVoice = false;
+export const playSentence = (sentence: string) => {
+  isPlayingVoice = true;
+  const words = sentence.replace(/[^a-zA-Z\s]/g, '').split(" ");
+  let index = 0;
+
+  const playNextWord = () => {
+    if (isPlayingVoice && index < words.length) {
+      playWord(words[index], playNextWord);
+      index++;
+    }
+  };
+
+  playNextWord();
+};
+
+export const stopPlayingSentence = () => {
+  isPlayingVoice = false;
+};
+
+// const text = "Hello i am lopis how are you?".replace(/[^a-zA-Z\s]/g, '');;
+// const words = text.split(" ").map(w => w.length);
+
+// let cumulativeDelay = 0;
+
+// words.forEach((w, i) => {
+//   const r = Math.floor(w/2) || 1;
+//   cumulativeDelay += i == 0 ? 0 : (1000 * (r + 1) * 4e3 / 48e3);  // Increase the cumulative delay based on the word length
+//   const pitchShift = 1 + (Math.random() - 0.5) * 0.5;
+//   setTimeout(() => {
+//     console.log(w, r, pitchShift);
+//     play(r, pitchShift);
+//   }, cumulativeDelay);  // Add an initial delay of 500ms
+// });
+

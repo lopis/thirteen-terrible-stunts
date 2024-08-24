@@ -5,6 +5,7 @@ import { cap, clampNearZero } from '@/util/util';
 import { Collider } from '@/core/entities/collider';
 import { Building } from '@/core/entities/building';
 import { GameBase } from './base.game';
+import { HEIGHT, WIDTH } from '@/core/draw-engine';
 
 export default class JumpGame extends GameBase {
   velocity: Vec2 = {x: 0, y: 0};
@@ -45,8 +46,8 @@ export default class JumpGame extends GameBase {
     };
 
     character.setPos(
-      cap(character.pos.x + this.velocity.x, 0, c2d.width - CHARACTER_SIZE),
-      cap(character.pos.y + this.velocity.y, 0, c2d.height) + 1,
+      cap(character.pos.x + this.velocity.x, 0, WIDTH - CHARACTER_SIZE),
+      cap(character.pos.y + this.velocity.y, 0, HEIGHT) + 1,
     );
     const platform = this.platforms.find(p => p.standsOn(character));
 

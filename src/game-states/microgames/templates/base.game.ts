@@ -1,4 +1,4 @@
-import { colors, drawEngine, easeInOutSine } from '@/core/draw-engine';
+import { colors, drawEngine, easeInOutSine, HEIGHT, WIDTH } from '@/core/draw-engine';
 import { BROKEN_HEART, HEART, preLoadStrings } from '@/core/font';
 import { gameData } from '@/core/game-data';
 import { State } from '@/core/state';
@@ -91,11 +91,11 @@ export class GameBase implements State {
   }
 
   renderPanel() {
-    const x = (c2d.width * this.animationProgress) - (c2d.width / 2);
-    const y = (c2d.height * this.animationProgress) - (c2d.height / 2);
+    const x = (WIDTH * this.animationProgress) - (WIDTH / 2);
+    const y = (HEIGHT * this.animationProgress) - (HEIGHT / 2);
     // Shadow
     drawEngine.drawRect(
-      {x: c2d.width - x - (panelWidth / 2) + 8, y: c2d.height - y - (panelHeight / 2) + 8},
+      {x: WIDTH - x - (panelWidth / 2) + 8, y: HEIGHT - y - (panelHeight / 2) + 8},
       {x: panelWidth, y: panelHeight},
       colors.black,
       colors.black,
@@ -110,8 +110,8 @@ export class GameBase implements State {
     // Text
     drawEngine.drawText({
       text: this.text,
-      x: this.animationProgress * c2d.width / 2,
-      y: this.animationProgress * (c2d.height / 2),
+      x: this.animationProgress * WIDTH / 2,
+      y: this.animationProgress * (HEIGHT / 2),
       textAlign: 'center',
       textBaseline: 'middle',
       size: Math.floor(panelWidth / (6 * this.text.length)),

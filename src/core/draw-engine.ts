@@ -56,26 +56,24 @@ export function exponencialSmoothing(value: number, target: number, elapsedMilis
   return value + (target - value) * (elapsedMilis * speed / 1000);
 }
 
+export const HEIGHT = 260;
+export const WIDTH = 320;
+
 class DrawEngine {
   charFrame = 0;
   ctx: CanvasRenderingContext2D;
+  canvasScale = 0;
 
   constructor() {
     this.ctx = c2d.getContext("2d") as CanvasRenderingContext2D;
     this.ctx.imageSmoothingEnabled = false;
 
     const resize = () => {
-      const min = Math.min(window.innerHeight, window.innerWidth);
-      const ratio = Math.max(1, Math.min(min / 260, min / 320));
-      // // eslint-disable-next-line id-denylist
-      c2d.style.height = `${ratio * 260}px`;
-      // eslint-disable-next-line id-denylist
-      c2d.style.width = `${ratio * 320}px`;
+      this.canvasScale = c2d.width / WIDTH;
     };
 
     window.addEventListener('resize', resize);
     resize();
-    c2d.classList.remove('hidden');
   }
 
   drawIcon(icon: string, pos: Vec2, dark = false, mirrored = false) {
@@ -93,21 +91,20 @@ class DrawEngine {
   
     const size = Math.floor(Math.sqrt(imageData.length));
     this.ctx.save();
-    this.ctx.translate(pos.x + (mirrored ? size : 0), pos.y);
-    this.ctx.save();
-    this.ctx.scale(mirrored ? -1 : 1, 1);
+      this.ctx.translate(pos.x + (mirrored ? size : 0), pos.y);
+      this.ctx.save();
+        this.ctx.scale(mirrored ? -1 : 1, 1);
 
-    for (let j = 0; j < size; j++) {
-      for (let i = 0; i < size; i++) {
-        if (imageData[j * size + i]) {
-          const index = 6 * (imageData[j * size + i] - 1);
-          this.ctx.fillStyle = '#' + iconPalette.substring(index, index + 6);        
-          this.ctx.fillRect(i, j, 1, 1);
+        for (let j = 0; j < size; j++) {
+          for (let i = 0; i < size; i++) {
+            if (imageData[j * size + i]) {
+              const index = 6 * (imageData[j * size + i] - 1);
+              this.ctx.fillStyle = '#' + iconPalette.substring(index, index + 6);        
+              this.ctx.fillRect(i, j, 1, 1);
+            }
+          }
         }
-      }
-    }
-
-    this.ctx.restore();
+      this.ctx.restore();
     this.ctx.restore();
   }
 
@@ -120,20 +117,15 @@ class DrawEngine {
   }
 
   clear() {
-    this.ctx.clearRect(0, 0, c2d.width, c2d.height);
+    this.ctx.clearRect(0, 0, WIDTH, HEIGHT);
   }
 
   drawRect(pos: Vec2, size: Vec2, stroke: string, fill: string) {
     const {x, y} = roundVec(pos);
-    this.ctx.save();
-    this.ctx.strokeStyle = stroke;
-    this.ctx.fillStyle = fill;
+    this.ctx.fillStyle = stroke;
     this.ctx.fillRect(x, y, size.x, size.y);
-    // The extra 0.5 allows drawing a crisp stroke without aliasing.
-    const offset = 0.5;
-    this.ctx.translate(offset, offset);
-    this.ctx.strokeRect(x, y, size.x, size.y);
-    this.ctx.restore();
+    this.ctx.fillStyle = fill;
+    this.ctx.fillRect(x+1, y+1, size.x-2, size.y-2);
   }
 
   drawControls() {
@@ -160,7 +152,7 @@ class DrawEngine {
     this.ctx.restore();
 
     this.ctx.save();
-    this.ctx.translate(c2d.width - 80 - keySize*4, 70);
+    this.ctx.translate(WIDTH - 80 - keySize*4, 70);
     [
       {text: 'enter', y: 0},
       {text: 'or', y: space},
@@ -184,6 +176,23 @@ class DrawEngine {
     });
     this.ctx.restore();
   }
+
+  // drawGrid(step = 20) {
+  //   this.ctx.strokeStyle = '#ccc';
+  //   this.ctx.lineWidth = 1;
+  //   for (let x = 0; x < WIDTH; x += step) {
+  //       this.ctx.beginPath();
+  //       this.ctx.moveTo(x + 0.5, 0);
+  //       this.ctx.lineTo(x + 0.5, HEIGHT);
+  //       this.ctx.stroke();
+  //   }
+  //   for (let y = 0; y < HEIGHT; y += step) {
+  //       this.ctx.beginPath();
+  //       this.ctx.moveTo(0, y + 0.5);
+  //       this.ctx.lineTo(WIDTH, y + 0.5);
+  //       this.ctx.stroke();
+  //   }
+  // }
 }
 
 export const drawEngine = new DrawEngine();

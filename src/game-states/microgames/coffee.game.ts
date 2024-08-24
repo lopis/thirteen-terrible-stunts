@@ -1,4 +1,4 @@
-import { colors, drawEngine, Icon, icons, npcIcons } from "@/core/draw-engine";
+import { colors, drawEngine, HEIGHT, Icon, icons, npcIcons, WIDTH } from "@/core/draw-engine";
 import { MoveGame } from "./templates/move.game";
 import { Entity } from "@/core/entities/entity";
 import { Vec2 } from "@/util/types";
@@ -76,14 +76,14 @@ class CoffeeGame extends MoveGame {
     for(let plank = 0; plank < this.planks; plank++) {
       drawEngine.drawRect(
         {x: -1, y: plank * this.plankSize},
-        {x: c2d.width +1, y: this.plankSize},
+        {x: WIDTH +1, y: this.plankSize},
         colors.light,
         colors.white,
       );
     }
     drawEngine.drawRect(
       {x: 180, y: 20},
-      {x: 130, y: c2d.height - 40},
+      {x: 130, y: HEIGHT - 40},
       colors.light,
       colors.white,
     );

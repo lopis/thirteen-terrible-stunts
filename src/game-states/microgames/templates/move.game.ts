@@ -5,13 +5,14 @@ import { cap, clampNearZero } from '@/util/util';
 import { Collider } from '@/core/entities/collider';
 import { Entity } from '@/core/entities/entity';
 import { GameBase } from './base.game';
+import { HEIGHT, WIDTH } from '@/core/draw-engine';
 
 export class MoveGame extends GameBase {
   walls: Collider[] = [
-    [-10, -10, 10, c2d.height],
-    [-10, -10, c2d.width, 10],
-    [c2d.width, -10, 10, c2d.height],
-    [-10, c2d.height, c2d.width, 10],
+    [-10, -10, 10, HEIGHT],
+    [-10, -10, WIDTH, 10],
+    [WIDTH, -10, 10, HEIGHT],
+    [-10, HEIGHT, WIDTH, 10],
   ].map(([x,y,w,h]) => new Collider({x,y}, {x:w, y:h}));
 
   entities: Entity[] = [];
@@ -20,7 +21,7 @@ export class MoveGame extends GameBase {
   maxSpeed = 3;
   acceleration = 0.02;
   plankSize = 13;
-  planks = c2d.height / this.plankSize;
+  planks = HEIGHT / this.plankSize;
 
   onUpdate(delta: number) {
     this.queryControls(delta);
