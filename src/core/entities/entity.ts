@@ -1,16 +1,18 @@
 import { Vec2 } from "@/util/types";
-import { colors, drawEngine, Icon } from "../draw-engine";
+import { colors, drawEngine, Icon, icons } from "../draw-engine";
 import { Collider } from "./collider";
 
 type Attributes = {
   mirror?: boolean,
   isNPC?: boolean,
+  onTable?: boolean,
 }
 
 export class Entity extends Collider {
   icon: Icon;
   mirror: boolean;
   isNPC = false;
+  onTable = false;
   holding: Icon | null = null;
   text: string | null = null;
   textTime = 0;
@@ -23,11 +25,15 @@ export class Entity extends Collider {
     this.icon = icon;
     this.mirror = !!attributes.mirror;
     this.isNPC = !!attributes.isNPC;
+    this.onTable = !!attributes.onTable;
   }
 
   update(delta: number) {
     if (this.hide) {  
       return;
+    }
+    if (this.onTable) {
+      drawEngine.drawIcon(icons.table, {...this.pos, y: this.pos.y + 8});
     }
     drawEngine.drawIcon(this.icon, this.pos, false, this.mirror);
     if (this.holding) {

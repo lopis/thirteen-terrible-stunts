@@ -3,6 +3,7 @@ import { MoveGame } from "./templates/move.game";
 import { Entity } from "@/core/entities/entity";
 import { Vec2 } from "@/util/types";
 import { character } from "@/core/entities/character";
+import { preLoadStrings } from "@/core/font";
 
 type ObjectProps = [Icon, Vec2, boolean?]
 let objects: ObjectProps[] = [
@@ -26,8 +27,10 @@ let npcs: Vec2[] = [
   {x: 260, y: 116},
 ];
 
+preLoadStrings(['TY#'], [colors.black, colors.gray, colors.light], 1);
+
 class CoffeeGame extends MoveGame {
-  coffeeMaker: Entity = new Entity({x: 50, y: 195}, icons.coffeMachine, {mirror: true});
+  coffeeMaker: Entity = new Entity({x: 50, y: 195}, icons.coffeMachine, {mirror: true, onTable: true});
   maxCofees = 1;
 
   onEnter(): void {

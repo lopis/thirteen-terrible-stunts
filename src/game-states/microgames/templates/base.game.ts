@@ -34,7 +34,7 @@ export class GameBase implements State {
     const strBefore = `Oh no! ${heartsBefore}`;
     const strAfter = `Oh no! ${heartsAfter}`;
     const size = Math.floor(panelWidth / (6 * strBefore.length));
-    preLoadStrings([strBefore, strAfter], colors.black, size);
+    preLoadStrings([strBefore, strAfter], [colors.black], size);
     this.text = strBefore;
     this.animationTimer = 0;
     this.isEnding = true;
