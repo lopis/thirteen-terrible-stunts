@@ -8,7 +8,6 @@ import { levelsState } from './levels.state';
 const menu = [
   'new game',
   'continue',
-  'levels',
   'about',
 ];
 

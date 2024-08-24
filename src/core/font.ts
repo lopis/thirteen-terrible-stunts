@@ -96,8 +96,8 @@ export const drawText = (
   }
 };
 
-export const preLoadStrings = (strings: string[], colors: string[], size: number) => {
+export const preLoadStrings = (strings: string[], textColors: string[], size: number) => {
   strings.forEach(str => {
-    colors.forEach(color => createImageData(str, size, color));
+    textColors.forEach(color => createImageData(str, size, color));
   });
 };

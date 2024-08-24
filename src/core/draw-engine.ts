@@ -62,6 +62,7 @@ class DrawEngine {
 
   constructor() {
     this.ctx = c2d.getContext("2d") as CanvasRenderingContext2D;
+    this.ctx.imageSmoothingEnabled = false;
 
     const resize = () => {
       const min = Math.min(window.innerHeight, window.innerWidth);
@@ -129,7 +130,9 @@ class DrawEngine {
     this.ctx.fillStyle = fill;
     this.ctx.fillRect(x, y, size.x, size.y);
     // The extra 0.5 allows drawing a crisp stroke without aliasing.
-    this.ctx.strokeRect(x + 0.5, y + 0.5, size.x, size.y);
+    const offset = 0.5;
+    this.ctx.translate(offset, offset);
+    this.ctx.strokeRect(x, y, size.x, size.y);
     this.ctx.restore();
   }
 
