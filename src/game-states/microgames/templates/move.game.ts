@@ -26,7 +26,7 @@ export class MoveGame extends GameBase {
 
     if (!this.isEnding) {
       [...this.entities, ...this.walls].forEach(f => {
-        const collision = f.collision(character);
+        const collision = f.collision();
         if (collision.collides) {
           if (collision.right) {
             this.velocity.x = -this.velocity.x;

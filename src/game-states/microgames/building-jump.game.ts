@@ -1,5 +1,4 @@
 import { CHARACTER_SIZE } from '@/core/entities/character';
-import { controls } from '@/core/controls';
 import { Vec2 } from '@/util/types';
 import JumpGame from './templates/jump.game';
 import { Building, BUILDING_WIDTH } from '@/core/entities/building';
@@ -35,36 +34,6 @@ export class BuildingJumpGame extends JumpGame {
       {x: WIDTH - 102, y: 120 + CHARACTER_SIZE - 1},
       {x: BUILDING_WIDTH, y: 10}
     )];
-  }
-
-  queryControls(delta: number) {
-    if (
-      controls.isUp
-      && this.jumps < this.maxJumps
-    ) {
-      if (!controls.previousState.isUp) {
-        this.timeJumping = 0;
-        this.velocity.y = Math.min(0, this.velocity.y);
-        this.jumps++;
-      } else if (this.timeJumping < this.maxTimeJumping) {
-        this.timeJumping += delta;
-        this.velocity.y = -this.jumpSpeed;
-      }
-    }
-
-    if (this.isGrounded) {
-      if (controls.isLeft) {
-        this.velocity.x -= this.acceleration.x * delta;
-      } else if (controls.isRight) {
-        this.velocity.x += this.acceleration.x * delta;
-      } else if (this.velocity.y == 0) {
-        if (this.velocity.x > 0) {
-          this.velocity.x = Math.max(0, this.velocity.x - 4 * this.acceleration.x * delta);
-        } else if (this.velocity.x < 0) {
-          this.velocity.x = Math.min(0, this.velocity.x + 4 * this.acceleration.x * delta);
-        }
-      }
-    }
   }
 }
 

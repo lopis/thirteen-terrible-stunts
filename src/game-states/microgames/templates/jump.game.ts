@@ -7,7 +7,7 @@ import { HEIGHT, WIDTH } from '@/core/draw-engine';
 import { Platform } from '@/core/entities/platform';
 
 export default class JumpGame extends GameBase {
-  maxSpeed = 1;
+  maxSpeed = 4;
   acceleration = { x: 0.3, y: 0.05 };
   jumpSpeed = 7;
 
@@ -29,7 +29,7 @@ export default class JumpGame extends GameBase {
   }
 
   onUpdate(delta: number) {
-    if(!this.isEnding && this.deathColliders.some((c) => c.collision(character).collides)) {
+    if(!this.isEnding && this.deathColliders.some((c) => c.collision().collides)) {
       character.dead = true;
       this.loseLife();
     }
@@ -46,12 +46,12 @@ export default class JumpGame extends GameBase {
   
       character.setPos(
         cap(character.pos.x + this.velocity.x, 0, WIDTH - CHARACTER_SIZE),
-        cap(character.pos.y + this.velocity.y, 0, HEIGHT) + 1,
+        cap(character.pos.y + this.velocity.y, -HEIGHT, HEIGHT) + 1,
       );
-      const platform = this.platforms.find(p => p.standsOn(character));
+      const platform = this.platforms.find(p => p.standsOn());
   
       if(!this.isEnding && this.goalColliders.some((c) => {
-        const {collides, standsOn} = c.collision(character);
+        const {collides, standsOn} = c.collision();
         return collides || standsOn;
       })) {
         this.nextLevel();
