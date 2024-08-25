@@ -124,7 +124,7 @@ export class GameBase implements State {
     const stats: [string|number, CanvasTextAlign, number][] = [
       [this.getHearts(), 'left', 7],
       [Math.round(this.timeLeft), 'center', WIDTH / 2],
-      [gameData.level, 'right', WIDTH - 7],
+      [`Lvl ${gameData.level + 1}`, 'right', WIDTH - 7],
     ];
     stats.forEach(([text, textAlign, x]) => {
       [colors.light, colors.black].forEach((color, i) => {
