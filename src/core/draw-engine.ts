@@ -13,7 +13,7 @@ export const colors = {
 const palette = Object.values(colors).join('').replace(/#/g, '');
 const paletteDark = colors.black.repeat(4).replace(/#/g, '');
 const upperBody = '@@@@@@PUUE@PjjjA@ijjF@dZjY@PjjjA@iZeF@djjZ@PUUUAPijjFPdjjZQPUUUQ@TUUA@';
-export enum IconKey {
+export const enum IconKey {
   base = 0,
   falling = 1,
   jumping = 2,
