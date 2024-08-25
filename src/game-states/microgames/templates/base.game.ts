@@ -18,12 +18,13 @@ export class GameBase implements State {
   animationDuration = 500;
   animationTimer = 0;
   animationProgress = 0;
+  maxTime = 10;
   timeLeft = 0;
   text = '';
   gameOver = false;
 
   onEnter() {
-    this.timeLeft = 10;
+    this.timeLeft = this.maxTime;
     this.isStarting = false;
     this.isEnding = false;
     this.gameOver = false;
@@ -138,6 +139,13 @@ export class GameBase implements State {
         });
       });
     });
+    const width = Math.round(50 * this.timeLeft / this.maxTime / 2) * 2;
+    drawEngine.drawRect(
+      {x: WIDTH/2 - width/2, y: 20},
+      {x: width, y: 8},
+      colors.black,
+      colors.white,
+    );
   }
 
   renderPanel() {

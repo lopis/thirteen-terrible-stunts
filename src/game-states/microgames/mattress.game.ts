@@ -28,4 +28,4 @@ class MattressGame extends BuildingJumpGame {
   }
 }
 
-export const matressGame = new MattressGame();
+export const mattressGame = new MattressGame();
