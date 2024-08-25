@@ -26,6 +26,7 @@ export class GameBase implements State {
     this.timeLeft = 10;
     this.isStarting = false;
     this.isEnding = false;
+    this.gameOver = false;
     this.start();
   }
 
@@ -98,7 +99,9 @@ export class GameBase implements State {
         this.loseLife();
       }
     }
+  }
 
+  postRender(delta: number) {
     if (this.isEnding || this.isStarting) {
       this.animationTimer += delta;
       if (this.animationTimer <= this.animationDuration) {
@@ -146,7 +149,6 @@ export class GameBase implements State {
     drawEngine.drawRect(
       {x: WIDTH - x - (panelWidth / 2) + 8, y: HEIGHT - y - (panelHeight / 2) + 8},
       {x: panelWidth, y: panelHeight},
-      colors.black,
       colors.black,
     );
     // Front

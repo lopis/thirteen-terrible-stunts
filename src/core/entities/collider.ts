@@ -8,6 +8,7 @@ type CollisionMap = {
   top: boolean
   bottom: boolean
   collides: boolean
+  standsOn: boolean
 }
 
 export class Collider {
@@ -21,8 +22,6 @@ export class Collider {
   }
 
   update(_delta: number) {
-    // DEBUG
-    drawEngine.drawRect(this.pos, this.size, '#00ff0055', '#00ff0022');
     this.hasCollided = false;
   }
 
@@ -46,6 +45,7 @@ export class Collider {
       this.hasCollided = false;
       return {
         collides: false,
+        standsOn: false,
         right: false,
         left: false,
         bottom: false,
@@ -63,6 +63,7 @@ export class Collider {
     this.hasCollided = true;
     return {
       collides,
+      standsOn: this.standsOn(character),
       right: minDist === distRight,
       left: minDist === distLeft,
       bottom: minDist === distBottom,
@@ -71,16 +72,20 @@ export class Collider {
   }
 
   standsOn(character: Character): boolean {
-    const charRight = character.pos.x + character.size.x;
+    const charRight = character.pos.x + character.size.x - 3;
     const charBottom = character.pos.y + character.size.y;
     const colliderRight = this.pos.x + this.size.x;
     const colliderBottom = this.pos.y + 2;
 
     return (
-      character.pos.x < colliderRight &&
+      (character.pos.x + 5) < colliderRight &&
       charRight > this.pos.x &&
       character.pos.y < colliderBottom &&
       charBottom >= this.pos.y      
     );
+  }
+
+  render(color: string, stroke?: string) {
+    drawEngine.drawRect(this.pos, this.size, stroke || color, color);
   }
 }

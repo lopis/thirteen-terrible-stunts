@@ -30,6 +30,7 @@ function draw(currentTime: number) {
     const state = gameStateMachine.getState();
     controls.onUpdate(state);
     state.onUpdate(delta);
+    state.postRender && state.postRender(delta);
     updateTimeEvents(delta);
   // }
 

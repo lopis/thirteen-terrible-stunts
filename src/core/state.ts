@@ -1,5 +1,6 @@
 export interface State {
   onUpdate: (timeElapsed: number) => void;
+  postRender?(delta: number): unknown;
   onEnter?: Function;
   onLeave?: Function;
 

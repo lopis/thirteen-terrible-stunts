@@ -1,15 +1,13 @@
 import { Vec2 } from "@/util/types";
 import { colors, drawEngine } from "../draw-engine";
-import { Collider } from "./collider";
+import { Platform } from "./platform";
 
 export const BUILDING_WIDTH = 130;
-export class Building extends Collider {
-  ctx: CanvasRenderingContext2D;
+export class Building extends Platform {
 
   constructor(pos: Vec2) {
     const size = {x: BUILDING_WIDTH, y: 200};
     super(pos, size);
-    this.ctx = drawEngine.ctx;
   }
 
   getPlatform(y: number) {
@@ -31,7 +29,7 @@ export class Building extends Collider {
 
     [0, 50, 100, 150].forEach((y) => {
       const [pos, size] = this.getPlatform(y);
-      drawEngine.drawRect(pos, size, colors.gray, colors.gray);
+      drawEngine.drawRect(pos, size, colors.gray);
     });
 
     for (let floor = 0; floor < 3; floor++) {

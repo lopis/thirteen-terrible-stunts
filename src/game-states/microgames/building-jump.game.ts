@@ -6,10 +6,10 @@ import { Building, BUILDING_WIDTH } from '@/core/entities/building';
 import { Collider } from '@/core/entities/collider';
 import { HEIGHT, WIDTH } from '@/core/draw-engine';
 
-class BuildingJumpGame extends JumpGame {
+export class BuildingJumpGame extends JumpGame {
   velocity: Vec2 = {x: 0, y: 0};
   maxSpeed = 4;
-  acceleration = { x: 0.3, y: 0.05 };
+  acceleration = { x: 0.01, y: 0.05 };
   jumpSpeed = 7;
 
   timeJumping = 0;
@@ -37,10 +37,6 @@ class BuildingJumpGame extends JumpGame {
     )];
   }
 
-  onUpdate(delta: number) {  
-    super.onUpdate(delta);
-  }
-
   queryControls(delta: number) {
     if (
       controls.isUp
@@ -63,9 +59,9 @@ class BuildingJumpGame extends JumpGame {
         this.velocity.x += this.acceleration.x * delta;
       } else if (this.velocity.y == 0) {
         if (this.velocity.x > 0) {
-          this.velocity.x = Math.max(0, this.velocity.x - this.acceleration.x * delta);
+          this.velocity.x = Math.max(0, this.velocity.x - 4 * this.acceleration.x * delta);
         } else if (this.velocity.x < 0) {
-          this.velocity.x = Math.min(0, this.velocity.x + this.acceleration.x * delta);
+          this.velocity.x = Math.min(0, this.velocity.x + 4 * this.acceleration.x * delta);
         }
       }
     }

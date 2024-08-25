@@ -12,6 +12,7 @@ export class Character {
   pos: Vec2 = {x: 0, y: 0};
   mirror = false;
   holding: Icon[] = [];
+  dead = false;
 
   setPos(x: number, y: number) {
     this.pos = roundVec({x, y});
@@ -58,6 +59,10 @@ export class Character {
 
   drawStanding() {
     this.draw(icons.base);
+  }
+
+  drawDead() {
+    this.draw(icons.dead);
   }
 
   drawJumping() {

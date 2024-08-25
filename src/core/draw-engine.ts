@@ -16,6 +16,7 @@ export const icons = {
   base:  upperBody + 'PA@E@@E@T@@T@PA@',
   falling: '@@@@@@@@@@@@@@@@@TUUA@djjZ@PjjjA@ijjF@dZjY@PjjjA@iZeF@TUUU@TjjjEDijjFQTUUUD@UUU@@@EPA@',
   jumping: '@TUUA@djjZ@PjifA@ijjF@djUZ@PjjjQ@ijjFATUUUATjjjADiejFPTUUU@@UUU@@PAU@@@@U@@@@T@@@@@@@@',
+  dead: "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@UUUA@iijZPefjjVUVjjZEYiZfAdeifVUVffYUUUUUA",
 
   boss1: '@@@@@@@UUE@@UUUA@ijjU@dfZZAPjYjE@YiVV@deZYAPjjjF@iUeZ@dZUjA@ijjA@PUUA@TjjZAdjjjZPUUUUA',
   boss2: '@@@@@@PUUE@PeZUAPijjU@ijjVAeUVYUTjifVQijjZEejjjUPjUjVAijjZ@PjjZ@@TiU@@@dF@@PUVUAPUUUU@',
@@ -28,7 +29,7 @@ export const icons = {
   camera: "@pOpO@pjsjC@kNkNLlzozpCj@{sjz@l~kjCpzojN@{s@|@pN@p@pjC@@p~{@@pNpN@pN@lCpN@@{@O@@pC",
   coffee: "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|C@@@pW@@@@C@@@|K@@@@J@@@@@@@@@@@@@@@@@",
   bigCoffee: "@@@@@@@@@@@@TUE@@djjA@d~Z@T^UmAdZUUFPfVUZ@YjjjEtjjjfQujj^Fi}_ZPZUUZ@djjZ@@UUU@@@@@@@",
-  coffeMachine: "PUUUU@ijjjAdjjjFPjjjZ@UUUUAtGPUUu^@@@PAPUEmGPTVt_@QYQADeE}G@TUt_@UUUAtGPUUUU@"
+  coffeMachine: "PUUUU@ijjjAdjjjFPjjjZ@UUUUAtGPUUu^@@@PAPUEmGPTVt_@QYQADeE}G@TUt_@UUUAtGPUUUU@",
 };
 
 export const npcIcons = [
@@ -120,11 +121,11 @@ class DrawEngine {
     this.ctx.clearRect(0, 0, WIDTH, HEIGHT);
   }
 
-  drawRect(pos: Vec2, size: Vec2, stroke: string, fill: string) {
+  drawRect(pos: Vec2, size: Vec2, stroke: string, fill?: string) {
     const {x, y} = roundVec(pos);
     this.ctx.fillStyle = stroke;
     this.ctx.fillRect(x, y, size.x, size.y);
-    this.ctx.fillStyle = fill;
+    this.ctx.fillStyle = fill || stroke;
     this.ctx.fillRect(x+1, y+1, size.x-2, size.y-2);
   }
 

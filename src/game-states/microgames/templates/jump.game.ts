@@ -2,12 +2,12 @@ import { character, CHARACTER_SIZE } from '@/core/entities/character';
 import { controls } from '@/core/controls';
 import { cap, clampNearZero } from '@/util/util';
 import { Collider } from '@/core/entities/collider';
-import { Building } from '@/core/entities/building';
 import { GameBase } from './base.game';
 import { HEIGHT, WIDTH } from '@/core/draw-engine';
+import { Platform } from '@/core/entities/platform';
 
 export default class JumpGame extends GameBase {
-  maxSpeed = 4;
+  maxSpeed = 1;
   acceleration = { x: 0.3, y: 0.05 };
   jumpSpeed = 7;
 
@@ -16,54 +16,63 @@ export default class JumpGame extends GameBase {
 
   jumps = 0;
   maxJumps = 2;
-  platforms: Building[] = [];
+  platforms: Platform[] = [];
   deathColliders: Collider[] = [];
   goalColliders: Collider[] = [];
   isGrounded = false;
 
   onEnter() {
     super.onEnter();
+    character.dead = false;
     character.pos = {x: 20, y: 20};
     this.velocity = {x: 0, y: 0};
   }
 
   onUpdate(delta: number) {
     if(!this.isEnding && this.deathColliders.some((c) => c.collision(character).collides)) {
+      character.dead = true;
       this.loseLife();
     }
-
-    if(!this.isEnding && this.goalColliders.some((c) => c.collision(character).collides)) {
-      this.nextLevel();
-    }
-
-    this.velocity = {
-      x: clampNearZero(cap(this.velocity.x, -this.maxSpeed, this.maxSpeed)),
-      y: clampNearZero(this.velocity.y),
-    };
-
-    character.setPos(
-      cap(character.pos.x + this.velocity.x, 0, WIDTH - CHARACTER_SIZE),
-      cap(character.pos.y + this.velocity.y, 0, HEIGHT) + 1,
-    );
-    const platform = this.platforms.find(p => p.standsOn(character));
 
     [...this.platforms, ...this.deathColliders, ...this.goalColliders].forEach(p => {
       p.update(delta);
     });
 
-    // Ensure character doesn't fall below the floor
-    if (platform) {
-      character.pos.y = platform.pos.y - CHARACTER_SIZE;
-      this.velocity.y = 0;
-      this.timeJumping = 0;
-      this.jumps = 0;
-      this.isGrounded = true;
-    } else {
-      this.velocity.y += this.acceleration.y * delta;
-      this.isGrounded = false;
+    if (!this.isEnding) {
+      this.velocity = {
+        x: clampNearZero(cap(this.velocity.x, -this.maxSpeed, this.maxSpeed)),
+        y: clampNearZero(this.velocity.y),
+      };
+  
+      character.setPos(
+        cap(character.pos.x + this.velocity.x, 0, WIDTH - CHARACTER_SIZE),
+        cap(character.pos.y + this.velocity.y, 0, HEIGHT) + 1,
+      );
+      const platform = this.platforms.find(p => p.standsOn(character));
+  
+      if(!this.isEnding && this.goalColliders.some((c) => {
+        const {collides, standsOn} = c.collision(character);
+        return collides || standsOn;
+      })) {
+        this.nextLevel();
+      }
+  
+      // Ensure character doesn't fall below the floor
+      if (platform) {
+        character.pos.y = platform.pos.y - CHARACTER_SIZE;
+        this.velocity.y = 0;
+        this.timeJumping = 0;
+        this.jumps = 0;
+        this.isGrounded = true;
+      } else {
+        this.velocity.y += this.acceleration.y * delta;
+        this.isGrounded = false;
+      }
     }
-
-    if (this.velocity.x === 0 && this.velocity.y === 0) {
+  
+    if (character.dead) {
+      character.drawDead();
+    } else if (this.velocity.x === 0 && this.velocity.y === 0) {
       character.drawStanding();
     } else if(this.velocity.y === 0) {
       character.drawWalking(delta);
