@@ -1,5 +1,5 @@
 import { Vec2 } from "@/util/types";
-import { colors, drawEngine, Icon, icons } from "../draw-engine";
+import { colors, drawEngine, IconKey } from "../draw-engine";
 import { Collider } from "./collider";
 
 type Attributes = {
@@ -9,17 +9,17 @@ type Attributes = {
 }
 
 export class Entity extends Collider {
-  icon: Icon;
+  icon: IconKey;
   mirror: boolean;
   isNPC = false;
   onTable = false;
-  holding: Icon | null = null;
+  holding: IconKey | null = null;
   text: string | null = null;
   textTime = 0;
   maxTextTime = 1500;
   hide = false;
 
-  constructor(pos: Vec2, icon: Icon, attributes: Attributes = {}) {
+  constructor(pos: Vec2, icon: IconKey, attributes: Attributes = {}) {
     const size = {x: 16, y: 16};
     super(pos, size);
     this.icon = icon;
@@ -33,7 +33,7 @@ export class Entity extends Collider {
       return;
     }
     if (this.onTable) {
-      drawEngine.drawIcon(icons.table, {...this.pos, y: this.pos.y + 8});
+      drawEngine.drawIcon(IconKey.table, {...this.pos, y: this.pos.y + 8});
     }
     drawEngine.drawIcon(this.icon, this.pos, false, this.mirror);
     if (this.holding) {

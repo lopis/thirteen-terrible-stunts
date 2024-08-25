@@ -1,6 +1,6 @@
 import { State } from '@/core/state';
 import { stopAudio } from '@/core/audio';
-import { colors, drawEngine, icons, WIDTH } from '@/core/draw-engine';
+import { colors, drawEngine, IconKey, WIDTH } from '@/core/draw-engine';
 import { gameStateMachine } from '@/game-state-machine';
 import { gameData } from '@/core/game-data';
 import { levelsState } from './levels.state';
@@ -49,7 +49,7 @@ class MenuState implements State {
     drawEngine.ctx.save();
     drawEngine.ctx.rotate(-25);
     drawEngine.ctx.scale(8,8);
-    drawEngine.drawIcon(icons.jumping, {x: 3.75, y: 15});
+    drawEngine.drawIcon(IconKey.jumping, {x: 3.75, y: 15});
     drawEngine.ctx.restore();
   }
 

@@ -34,6 +34,7 @@ html, body {
   background: var(--color-gray);
 }
 
+/* FILM STRIP */
 body {
   background: 
   linear-gradient(
@@ -104,7 +105,7 @@ html {
 	opacity: .25;
 	background-image: 
 		repeating-conic-gradient(var(--color-black) 0%, transparent .00003%, transparent .0005%, transparent .00095%),
-		repeating-conic-gradient(var(--color-black) 0%, transparent .00005%, transparent 0.00015%, transparent 0.0009%);
+		repeating-conic-gradient(var(--color-gray) 0%, transparent .00005%, transparent 0.00025%, transparent 0.0009%);
 	animation: grain 1s steps(1) infinite;
 	filter: drop-shadow(0px 0px 1px black);
 }

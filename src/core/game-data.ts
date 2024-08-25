@@ -1,5 +1,4 @@
 import buildingJumpGame from "@/game-states/microgames/building-jump.game";
-import { icons } from "./draw-engine";
 import { gameStateMachine } from "@/game-state-machine";
 import coffeeGame from "@/game-states/microgames/coffee.game";
 import { GameBase } from "@/game-states/microgames/templates/base.game";
@@ -12,7 +11,6 @@ export type Boss = {
   final: string
   outro: string
   gameover: string
-  icon: string
 }
 
 const bossData: Boss[] = [
@@ -23,7 +21,6 @@ const bossData: Boss[] = [
     final: 'Is that all you got?',
     outro: 'I guess you\'re not totally worthless!',
     gameover: 'Stop wasting my time kid!',
-    icon: icons.boss1,
   },
   {
     //https://de.wikipedia.org/wiki/Leni_Riefenstahl
@@ -32,7 +29,6 @@ const bossData: Boss[] = [
     final: 'Hurry, I don\'t have all day',
     outro: 'Obedient and disciplined. You\'ll get far, child.',
     gameover: 'Is there some reason my coffee isn\t here?',
-    icon: icons.boss2,
   },
   {
     // https://en.wikipedia.org/wiki/Alfred_Hitchcock
@@ -41,7 +37,6 @@ const bossData: Boss[] = [
     final: 'Time for your final act',
     outro: 'Well done. I must admit, you handled the tension admirably.',
     gameover: 'Was this worth the price of admission?',
-    icon: icons.boss3,
   },
   {
     // https://en.wikipedia.org/wiki/Walt_Disney
@@ -50,7 +45,6 @@ const bossData: Boss[] = [
     final: 'The wheel must keep spinning, ha ha!',
     outro: 'Splendid. I can definitely use you, ha ha!',
     gameover: 'This just won\'t do ha ha',
-    icon: icons.boss4,
   },
 ];
 

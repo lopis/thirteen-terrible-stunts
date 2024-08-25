@@ -1,6 +1,7 @@
 import { lineSplit } from "@/util/util";
-import { colors, drawEngine, HEIGHT, WIDTH } from "./draw-engine";
+import { bossIcons, colors, drawEngine, HEIGHT, IconKey, WIDTH } from "./draw-engine";
 import { playSentence } from "./audio";
+import { gameData } from "./game-data";
 
 let timePassed = 0;
 let letterIndex = 0;
@@ -8,12 +9,12 @@ const timePerLetter = 30;
 
 let name = '';
 let text = '';
-let icon = '';
+let icon: IconKey;
 
-export function setBossDialog(n: string, t: string, i: string) {
+export function setBossDialog(n: string, t: string) {
   name = n;
   text = t;
-  icon = i;
+  icon = bossIcons[gameData.boss];
   timePassed = 0;
   letterIndex = 0;
   playSentence(t);

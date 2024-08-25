@@ -1,5 +1,5 @@
 import { Vec2 } from "@/util/types";
-import { drawEngine, Icon, icons } from "../draw-engine";
+import { drawEngine, IconKey } from "../draw-engine";
 import { roundVec } from "@/util/util";
 
 export const CHARACTER_SIZE = 16;
@@ -11,7 +11,7 @@ export class Character {
   size: Vec2 = {x: CHARACTER_SIZE, y: CHARACTER_SIZE};
   pos: Vec2 = {x: 0, y: 0};
   mirror = false;
-  holding: Icon[] = [];
+  holding: IconKey[] = [];
   dead = false;
 
   setPos(x: number, y: number) {
@@ -22,8 +22,8 @@ export class Character {
     this.setPos(this.pos.x + x, this.pos.y + y);
   }
 
-  draw(icon: Icon) {
-    drawEngine.drawIcon(icon, this.pos, false, this.mirror);
+  draw(iconKey: IconKey) {
+    drawEngine.drawIcon(iconKey, this.pos, false, this.mirror);
     this.drawHolding();
   }
 
@@ -58,23 +58,23 @@ export class Character {
   }
 
   drawStanding() {
-    this.draw(icons.base);
+    this.draw(IconKey.base);
   }
 
   drawDead() {
-    this.draw(icons.dead);
+    this.draw(IconKey.dead);
   }
 
   drawJumping() {
-    this.draw(icons.jumping);
+    this.draw(IconKey.jumping);
   }
 
   drawFalling() {
-    this.draw(icons.falling);
+    this.draw(IconKey.falling);
   }
 
-  hold(coffee: Icon) {
-    this.holding.push(coffee);
+  hold(icon: IconKey) {
+    this.holding.push(icon);
   }
 
   pop() {

@@ -1,6 +1,6 @@
 import { State } from '@/core/state';
 import { stopAudio } from '@/core/audio';
-import { colors, drawEngine, HEIGHT, icons, WIDTH } from '@/core/draw-engine';
+import { colors, drawEngine, HEIGHT, IconKey, WIDTH } from '@/core/draw-engine';
 import { gameStateMachine } from '@/game-state-machine';
 import { StartState } from './start.state';
 
@@ -57,7 +57,7 @@ class LevelsState implements State {
   
     drawEngine.ctx.save();
     drawEngine.ctx.translate(x, 100);
-    [icons.boss1, icons.boss2, icons.boss3, icons.boss4].forEach((boss, i) => {
+    [IconKey.boss1, IconKey.boss2, IconKey.boss3, IconKey.boss4].forEach((boss, i) => {
       drawEngine.ctx.save();
       drawEngine.ctx.scale(2, 2);
       const pos = {x: width * i, y: 0};

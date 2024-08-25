@@ -7,8 +7,8 @@ import { State } from '@/core/state';
 export class StartState implements State {
 
   onEnter() {
-    const { name, intro, icon } = gameData.getBoss(); 
-    setBossDialog(name, intro, icon);
+    const { name, intro } = gameData.getBoss(); 
+    setBossDialog(name, intro);
   }
 
   onUpdate(delta: number) {
