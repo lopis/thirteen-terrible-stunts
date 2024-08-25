@@ -56,7 +56,7 @@ class Controls {
     this.isDown = this.inputDirection.y > 0;
     this.isLeft = this.inputDirection.x < 0;
     this.isRight = this.inputDirection.x > 0;
-    this.isConfirm = Boolean(this.keyMap.get('Enter')) || Boolean(this.keyMap.get('KeyZ'));
+    this.isConfirm = Boolean(this.keyMap.get('Enter')) || Boolean(this.keyMap.get('Space'));
     this.isEscape = Boolean(this.keyMap.get('Escape'));
 
     if (this.isEscape) {

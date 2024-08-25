@@ -156,7 +156,7 @@ class DrawEngine {
     [
       {text: 'enter', y: 0},
       {text: 'or', y: space},
-      {text: 'shift', y: space*2},
+      {text: 'space', y: space*2},
     ].forEach(({text, y}) => {
       text !== 'or' && this.drawRect({x: 0, y}, {x: keySize*4, y: keySize}, colors.gray, colors.light);
       this.drawText({

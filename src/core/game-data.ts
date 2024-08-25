@@ -85,7 +85,7 @@ class GameData {
 
   nextLevel() {
     this.level++;
-    this.lives = 3;
+    this.lives = 1;
     const level = levels[this.boss][this.level] || menuState;
     gameStateMachine.setState(level);
   }

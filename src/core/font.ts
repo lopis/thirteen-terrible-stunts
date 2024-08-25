@@ -20,6 +20,10 @@ export type DrawTextProps = {
 }
 
 const createImageData = async (text: string, size: number, color: string) => {
+  const id = text+color+size;
+  if (bitmaps[id]) {
+    return;
+  }
   const letterWidth = 5 * size;
   const spacing = 1 * size;
   const spaced = letterWidth + spacing;
@@ -58,7 +62,6 @@ const createImageData = async (text: string, size: number, color: string) => {
   });
 
   const bitmap = await createImageBitmap(imageData);
-  const id = text+color+size;
 
   bitmaps[id] = bitmap;
 };

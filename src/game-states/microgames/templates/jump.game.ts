@@ -1,6 +1,5 @@
 import { character, CHARACTER_SIZE } from '@/core/entities/character';
 import { controls } from '@/core/controls';
-import { Vec2 } from '@/util/types';
 import { cap, clampNearZero } from '@/util/util';
 import { Collider } from '@/core/entities/collider';
 import { Building } from '@/core/entities/building';
@@ -8,7 +7,6 @@ import { GameBase } from './base.game';
 import { HEIGHT, WIDTH } from '@/core/draw-engine';
 
 export default class JumpGame extends GameBase {
-  velocity: Vec2 = {x: 0, y: 0};
   maxSpeed = 4;
   acceleration = { x: 0.3, y: 0.05 };
   jumpSpeed = 7;
@@ -38,8 +36,6 @@ export default class JumpGame extends GameBase {
       this.nextLevel();
     }
 
-    this.queryControls(delta);
-    
     this.velocity = {
       x: clampNearZero(cap(this.velocity.x, -this.maxSpeed, this.maxSpeed)),
       y: clampNearZero(this.velocity.y),

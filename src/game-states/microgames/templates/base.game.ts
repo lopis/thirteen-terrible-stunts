@@ -5,22 +5,34 @@ import { State } from '@/core/state';
 import { addTimeEvent } from '@/core/timer';
 import { gameStateMachine } from '@/game-state-machine';
 import { menuState } from '@/game-states/menu.state';
+import { Vec2 } from '@/util/types';
 
 const panelWidth = 200;
 const panelHeight = 50;
 
 export class GameBase implements State {
+  velocity: Vec2 = {x: 0, y: 0};
+
   isStarting = false;
   isEnding = false;
   animationDuration = 500;
   animationTimer = 0;
   animationProgress = 0;
+  timeLeft = 0;
   text = '';
+  gameOver = false;
 
   onEnter() {
+    this.timeLeft = 10;
     this.isStarting = false;
     this.isEnding = false;
     this.start();
+  }
+
+  queryControls(_delta: number) {}
+
+  stop() {
+    this.velocity = {x: 0, y: 0};
   }
 
   start() {
@@ -28,11 +40,14 @@ export class GameBase implements State {
     this.isStarting = true;
   }
 
+  getHearts(offset = 0) {
+    return HEART.repeat(gameData.lives - offset) + BROKEN_HEART.repeat(3 - (gameData.lives - offset));
+  }
+
   loseLife() {
-    const heartsBefore = HEART.repeat(gameData.lives) + BROKEN_HEART.repeat(3 - gameData.lives);
-    const heartsAfter = HEART.repeat(gameData.lives - 1) + BROKEN_HEART.repeat(3 - (gameData.lives - 1));
-    const strBefore = `Oh no! ${heartsBefore}`;
-    const strAfter = `Oh no! ${heartsAfter}`;
+    this.stop();
+    const strBefore = `Oh no! ${this.getHearts()}`;
+    const strAfter = `Oh no! ${this.getHearts(1)}`;
     const size = Math.floor(panelWidth / (6 * strBefore.length));
     preLoadStrings([strBefore, strAfter], [colors.black], size);
     this.text = strBefore;
@@ -49,11 +64,12 @@ export class GameBase implements State {
 
     if (gameData.lives < 1) {
       addTimeEvent(() => {
+        this.gameOver = true;
         this.text = 'you\'re fired!';
       }, this.animationDuration * 4);
       addTimeEvent(() => {
         gameStateMachine.setState(menuState);
-      }, this.animationDuration * 6);
+      }, this.animationDuration * 7);
     } else {
       addTimeEvent(() => {        
         this.onEnter();
@@ -62,6 +78,7 @@ export class GameBase implements State {
   }
 
   nextLevel() {
+    this.stop();
     this.animationTimer = 0;
     this.text = 'Nice!';
     this.isEnding = true;
@@ -74,6 +91,14 @@ export class GameBase implements State {
   }
 
   onUpdate(delta: number) {
+    if (!this.isEnding && !this.isStarting) {
+      this.queryControls(delta);
+      this.timeLeft = Math.max(0, this.timeLeft - delta / 1000);
+      if (Math.round(this.timeLeft) <= 0) {
+        this.loseLife();
+      }
+    }
+
     if (this.isEnding || this.isStarting) {
       this.animationTimer += delta;
       if (this.animationTimer <= this.animationDuration) {
@@ -88,11 +113,35 @@ export class GameBase implements State {
         }
       }
     }
+
+    this.renderStats();
+  }
+
+  renderStats() {
+    const stats: [string|number, CanvasTextAlign, number][] = [
+      [this.getHearts(), 'left', 7],
+      [Math.round(this.timeLeft), 'center', WIDTH / 2],
+      [gameData.level, 'right', WIDTH - 7],
+    ];
+    stats.forEach(([text, textAlign, x]) => {
+      [colors.light, colors.black].forEach((color, i) => {
+        drawEngine.drawText({
+          text: text.toString(),
+          x: x - i,
+          y: 7 - i,
+          textAlign,
+          color,
+          size: 2,
+        });
+      });
+    });
   }
 
   renderPanel() {
     const x = (WIDTH * this.animationProgress) - (WIDTH / 2);
     const y = (HEIGHT * this.animationProgress) - (HEIGHT / 2);
+    const background = this.gameOver ? colors.black : colors.white;
+    const foreground = this.gameOver ? colors.white : colors.black;
     // Shadow
     drawEngine.drawRect(
       {x: WIDTH - x - (panelWidth / 2) + 8, y: HEIGHT - y - (panelHeight / 2) + 8},
@@ -105,7 +154,7 @@ export class GameBase implements State {
       {x: x - (panelWidth / 2), y: y - (panelHeight / 2)},
       {x: panelWidth, y: panelHeight},
       colors.black,
-      colors.white,
+      background,
     );
     // Text
     drawEngine.drawText({
@@ -115,7 +164,7 @@ export class GameBase implements State {
       textAlign: 'center',
       textBaseline: 'middle',
       size: Math.floor(panelWidth / (6 * this.text.length)),
-      color: colors.black
+      color: foreground
     });
   }
 }
