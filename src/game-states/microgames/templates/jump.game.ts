@@ -10,6 +10,7 @@ export default class JumpGame extends GameBase {
   maxSpeed = 4;
   acceleration = { x: 0.3, y: 0.05 };
   jumpSpeed = 7;
+  maxFallSpeed = 14;
 
   timeJumping = 0;
   maxTimeJumping = 100;
@@ -46,7 +47,7 @@ export default class JumpGame extends GameBase {
   
       character.setPos(
         cap(character.pos.x + this.velocity.x, 0, WIDTH - CHARACTER_SIZE),
-        cap(character.pos.y + this.velocity.y, -HEIGHT, HEIGHT) + 1,
+        cap(character.pos.y + Math.min(this.maxFallSpeed, this.velocity.y), -HEIGHT, HEIGHT*2) + 1,
       );
       const platform = this.platforms.find(p => p.standsOn());
   

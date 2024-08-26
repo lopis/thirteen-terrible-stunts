@@ -27,7 +27,7 @@ export class BuildingJumpGame extends JumpGame {
       new Building({x: WIDTH - 102, y: 120 + CHARACTER_SIZE}),
     ];
     this.deathColliders = [new Collider(
-      { x: 0, y: HEIGHT },
+      { x: 0, y: HEIGHT + 20 },
       { x: WIDTH, y: 10 },
     )];
     this.goalColliders = [new Collider(

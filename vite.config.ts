@@ -17,13 +17,13 @@ export default defineConfig(({ command }) => {
   const config = {
     server: {
       port: 3000,
+      open: true,
     },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
       }
     },
-    plugins: undefined
   };
 
   if (command === 'build') {
@@ -201,9 +201,21 @@ function ectPlugin(): Plugin {
         }).map(file => 'dist/' + file);
         const args = ['-strip', '-zip', '-10009', 'dist/index.html', ...assetFiles];
         const result = execFileSync(ect, args);
-        console.log('ECT result', result.toString().trim());
+        // console.log('ECT result', result.toString().trim());
         const stats = statSync('dist/index.zip');
-        console.log('ZIP size', stats.size);
+        const sizeInKB = (stats.size / 1000).toFixed(2);
+        const percentage = (100 * stats.size / 13000).toFixed(1);
+
+        let colorCode = '';
+        if (stats.size < 10000) {
+          colorCode = '\x1b[32m'; // green
+        } else if (stats.size > 13000) {
+          colorCode = '\x1b[31m'; // red
+        } else {
+          colorCode = '\x1b[33m'; // yellow
+        }
+
+        console.log(`\nSize: ${colorCode}${sizeInKB}KB (${percentage}%)\x1b[0m\n`);
       } catch (err) {
         console.log('ECT error', err);
       }

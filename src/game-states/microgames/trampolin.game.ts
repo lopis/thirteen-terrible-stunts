@@ -4,16 +4,26 @@ import { Building, BUILDING_WIDTH } from "@/core/entities/building";
 import { colors, drawEngine, HEIGHT, WIDTH } from "@/core/draw-engine";
 import { Platform } from "@/core/entities/platform";
 import { Collider } from "@/core/entities/collider";
+import { gameData } from "@/core/game-data";
+import { randomize } from "@/util/util";
+
+const levels = [
+  {buildingHeight: 100, trampolinSize: 4, spaceApart: 0.4},
+  {buildingHeight: 150, trampolinSize: 3, spaceApart: 0.45},
+  {buildingHeight: 180, trampolinSize: 2.5, spaceApart: 0.5},
+];
 
 class TrampolinGame extends BuildingJumpGame {
   trampolin = new Collider(
-    {x: WIDTH/2, y: HEIGHT - 30},
-    {x: CHARACTER_SIZE * 3, y: 5}
+    {x: WIDTH/2 - CHARACTER_SIZE * 3/2, y: HEIGHT - 40},
+    {x: CHARACTER_SIZE * 3, y: 15}
   );
 
   onEnter() {
     super.onEnter();
     this.text = 'Jump over';
+
+    const {buildingHeight, trampolinSize, spaceApart} = randomize(levels[gameData.boss] || levels[2]);
 
     this.deathColliders = [new Platform(
       { x: 0, y: HEIGHT - 20 },
@@ -21,19 +31,23 @@ class TrampolinGame extends BuildingJumpGame {
       colors.gray
     )];
     this.platforms = [
-      new Building({x: -2*BUILDING_WIDTH/3, y: 50 + CHARACTER_SIZE}),
-      new Building({x: WIDTH -BUILDING_WIDTH/3, y: 50 + CHARACTER_SIZE}),
+      new Building({x: -BUILDING_WIDTH*spaceApart, y: HEIGHT - buildingHeight + CHARACTER_SIZE}),
+      new Building({x: WIDTH -BUILDING_WIDTH*(1-spaceApart), y: HEIGHT - buildingHeight + CHARACTER_SIZE}),
     ];
     this.goalColliders = [
       new Collider(this.platforms[1].pos, {x: BUILDING_WIDTH, y: 1})
     ];
+
+    const size = CHARACTER_SIZE * trampolinSize;
+    this.trampolin = new Collider(
+      {x: WIDTH/2, y: HEIGHT - 40},
+      {x: size, y: 15}
+    );
   }
 
   onUpdate(delta: number): void {
     const {collides, standsOn} = this.trampolin.collision();
     if (collides || standsOn) {
-      console.log('collided');
-      
       this.velocity.y = -this.velocity.y;
     }
 

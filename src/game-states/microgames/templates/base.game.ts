@@ -84,10 +84,7 @@ export class GameBase implements State {
     this.animationTimer = 0;
     this.text = 'Nice!';
     this.isEnding = true;
-    const className = this.constructor.name;
-    console.log('next level', className);
     addTimeEvent(() => {
-      console.log('addTimeEvent', className);
       gameData.nextLevel();
     }, this.animationDuration * 3);
   }

@@ -47,9 +47,10 @@ class MenuState implements State {
     });
 
     drawEngine.ctx.save();
+    drawEngine.ctx.imageSmoothingEnabled = false;
     drawEngine.ctx.rotate(-25);
     drawEngine.ctx.scale(8,8);
-    drawEngine.drawIcon(IconKey.jumping, {x: 3.75, y: 15});
+    drawEngine.drawIcon(IconKey.jumping, {x: 3, y: 15});
     drawEngine.ctx.restore();
   }
 

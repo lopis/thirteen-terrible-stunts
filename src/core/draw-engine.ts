@@ -106,7 +106,7 @@ class DrawEngine {
 
     const time = performance.now();
     Promise.all(iconsData.map((value, i) => this.preLoadIcon(i, value, false))).then(() => {
-      console.log(`Loaded icons in ${performance.now() - time}ms`);
+      console.debug(`Loaded icons in ${performance.now() - time}ms`);
       
       npcIcons = [IconKey.npc1, IconKey.npc2, IconKey.npc3];
       bossIcons = [IconKey.boss1, IconKey.boss2, IconKey.boss3, IconKey.boss4];

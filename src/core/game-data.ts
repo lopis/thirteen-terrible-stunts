@@ -57,10 +57,18 @@ const bossData: Boss[] = [
 
 export const levels: GameBase[][] = [
   [
+    trampolinGame,
+    trampolinGame,
+    trampolinGame,
+    trampolinGame,
+    trampolinGame,
+    trampolinGame,
+    trampolinGame,
+    trampolinGame,
+    trampolinGame,
     coffeeGame,
     buildingJumpGame,
     mattressGame,
-    trampolinGame,
   ],
   [
     trampolinGame,

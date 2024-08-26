@@ -30,3 +30,14 @@ export function roundVec(vec: Vec2): Vec2 {
     y: Math.round(vec.y),
   };
 }
+
+export function randomize(obj: Record<string, number>, heat = 0.3): Record<string, number> {
+  const randomizedObject = {...obj};
+
+  Object.keys(randomizedObject).forEach((key) => {
+    const r = 1 + Math.random() * heat;
+    randomizedObject[key] = randomizedObject[key] * r;
+  });
+
+  return randomizedObject;
+}
