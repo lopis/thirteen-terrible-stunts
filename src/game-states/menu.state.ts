@@ -1,6 +1,6 @@
 import { State } from '@/core/state';
 import { stopAudio } from '@/core/audio';
-import { colors, drawEngine, IconKey, WIDTH } from '@/core/draw-engine';
+import { colors, drawEngine, HEIGHT, IconKey, WIDTH } from '@/core/draw-engine';
 import { gameStateMachine } from '@/game-state-machine';
 import { gameData } from '@/core/game-data';
 import { levelsState } from './levels.state';
@@ -11,11 +11,23 @@ const menu = [
   'about',
 ];
 
+const bylines = [
+  'Optimized for Firefox 2+',
+  'Asbestos Free',
+  'Not tested on animals',
+  'If symptoms persist, consult a doctor',
+  'Requires MS-DOS 5.0 or later',
+  'For up-to 1 player(s)',
+];
+
+let byline = '';
+
 class MenuState implements State {
   private selectedButton = 0;
 
   onEnter() {
     stopAudio();
+    byline = bylines[Math.floor(Math.random() * bylines.length)];
   }
 
   onLeave() {
@@ -47,11 +59,21 @@ class MenuState implements State {
     });
 
     drawEngine.ctx.save();
-    drawEngine.ctx.imageSmoothingEnabled = false;
+    drawEngine.ctx.globalAlpha = 0.5;
+    drawEngine.ctx.translate(0.5, 0.5);
     drawEngine.ctx.rotate(-25);
     drawEngine.ctx.scale(8,8);
     drawEngine.drawIcon(IconKey.jumping, {x: 3, y: 15});
     drawEngine.ctx.restore();
+
+    drawEngine.drawText({
+      text: byline,
+      x: WIDTH / 2,
+      y: HEIGHT - 15,
+      textAlign: 'center',
+      color: colors.light,
+      size: 1,
+    });
   }
 
   onUp() {

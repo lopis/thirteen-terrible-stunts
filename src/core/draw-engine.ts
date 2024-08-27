@@ -49,7 +49,7 @@ export const iconsData = [
   /*jumping*/      '@TUUA@djjZ@PjifA@ijjF@djUZ@PjjjQ@ijjFATUUUATjjjADiejFPTUUU@@UUU@@PAU@@@@U@@@@T@@@@@@@@',
   /*dead*/         "@@@@@@@@@@@@@@@@@@@@@@@@@@@PUUUA@YijZ@eejjFUVjjZEYiZfEdfffFPZZfYUiiijUUUUUE@D@@@@@U@@@",
                    
-  /*boss1*/        '@@@@@@@UUE@@UUUA@ijjU@dfZZAPjYjE@YiVV@deZYAPjjjF@iUeZ@dZUjA@ijjA@PUUA@TjjZAdjjjZPUUUUA',
+  /*boss1*/        '@@@@@@@UUE@@UUUA@ijjU@dfZZAPjYjE@iifV@ifZZAdjjjFPjUeZ@iZUjAPjjjA@TejU@UijUEUUjUUTUUUUA',
   /*boss2*/        '@@@@@@PUUE@PeZUAPijjU@ijjVAeUVYUTjifVQijjZEejjjUPjUjVAijjZ@PjjZ@@TiU@@@dF@@PUVUAPUUUU@',
   /*boss3*/        "@TUU@@djjF@djjjAPUUUF@ijjV@djjjAPVjeF@ijjZ@djjjAPjUjF@djjF@@ejF@@@iF@@TeZU@TUYUEPUUUU@",
   /*boss4*/        '@PA@E@PU@UAPUUUU@UiVUAPijUA@djZA@PfiF@@YfZ@@djjATdjjFPejjZ@djjZ@@UUU@@@@U@@@@UE@@PUUE@',
@@ -94,15 +94,10 @@ export const WIDTH = 320;
 class DrawEngine {
   charFrame = 0;
   ctx: CanvasRenderingContext2D;
-  canvasScale = 0;
 
   constructor() {
     this.ctx = c2d.getContext("2d", {alpha: false}) as CanvasRenderingContext2D;
     this.ctx.imageSmoothingEnabled = false;
-
-    const resize = () => {
-      this.canvasScale = c2d.width / WIDTH;
-    };
 
     const time = performance.now();
     Promise.all(iconsData.map((value, i) => this.preLoadIcon(i, value, false))).then(() => {
@@ -112,9 +107,6 @@ class DrawEngine {
       bossIcons = [IconKey.boss1, IconKey.boss2, IconKey.boss3, IconKey.boss4];
       walkAnimationIcons = [IconKey.walk1, IconKey.walk2, IconKey.walk3, IconKey.walk4, IconKey.walk5, IconKey.walk6];
     });
-
-    window.addEventListener('resize', resize);
-    resize();
   }
 
   async preLoadIcon(id: IconKey, icon: string, dark: boolean) {
@@ -152,12 +144,13 @@ class DrawEngine {
     icons[id] = bitmap;
   }
 
-  drawIcon(iconKey: IconKey, pos: Vec2, _dark = false, mirrored = false) {
+  drawIcon(iconKey: IconKey, pos: Vec2, dark = false, mirrored = false) {
     const icon = icons[iconKey];
     if (!icon) {
       return;
     }
     this.ctx.save();
+    dark && (this.ctx.filter = "brightness(0)");
     this.ctx.translate(pos.x + (mirrored ? icon.width : 0), pos.y);
     this.ctx.save();
     this.ctx.scale(mirrored ? -1 : 1, 1);
@@ -235,6 +228,68 @@ class DrawEngine {
       size: 2,
     });
     this.ctx.restore();
+  }
+
+  drawHouseShadow(points: number[][], progress: number) {
+    this.ctx.save();
+    this.ctx.globalAlpha = 0.5;
+    const skewY = -1 + progress;
+    const scaleX = progress;
+    this.ctx.transform(scaleX, skewY, 0, 1, 0, 0);
+    this.ctx.beginPath();
+    this.ctx.moveTo(0, HEIGHT);
+    points.forEach(([x, y]) => {
+      this.ctx.lineTo(x * WIDTH, y * HEIGHT);
+    });
+    this.ctx.fillStyle = colors.black;
+    this.ctx.clip();
+    this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    this.ctx.restore();
+  }
+
+  drawHouseFace(points: number[][], progress: number) {
+    this.ctx.save();
+    const skewY = 0.5 * (-1 + progress);
+    const scaleX = Math.pow(progress, 3);
+    this.ctx.transform(scaleX, skewY, 0, 1, 0, 0);
+    this.ctx.beginPath();
+    this.ctx.moveTo(0, HEIGHT);
+    points.forEach(([x, y]) => {
+      this.ctx.lineTo(x * WIDTH, y * HEIGHT);
+    });
+    this.ctx.fillStyle = colors.white;
+    this.ctx.strokeStyle = colors.light;
+    this.ctx.stroke();
+    this.ctx.clip();
+    const plankSize = Math.round(WIDTH / 30);
+    this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    for(let i=0; i < 30; i++) {
+      this.ctx.strokeRect(plankSize * i, 0, plankSize, HEIGHT);
+    }
+    this.ctx.restore();
+  }
+
+  drawHouse(progress: number, windowSize: Vec2, windowOffset: number) {
+    const points = [
+      [0, 0],
+      [0.5, 0],
+      [1, 0.5],
+    
+      [1 - windowOffset, 0.5],
+      [1 - windowOffset, 0.5 - windowSize.y],
+      [1 - (windowOffset + windowSize.x), 0.5 - windowSize.y],
+      [1 - (windowOffset + windowSize.x), 0.5 + windowSize.y],
+      [1 - windowOffset, 0.5 + windowSize.y],
+      [1 - windowOffset, 0.5],
+    
+      [1, 0.5],
+      [0.5, 1],
+      [0, 1],
+    ];
+
+    //  Draw shadow
+    this.drawHouseShadow(points, progress);
+    this.drawHouseFace(points, progress);
   }
 
   // drawGrid(step = 20) {

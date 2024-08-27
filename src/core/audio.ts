@@ -99,11 +99,10 @@ export const startVoiceEffect = (syllables: number, pitchShift: number, onEnded:
   s.buffer = m;
   s.connect(A.destination);
   s.start();
-  s.addEventListener("ended", onEnded);
+  s.onended = onEnded;
 };
 
-export const playWord = (word: string, onEnded: () => void) => {
-  const syllables = Math.floor(word.replace(/[^a-zA-Z\s]/g, '').length/2) || 1;
+export const playWord = (syllables: number, onEnded: () => void) => {
   const pitchShift = 1 + (Math.random() - 0.5) * 0.5;
   startVoiceEffect(syllables, pitchShift, onEnded);
 };
@@ -113,11 +112,25 @@ export const playSentence = (sentence: string) => {
   isPlayingVoice = true;
   const words = sentence.replace(/[^a-zA-Z\s]/g, '').split(" ");
   let index = 0;
+  let interval = 60;
+  let time = 0;
+  console.log(words);
+  
 
   const playNextWord = () => {
-    if (isPlayingVoice && index < words.length) {
-      playWord(words[index], playNextWord);
+    if (isPlayingVoice && index < words.length) {  
+      time = performance.now();
+      const syllables = Math.floor(words[index].replace(/[^a-zA-Z\s]/g, '').length/2) || 1;
+      playWord(syllables, () => {
+        const duration = performance.now() - time;
+        time = performance.now();
+        console.log(index, syllables, duration, 'ms');
+        const remainingDelay = Math.max((syllables + 1) * interval - duration, 0);
+        setTimeout(playNextWord, remainingDelay);
+      });
       index++;
+    } else {
+      isPlayingVoice = false;
     }
   };
 

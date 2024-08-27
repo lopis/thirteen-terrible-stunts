@@ -59,7 +59,7 @@ class Controls {
     this.isConfirm = Boolean(this.keyMap.get('Enter')) || Boolean(this.keyMap.get('Space'));
     this.isEscape = Boolean(this.keyMap.get('Escape'));
 
-    if (this.isEscape) {
+    if (this.isEscape && gameStateMachine.getState() != menuState) {
       gameStateMachine.setState(menuState);
     }
   }

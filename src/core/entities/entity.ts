@@ -28,7 +28,7 @@ export class Entity extends Collider {
     this.onTable = !!attributes.onTable;
   }
 
-  update(delta: number) {
+  update(delta?: number) {
     if (this.hide) {  
       return;
     }
@@ -40,7 +40,7 @@ export class Entity extends Collider {
       drawEngine.drawIcon(this.holding, this.pos, false);
     }
     if (this.textTime > 0 && this.text) {
-      this.textTime -= delta;
+      this.textTime -= delta || 0;
       const timeRatio = this.textTime / this.maxTextTime;
       drawEngine.drawText({
         text: this.text,
