@@ -15,9 +15,8 @@ const bylines = [
   'Optimized for Firefox 2+',
   'Asbestos Free',
   'Not tested on animals',
-  'If symptoms persist, consult a doctor',
   'Requires MS-DOS 5.0 or later',
-  'For up-to 1 player(s)',
+  'For up-to 1 players',
 ];
 
 let byline = '';
@@ -63,7 +62,7 @@ class MenuState implements State {
     drawEngine.ctx.translate(0.5, 0.5);
     drawEngine.ctx.rotate(-25);
     drawEngine.ctx.scale(8,8);
-    drawEngine.drawIcon(IconKey.jumping, {x: 3, y: 15});
+    drawEngine.drawIcon(IconKey.jumping, {x: 3, y: 13});
     drawEngine.ctx.restore();
 
     drawEngine.drawText({
@@ -92,7 +91,6 @@ class MenuState implements State {
 
   onConfirm() {
     if (this.selectedButton === 0) {
-      gameData.boss = 0;
       gameData.level = -1;
       gameStateMachine.setState(levelsState);
     }

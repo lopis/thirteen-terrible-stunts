@@ -58,6 +58,13 @@ const bossData: Boss[] = [
 
 export const levels: GameBase[][] = [
   [
+    coffeeGame,
+    fallingBuildingGame,
+    buildingJumpGame,
+    mattressGame,
+    trampolinGame,
+  ],
+  [
     fallingBuildingGame,
     coffeeGame,
     buildingJumpGame,
@@ -65,9 +72,18 @@ export const levels: GameBase[][] = [
     trampolinGame,
   ],
   [
-    trampolinGame,
+    fallingBuildingGame,
     coffeeGame,
     buildingJumpGame,
+    mattressGame,
+    trampolinGame,
+  ],
+  [
+    fallingBuildingGame,
+    coffeeGame,
+    buildingJumpGame,
+    mattressGame,
+    trampolinGame,
   ],
 ];
 
@@ -81,6 +97,8 @@ class GameData {
   }
 
   getBoss(): Boss {
+    console.log(this.boss, bossData[this.boss]);
+    
     return bossData[this.boss];
   }
 

@@ -4,6 +4,7 @@ import { Entity } from "@/core/entities/entity";
 import { Vec2 } from "@/util/types";
 import { character } from "@/core/entities/character";
 import { preLoadStrings } from "@/core/font";
+import { roundTo16 } from "@/util/util";
 
 type ObjectProps = [IconKey, Vec2, boolean?]
 const getObjects = () => {
@@ -25,9 +26,6 @@ const getObjects = () => {
   return objects.sort((a,b) => (a[1].y) - (b[1].y));
 };
 
-let npcs: Vec2[] = [
-  {x: 260, y: 116},
-];
 
 preLoadStrings(['TY#'], [colors.black, colors.gray, colors.light], 1);
 
@@ -35,6 +33,8 @@ class CoffeeGame extends MoveGame {
   objects: ObjectProps[] = [];
   coffeeMaker: Entity = new Entity({x: 50, y: 195}, IconKey.coffeMachine, {mirror: true, onTable: true});
   maxCofees = 1;
+  npcNum = 3;
+  npcs:  Vec2[] = [];
 
   onEnter(): void {
     if (this.objects.length === 0) {
@@ -43,13 +43,29 @@ class CoffeeGame extends MoveGame {
     this.text = 'Bring coffee';
     this.entities = [];
 
+    this.npcs = [];
+    while (this.npcs.length < this.npcNum) {
+      let newNpc: Vec2;
+      let isUnique = false;
+    
+      while (!isUnique) {
+        newNpc = {
+          x: roundTo16((Math.random() * 0.65 + 0.3) * WIDTH),
+          y: roundTo16((Math.random() * 0.6 + 0.3) * HEIGHT),
+        };
+    
+        isUnique = !this.npcs.some(npc => npc.x === newNpc.x && npc.y === newNpc.y);
+        isUnique && this.npcs.push(newNpc);
+      }
+    }
+
     super.onEnter();
     character.setPos(30, 30);
     character.holding = [];
     this.objects.forEach(([icon, pos, mirror = false]) => {
       this.entities.push(new Entity(pos, icon, {mirror}));
     });
-    npcs.forEach((pos, i) => {
+    this.npcs.forEach((pos, i) => {
       this.entities.push(new Entity(pos, npcIcons[i], {isNPC: true}));
     });
     this.coffeeMaker.hasCollided = false;
@@ -65,15 +81,20 @@ class CoffeeGame extends MoveGame {
           f.holding = IconKey.coffee;
           f.say('TY#');
           character.pop();
-          this.nextLevel();
+          if (!this.entities.some(e => e.isNPC && !e.holding)) {
+            this.nextLevel();
+          }
         } else {
           f.hasCollided = false;
         }
       }
     });
 
+    // Get coffees
     if (this.coffeeMaker.hasCollided && character.holding.length < this.maxCofees) {
-      character.hold(IconKey.bigCoffee);
+      while(character.holding.length < this.npcNum) {
+        character.hold(IconKey.bigCoffee);
+      }
     }
     super.onUpdate(delta);
   }

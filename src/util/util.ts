@@ -41,3 +41,5 @@ export function randomize(obj: Record<string, number>, heat = 0.3): Record<strin
 
   return randomizedObject;
 }
+
+export const roundTo16 = (num: number) => Math.round(num / 16) * 16;
