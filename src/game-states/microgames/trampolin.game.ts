@@ -5,13 +5,14 @@ import { colors, drawEngine, HEIGHT, WIDTH } from "@/core/draw-engine";
 import { Platform } from "@/core/entities/platform";
 import { Collider } from "@/core/entities/collider";
 import { gameData } from "@/core/game-data";
-import { randomize } from "@/util/util";
+import { interpolate, randomize } from "@/util/util";
 
-const levels = [
-  {buildingHeight: 100, trampolinSize: 4, spaceApart: 0.4},
-  {buildingHeight: 150, trampolinSize: 3, spaceApart: 0.45},
-  {buildingHeight: 180, trampolinSize: 2.5, spaceApart: 0.5},
-];
+// Difficulty range of each property
+const difficultyRange: Record<string, [number,number]> = {
+  buildingHeight: [100, 180],
+  trampolinSize: [4, 2.5],
+  spaceApart: [0.4, 0.5],
+};
 
 class TrampolinGame extends BuildingJumpGame {
   trampolin = new Collider(
@@ -23,7 +24,12 @@ class TrampolinGame extends BuildingJumpGame {
     super.onEnter();
     this.text = 'Jump over';
 
-    const {buildingHeight, trampolinSize, spaceApart} = randomize(levels[gameData.boss] || levels[2]);
+    const difficulty = gameData.getDifficulty(); // From 0.0 to 1.0
+    const {buildingHeight, trampolinSize, spaceApart} = randomize({
+      buildingHeight: interpolate(difficultyRange.buildingHeight, difficulty),
+      trampolinSize: interpolate(difficultyRange.trampolinSize, difficulty),
+      spaceApart: interpolate(difficultyRange.spaceApart, difficulty),
+    });
 
     this.deathColliders = [new Platform(
       { x: 0, y: HEIGHT - 20 },

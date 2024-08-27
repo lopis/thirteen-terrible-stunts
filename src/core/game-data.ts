@@ -58,11 +58,11 @@ const bossData: Boss[] = [
 
 export const levels: GameBase[][] = [
   [
-    coffeeGame,
     fallingBuildingGame,
+    trampolinGame,
+    coffeeGame,
     buildingJumpGame,
     mattressGame,
-    trampolinGame,
   ],
   [
     fallingBuildingGame,
@@ -100,6 +100,10 @@ class GameData {
     console.log(this.boss, bossData[this.boss]);
     
     return bossData[this.boss];
+  }
+
+  getDifficulty(): number {
+    return (this.boss /3 + this.level / 12) / 2;
   }
 
   nextLevel() {

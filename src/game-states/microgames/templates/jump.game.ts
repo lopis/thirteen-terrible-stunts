@@ -24,6 +24,7 @@ export default class JumpGame extends GameBase {
 
   onEnter() {
     super.onEnter();
+    character.mirror = false;
     character.dead = false;
     character.pos = {x: 20, y: 20};
     this.velocity = {x: 0, y: 0};

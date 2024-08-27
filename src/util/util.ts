@@ -43,3 +43,7 @@ export function randomize(obj: Record<string, number>, heat = 0.3): Record<strin
 }
 
 export const roundTo16 = (num: number) => Math.round(num / 16) * 16;
+
+export const interpolate = (range: [number, number], difficulty: number): number => {
+  return range[0] + (range[1] - range[0]) * difficulty;
+};
