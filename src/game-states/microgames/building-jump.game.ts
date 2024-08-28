@@ -1,22 +1,11 @@
 import { CHARACTER_SIZE } from '@/core/entities/character';
-import { Vec2 } from '@/util/types';
 import JumpGame from './templates/jump.game';
 import { Building, BUILDING_WIDTH } from '@/core/entities/building';
 import { Collider } from '@/core/entities/collider';
 import { HEIGHT, WIDTH } from '@/core/draw-engine';
 
 export class BuildingJumpGame extends JumpGame {
-  velocity: Vec2 = {x: 0, y: 0};
-  maxSpeed = 4;
   acceleration = { x: 0.01, y: 0.05 };
-  jumpSpeed = 7;
-
-  timeJumping = 0;
-  maxTimeJumping = 100;
-
-  jumps = 0;
-  maxJumps = 2;
-  isGrounded = false;
 
   onEnter() {
     super.onEnter();

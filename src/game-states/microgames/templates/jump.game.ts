@@ -72,6 +72,12 @@ export default class JumpGame extends GameBase {
       }
     }
   
+    this.renderCharacter(delta);
+
+    super.onUpdate(delta);
+  }
+
+  renderCharacter(delta: number) {
     if (character.dead) {
       character.drawDead();
     } else if (this.velocity.x === 0 && this.velocity.y === 0) {
@@ -83,8 +89,6 @@ export default class JumpGame extends GameBase {
     } else if(this.velocity.y < 0) {
       character.drawJumping();
     }
-
-    super.onUpdate(delta);
   }
 
   queryControls(delta: number) {
