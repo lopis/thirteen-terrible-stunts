@@ -204,7 +204,8 @@ function ectPlugin(): Plugin {
         // console.log('ECT result', result.toString().trim());
         const stats = statSync('dist/index.zip');
         const sizeInKB = (stats.size / 1000).toFixed(2);
-        const percentage = (100 * stats.size / 13000).toFixed(1);
+        const progress = stats.size / 13000;
+        const percentage = (100 * progress).toFixed(1);
 
         let colorCode = '';
         if (stats.size < 10000) {
@@ -215,7 +216,11 @@ function ectPlugin(): Plugin {
           colorCode = '\x1b[33m'; // yellow
         }
 
-        console.log(`\nSize: ${colorCode}${sizeInKB}KB (${percentage}%)\x1b[0m\n`);
+        const colorBar = '█'.repeat(Math.round(progress * 20));
+        const grayBar = progress >= 0.95 ? '' : '█'.repeat(Math.round((1 - progress) * 20));
+        const progressBar = `${colorCode}${colorBar}\x1b\x1b[37m${grayBar}\x1b`;
+        console.log(`\nSize: ${colorCode}${sizeInKB}KB (${percentage}%)\x1b[0m  ${progressBar}\n`);
+
       } catch (err) {
         console.log('ECT error', err);
       }
