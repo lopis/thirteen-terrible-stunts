@@ -2,10 +2,10 @@ import buildingJumpGame from "@/game-states/microgames/building-jump.game";
 import { gameStateMachine } from "@/game-state-machine";
 import coffeeGame from "@/game-states/microgames/coffee.game";
 import { GameBase } from "@/game-states/microgames/templates/base.game";
-import { menuState } from "@/game-states/menu.state";
 import { trampolinGame } from "@/game-states/microgames/trampolin.game";
 import { mattressGame } from "@/game-states/microgames/mattress.game";
 import { fallingBuildingGame } from "@/game-states/microgames/falling-building.game";
+import jumpingTrainGame from "@/game-states/microgames/jumping-train.game";
 
 export type Boss = {
   name: string
@@ -58,11 +58,12 @@ const bossData: Boss[] = [
 
 export const levels: GameBase[][] = [
   [
+    coffeeGame,
     fallingBuildingGame,
     trampolinGame,
-    coffeeGame,
     buildingJumpGame,
     mattressGame,
+    jumpingTrainGame,
   ],
   [
     fallingBuildingGame,
@@ -109,7 +110,10 @@ class GameData {
   nextLevel() {
     this.level++;
     this.lives = 3;
-    const level = levels[this.boss][this.level] || menuState;
+    let level = levels[this.boss][this.level];
+    if(!level) {
+      level = levels[0][Math.round(Math.random() * (levels.length - 1))];
+    }
     gameStateMachine.setState(level);
   }
 

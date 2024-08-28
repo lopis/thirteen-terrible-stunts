@@ -60,7 +60,7 @@ class CoffeeGame extends MoveGame {
     
       while (!isUnique) {
         newNpc = {
-          x: roundTo16((Math.random() * 0.65 + 0.3) * WIDTH),
+          x: roundTo16((Math.random() * 0.4 + 0.6) * WIDTH),
           y: roundTo16((Math.random() * 0.6 + 0.3) * HEIGHT),
         };
     

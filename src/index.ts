@@ -3,14 +3,13 @@ import { controls } from '@/core/controls';
 import { initAudio } from './core/audio';
 import { drawEngine } from './core/draw-engine';
 import { updateTimeEvents } from './core/timer';
-import jumpingTrainGame from './game-states/microgames/jumping-train.game';
+import { menuState } from './game-states/menu.state';
 
 // @ts-ignore -- is not undefined for sure
 document.querySelector('link[type="image/x-icon"]').href = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ctext y=\'.9em\' font-size=\'90\'%3E🎞%3C/text%3E%3C/svg%3E';
 
 
-// createGameStateMachine(menuState);
-createGameStateMachine(jumpingTrainGame);
+createGameStateMachine(menuState);
 
 let previousTime = 0;
 let fpsBacklog: number[] = [];

@@ -3,9 +3,10 @@ import { stopAudio } from '@/core/audio';
 import { colors, drawEngine, HEIGHT, IconKey, WIDTH } from '@/core/draw-engine';
 import { gameStateMachine } from '@/game-state-machine';
 import { StartState } from './start.state';
+import { gameData } from '@/core/game-data';
 
 const menu: [string, number][] = [
-  [' Story mode', 80],
+  [' Story mode /soon/', 80],
   [' Endless mode', 160],
 ];
 
@@ -13,7 +14,7 @@ class LevelsState implements State {
   private selectedButton = 0;
 
   onEnter() {
-    this.selectedButton = 0;
+    this.selectedButton = 1;
     stopAudio();
   }
 
@@ -68,23 +69,25 @@ class LevelsState implements State {
     drawEngine.ctx.restore();
   }
 
-  onUp() {
-    this.selectedButton--;
-    if (this.selectedButton < 0) {
-      this.selectedButton = menu.length - 1;
-    }
-  }
+  // onUp() {
+  //   this.selectedButton--;
+  //   if (this.selectedButton < 0) {
+  //     this.selectedButton = menu.length - 1;
+  //   }
+  // }
 
-  onDown() {
-    this.selectedButton++;
-    if (this.selectedButton > menu.length - 1) {
-      this.selectedButton = 0;
-    }
-  }
+  // onDown() {
+  //   this.selectedButton++;
+  //   if (this.selectedButton > menu.length - 1) {
+  //     this.selectedButton = 0;
+  //   }
+  // }
 
   onConfirm() {
     if (this.selectedButton === 0) {
       gameStateMachine.setState(new StartState());
+    } else {
+      gameData.nextLevel();
     }
   }
 }
