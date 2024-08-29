@@ -10,6 +10,7 @@ document.querySelector('link[type="image/x-icon"]').href = 'data:image/svg+xml,%
 
 
 createGameStateMachine(menuState);
+// createGameStateMachine(boatWheelGame);
 
 let previousTime = 0;
 let fpsBacklog: number[] = [];

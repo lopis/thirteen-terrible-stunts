@@ -183,6 +183,42 @@ class DrawEngine {
     this.ctx.fillRect(x+1, y+1, size.x-2, size.y-2);
   }
 
+  drawLine(x0
+    : number, y0: number, x1: number, y1: number, color: string) {
+    // It's necessary to start from rounded coordinated
+    let x = Math.round(x0);
+    let y = Math.round(y0);
+    x1 = Math.round(x1);
+    y1 = Math.round(y1);
+
+    // Calculate the deltas
+    let dx = x1 - x;
+    let dy = y1 - y;
+    let dmax = Math.max(Math.abs(dx), Math.abs(dy));
+    
+    // Either dx or dy will equal 1
+    // and the other will be less than 1
+    dx = dx / dmax;
+    dy = dy / dmax;
+
+    const points = [ ];
+    this.ctx.fillStyle = color;
+    while(dmax--) {
+      // The points won't have whole coordinated;
+      // We'll round them later.
+      points.push([x, y]);
+      x += dx;
+      y += dy;
+    }
+
+    this.ctx.beginPath();
+    points.map(([px, py]) => {
+      // We round the coordinates when drawing the pixel.
+      this.ctx.rect(Math.round(px), Math.round(py), 3, 3);
+    });
+    this.ctx.fill();
+  }
+
   drawControls() {
     const keySize = 10;
     const padding = 2;
@@ -292,6 +328,44 @@ class DrawEngine {
     //  Draw shadow
     this.drawHouseShadow(points, progress);
     this.drawHouseFace(points, progress);
+  }
+
+  drawBoatWheel(wheelPos: number) {
+    const radius = 40;
+    const sectionNum = 8;
+    const angleStep = 2 * Math.PI / sectionNum;
+    for(let i = 0; i < sectionNum; i++) {
+      const rad = angleStep * (i + (wheelPos * sectionNum));
+      this.ctx.save();
+      this.ctx.translate(WIDTH/2, HEIGHT/2);
+      this.drawLine(
+        radius * Math.cos(rad), radius * Math.sin(rad),
+        radius * Math.cos(rad + angleStep), radius * Math.sin(rad + angleStep),
+        colors.gray
+      );
+      this.drawLine(
+        0, 0,
+        2 * radius * Math.cos(rad), 2 * radius * Math.sin(rad),
+        colors.gray
+      );
+      this.ctx.restore();
+    }
+
+    // Waterline
+    const leftY = HEIGHT/2 + radius/2 + Math.sin(2 * Math.PI * wheelPos) * 5;
+    const rightY = HEIGHT/2 + radius/2 + Math.cos(2 * Math.PI * wheelPos) * 5;
+    this.drawLine(
+      0, leftY,
+      WIDTH, rightY,
+      colors.gray,
+    );
+    this.ctx.beginPath;
+    this.ctx.moveTo(0, leftY);
+    this.ctx.lineTo(WIDTH, rightY);
+    this.ctx.lineTo(WIDTH, HEIGHT);
+    this.ctx.lineTo(0, HEIGHT);
+    this.ctx.lineTo(0, leftY);
+    this.ctx.fill();
   }
 
   // drawGrid(step = 20) {
