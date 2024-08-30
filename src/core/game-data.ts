@@ -7,6 +7,7 @@ import { mattressGame } from "@/game-states/microgames/mattress.game";
 import { fallingBuildingGame } from "@/game-states/microgames/falling-building.game";
 import jumpingTrainGame from "@/game-states/microgames/jumping-train.game";
 import boatWheelGame from "@/game-states/microgames/boat.wheel.game";
+import buildingClimbGame from "@/game-states/microgames/building-climb.game";
 
 export type Boss = {
   name: string
@@ -60,9 +61,10 @@ const bossData: Boss[] = [
 export const levels: GameBase[][] = [
   [
     coffeeGame,
+    buildingClimbGame,
+    buildingJumpGame,
     fallingBuildingGame,
     trampolinGame,
-    buildingJumpGame,
     mattressGame,
     jumpingTrainGame,
     boatWheelGame,

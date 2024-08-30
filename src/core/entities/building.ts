@@ -3,11 +3,15 @@ import { colors, drawEngine } from "../draw-engine";
 import { Platform } from "./platform";
 
 export const BUILDING_WIDTH = 130;
-export class Building extends Platform {
+export const FLOOR_HEIGHT = 50;
 
-  constructor(pos: Vec2) {
-    const size = {x: BUILDING_WIDTH, y: 200};
+export class Building extends Platform {
+  floors = 0;
+
+  constructor(pos: Vec2, floors = 3) {
+    const size = {x: BUILDING_WIDTH, y: FLOOR_HEIGHT * floors};
     super(pos, size);
+    this.floors = floors;
   }
 
   getPlatform(y: number) {
@@ -26,16 +30,13 @@ export class Building extends Platform {
 
   update() {
     drawEngine.drawRect(this.pos, this.size, colors.gray, colors.light);
-
-    [0, 50, 100, 150].forEach((y) => {
-      const [pos, size] = this.getPlatform(y);
+    for (let floor = 0; floor < this.floors; floor++) {
+      const [pos, size] = this.getPlatform(floor * FLOOR_HEIGHT);
       drawEngine.drawRect(pos, size, colors.gray);
-    });
 
-    for (let floor = 0; floor < 3; floor++) {
       for (let w = 0; w < 5; w++) {
         drawEngine.ctx.save();
-        drawEngine.ctx.translate(this.pos.x + 8 + 25 * w, this.pos.y + 14 + 50 * floor);
+        drawEngine.ctx.translate(this.pos.x + 8 + 25 * w, this.pos.y + 14 + FLOOR_HEIGHT * floor);
         this.drawWindow();
         drawEngine.ctx.restore();
       }

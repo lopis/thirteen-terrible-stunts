@@ -72,6 +72,10 @@ export class Collider {
   }
 
   standsOn(): boolean {
+    if (character.velocity.y < 0) {
+      return false;
+    }
+
     const charRight = character.pos.x + character.size.x - 3;
     const charBottom = character.pos.y + character.size.y;
     const colliderRight = this.pos.x + this.size.x;
@@ -81,7 +85,7 @@ export class Collider {
       (character.pos.x + 5) < colliderRight &&
       charRight > this.pos.x &&
       character.pos.y < colliderBottom &&
-      charBottom >= this.pos.y      
+      charBottom >= this.pos.y
     );
   }
 
