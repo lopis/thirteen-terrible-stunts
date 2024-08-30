@@ -22,7 +22,7 @@ class MattressGame extends BuildingJumpGame {
     );
     this.goalColliders = [goal];
     this.platforms = [
-      new Building({x: -20, y: 50 + CHARACTER_SIZE}),
+      new Building({x: -20, y: 50 + CHARACTER_SIZE}, 4),
       goal,
     ];
   }

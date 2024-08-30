@@ -9,6 +9,8 @@ import { addVec } from '@/util/util';
 export class BuildingClimbGame extends JumpGame {
   acceleration = { x: 0.01, y: 0.05 };
   buildingNum = 10;
+  jumpSpeed = 8.5;
+  maxJumps = 1;
 
   onEnter() {
     super.onEnter();

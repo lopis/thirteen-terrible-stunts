@@ -244,28 +244,6 @@ class DrawEngine {
     this.ctx.restore();
 
     this.ctx.save();
-    this.ctx.translate(WIDTH - 80 - keySize*4, 70);
-    [
-      {text: 'enter', y: 0},
-      {text: 'or', y: space},
-      {text: 'space', y: space*2},
-    ].forEach(({text, y}) => {
-      text !== 'or' && this.drawRect({x: 0, y}, {x: keySize*4, y: keySize}, colors.gray, colors.light);
-      this.drawText({
-        text,
-        x: keySize * 2,
-        y: y + 3,
-        size: 1,
-        textAlign: 'center',
-      });
-    });
-    this.drawText({
-      text: 'action',
-      x: keySize * 2,
-      y: keySize * 4,
-      textAlign: 'center',
-      size: 2,
-    });
     this.ctx.restore();
   }
 

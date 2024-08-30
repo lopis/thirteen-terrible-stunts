@@ -45,7 +45,9 @@ export class GameBase implements State {
   }
 
   timeOver() {
-    this.loseLife();
+    if (!this.isEnding) {
+      this.loseLife();
+    }
   }
 
   loseLife() {

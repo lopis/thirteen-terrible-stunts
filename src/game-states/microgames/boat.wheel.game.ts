@@ -39,7 +39,7 @@ class BoatWheel extends GameBase {
   onUpdate(delta: number): void {
     super.onUpdate(delta);
 
-    if (!this.isStarting) {
+    if (!this.isStarting && !this.isEnding) {
       this.wheelPos += delta / this.wheelTurnTime;
       this.wheelOffset = Math.cos(this.wheelPos * 2 * Math.PI) / 20;
       
@@ -100,7 +100,7 @@ class BoatWheel extends GameBase {
     );
   }
 
-  onConfirm(){
+  onUp(){
     if (!this.isStarting && !this.isEnding && !this.isJumping) {
       this.characterPos++;
       this.isJumping = true;

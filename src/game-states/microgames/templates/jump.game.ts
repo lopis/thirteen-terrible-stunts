@@ -14,22 +14,25 @@ export default class JumpGame extends GameBase {
 
   timeJumping = 0;
   maxTimeJumping = 100;
+  readyToJump = true;
 
   jumps = 0;
   maxJumps = 2;
   platforms: Platform[] = [];
   deathColliders: Collider[] = [];
   goalColliders: Collider[] = [];
-  isGrounded = false;
+  isGrounded = true;
   maxY = HEIGHT*2;
   minY = -HEIGHT;
 
   onEnter() {
     super.onEnter();
-    character.mirror = false;
-    character.dead = false;
-    character.pos = {x: 20, y: 20};
-    character.velocity = {x: 0, y: 0};
+    Object.assign(character, {
+      mirror: false,
+      dead: false,
+      pos: { x: 20, y: 20 },
+      velocity: { x: 0, y: 0 }
+    });
   }
 
   onUpdate(delta: number) {
@@ -97,15 +100,23 @@ export default class JumpGame extends GameBase {
     if (
       controls.isUp
       && this.jumps < this.maxJumps
+      && (!this.isGrounded || this.readyToJump)
     ) {
       if (!controls.previousState.isUp) {
+        // New UP press
+        this.readyToJump = true;
         this.timeJumping = 0;
         character.velocity.y = Math.min(0, character.velocity.y);
         this.jumps++;
       } else if (this.timeJumping < this.maxTimeJumping) {
+        // Continued pressing UP
+        this.readyToJump = false;
         this.timeJumping += delta;
         character.velocity.y = -this.jumpSpeed;
       }
+    } else if (!controls.isUp) {
+      // Reset readyToJump when UP key is released
+      this.readyToJump = true;
     }
 
     if (this.isGrounded) {
