@@ -31,6 +31,10 @@ export function roundVec(vec: Vec2): Vec2 {
   };
 }
 
+export function addVec({x,y}: Vec2, vec2: Vec2) {
+  return {x: x+vec2.x, y: y+vec2.y};
+}
+
 export function randomize(obj: Record<string, number>, heat = 0.3): Record<string, number> {
   const randomizedObject = {...obj};
 

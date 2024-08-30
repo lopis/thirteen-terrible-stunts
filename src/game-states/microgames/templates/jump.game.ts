@@ -27,7 +27,7 @@ export default class JumpGame extends GameBase {
     character.mirror = false;
     character.dead = false;
     character.pos = {x: 20, y: 20};
-    this.velocity = {x: 0, y: 0};
+    character.velocity = {x: 0, y: 0};
   }
 
   onUpdate(delta: number) {
@@ -41,14 +41,14 @@ export default class JumpGame extends GameBase {
     });
 
     if (!this.isEnding) {
-      this.velocity = {
-        x: clampNearZero(cap(this.velocity.x, -this.maxSpeed, this.maxSpeed)),
-        y: clampNearZero(this.velocity.y),
+      character.velocity = {
+        x: clampNearZero(cap(character.velocity.x, -this.maxSpeed, this.maxSpeed)),
+        y: clampNearZero(character.velocity.y),
       };
   
       character.setPos(
-        cap(character.pos.x + this.velocity.x, 0, WIDTH - CHARACTER_SIZE),
-        cap(character.pos.y + Math.min(this.maxFallSpeed, this.velocity.y), -HEIGHT, HEIGHT*2) + 1,
+        cap(character.pos.x + character.velocity.x, 0, WIDTH - CHARACTER_SIZE),
+        cap(character.pos.y + Math.min(this.maxFallSpeed, character.velocity.y), -HEIGHT, HEIGHT*2) + 1,
       );
       const platform = this.platforms.find(p => p.standsOn());
   
@@ -62,12 +62,12 @@ export default class JumpGame extends GameBase {
       // Ensure character doesn't fall below the floor
       if (platform) {
         character.pos.y = platform.pos.y - CHARACTER_SIZE;
-        this.velocity.y = 0;
+        character.velocity.y = 0;
         this.timeJumping = 0;
         this.jumps = 0;
         this.isGrounded = true;
       } else {
-        this.velocity.y += this.acceleration.y * delta;
+        character.velocity.y += this.acceleration.y * delta;
         this.isGrounded = false;
       }
     }
@@ -80,13 +80,13 @@ export default class JumpGame extends GameBase {
   renderCharacter(delta: number) {
     if (character.dead) {
       character.drawDead();
-    } else if (this.velocity.x === 0 && this.velocity.y === 0) {
+    } else if (character.velocity.x === 0 && character.velocity.y === 0) {
       character.drawStanding();
-    } else if(this.velocity.y === 0) {
+    } else if(character.velocity.y === 0) {
       character.drawWalking(delta);
-    } else if(this.velocity.y > 0) {
+    } else if(character.velocity.y > 0) {
       character.drawFalling();
-    } else if(this.velocity.y < 0) {
+    } else if(character.velocity.y < 0) {
       character.drawJumping();
     }
   }
@@ -98,24 +98,24 @@ export default class JumpGame extends GameBase {
     ) {
       if (!controls.previousState.isUp) {
         this.timeJumping = 0;
-        this.velocity.y = Math.min(0, this.velocity.y);
+        character.velocity.y = Math.min(0, character.velocity.y);
         this.jumps++;
       } else if (this.timeJumping < this.maxTimeJumping) {
         this.timeJumping += delta;
-        this.velocity.y = -this.jumpSpeed;
+        character.velocity.y = -this.jumpSpeed;
       }
     }
 
     if (this.isGrounded) {
       if (controls.isLeft) {
-        this.velocity.x -= this.acceleration.x * delta;
+        character.velocity.x -= this.acceleration.x * delta;
       } else if (controls.isRight) {
-        this.velocity.x += this.acceleration.x * delta;
-      } else if (this.velocity.y == 0) {
-        if (this.velocity.x > 0) {
-          this.velocity.x = Math.max(0, this.velocity.x - this.acceleration.x * delta);
-        } else if (this.velocity.x < 0) {
-          this.velocity.x = Math.min(0, this.velocity.x + this.acceleration.x * delta);
+        character.velocity.x += this.acceleration.x * delta;
+      } else if (character.velocity.y == 0) {
+        if (character.velocity.x > 0) {
+          character.velocity.x = Math.max(0, character.velocity.x - this.acceleration.x * delta);
+        } else if (character.velocity.x < 0) {
+          character.velocity.x = Math.min(0, character.velocity.x + this.acceleration.x * delta);
         }
       }
     }

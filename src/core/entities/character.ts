@@ -1,6 +1,6 @@
 import { Vec2 } from "@/util/types";
 import { drawEngine, IconKey } from "../draw-engine";
-import { roundVec } from "@/util/util";
+import { addVec, roundVec } from "@/util/util";
 
 export const CHARACTER_SIZE = 16;
 
@@ -14,12 +14,14 @@ export class Character {
   holding: IconKey[] = [];
   dead = false;
 
+  velocity: Vec2 = {x:0, y:0};
+
   setPos(x: number, y: number) {
     this.pos = roundVec({x, y});
   }
 
-  move(x: number, y: number) {
-    this.setPos(this.pos.x + x, this.pos.y + y);
+  move() {
+    this.pos = addVec(this.pos, this.velocity);
   }
 
   draw(iconKey: IconKey) {

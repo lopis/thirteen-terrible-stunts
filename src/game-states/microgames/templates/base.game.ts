@@ -1,18 +1,16 @@
 import { colors, drawEngine, easeInOutSine, HEIGHT, WIDTH } from '@/core/draw-engine';
+import { character } from '@/core/entities/character';
 import { BROKEN_HEART, HEART, preLoadStrings } from '@/core/font';
 import { gameData } from '@/core/game-data';
 import { State } from '@/core/state';
 import { addTimeEvent } from '@/core/timer';
 import { gameStateMachine } from '@/game-state-machine';
 import { menuState } from '@/game-states/menu.state';
-import { Vec2 } from '@/util/types';
 
 const panelWidth = 200;
 const panelHeight = 50;
 
 export class GameBase implements State {
-  velocity: Vec2 = {x: 0, y: 0};
-
   isStarting = false;
   isEnding = false;
   animationDuration = 500;
@@ -34,7 +32,7 @@ export class GameBase implements State {
   queryControls(_delta: number) {}
 
   stop() {
-    this.velocity = {x: 0, y: 0};
+    character.velocity = {x: 0, y: 0};
   }
 
   start() {

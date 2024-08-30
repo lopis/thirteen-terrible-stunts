@@ -4,6 +4,7 @@ import { addTimeEvent } from "@/core/timer";
 import { GameBase } from "./templates/base.game";
 
 // before this level: 68%
+
 let radius = 40;
 const initialPos = -7;
 

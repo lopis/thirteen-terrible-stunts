@@ -29,36 +29,33 @@ export class MoveGame extends GameBase {
         const collision = f.collision();
         if (collision.collides) {
           if (collision.right) {
-            this.velocity.x = -this.velocity.x;
-            character.pos.x -= -this.velocity.x;
+            character.velocity.x = -character.velocity.x;
+            character.pos.x -= -character.velocity.x;
           }
           if (collision.left) {
-            this.velocity.x = -this.velocity.x;
-            character.pos.x -= -this.velocity.x;
+            character.velocity.x = -character.velocity.x;
+            character.pos.x -= -character.velocity.x;
           }
           if (collision.bottom) {
-            this.velocity.y = -this.velocity.y;
-            character.pos.y -= -this.velocity.y;
+            character.velocity.y = -character.velocity.y;
+            character.pos.y -= -character.velocity.y;
           }
           if (collision.top) {
-            this.velocity.y = -this.velocity.y;
-            character.pos.y -= -this.velocity.y;
+            character.velocity.y = -character.velocity.y;
+            character.pos.y -= -character.velocity.y;
           }
         }
       });
 
-      character.move(
-        this.velocity.x,
-        this.velocity.y
-      );
+      character.move();
       
-      this.velocity = {
-        x: clampNearZero(cap(this.velocity.x, -this.maxSpeed, this.maxSpeed)),
-        y: clampNearZero(cap(this.velocity.y, -this.maxSpeed, this.maxSpeed)),
+      character.velocity = {
+        x: clampNearZero(cap(character.velocity.x, -this.maxSpeed, this.maxSpeed)),
+        y: clampNearZero(cap(character.velocity.y, -this.maxSpeed, this.maxSpeed)),
       };
     }
 
-    if (this.velocity.x != 0 || this.velocity.y != 0) {
+    if (character.velocity.x != 0 || character.velocity.y != 0) {
       character.drawWalking(delta);
     } else {
       character.drawStanding();
@@ -67,28 +64,28 @@ export class MoveGame extends GameBase {
 
   queryControls(delta: number) {
     if (controls.isUp) {
-      this.velocity.y -= this.acceleration * delta;
+      character.velocity.y -= this.acceleration * delta;
     } else if (controls.isDown) {
-      this.velocity.y += this.acceleration * delta;
+      character.velocity.y += this.acceleration * delta;
     } else {
-      if (this.velocity.y > 0) {
-        this.velocity.y = Math.max(0, this.velocity.y - this.acceleration * delta);
-      } else if (this.velocity.y < 0) {
-        this.velocity.y = Math.min(0, this.velocity.y + this.acceleration * delta);
+      if (character.velocity.y > 0) {
+        character.velocity.y = Math.max(0, character.velocity.y - this.acceleration * delta);
+      } else if (character.velocity.y < 0) {
+        character.velocity.y = Math.min(0, character.velocity.y + this.acceleration * delta);
       }
     }
 
     if (controls.isLeft) {
-      this.velocity.x -= this.acceleration * delta;
+      character.velocity.x -= this.acceleration * delta;
       character.mirror = true;
     } else if (controls.isRight) {
-      this.velocity.x += this.acceleration * delta;
+      character.velocity.x += this.acceleration * delta;
       character.mirror = false;
     } else {
-      if (this.velocity.x > 0) {
-        this.velocity.x = Math.max(0, this.velocity.x - this.acceleration * delta);
-      } else if (this.velocity.x < 0) {
-        this.velocity.x = Math.min(0, this.velocity.x + this.acceleration * delta);
+      if (character.velocity.x > 0) {
+        character.velocity.x = Math.max(0, character.velocity.x - this.acceleration * delta);
+      } else if (character.velocity.x < 0) {
+        character.velocity.x = Math.min(0, character.velocity.x + this.acceleration * delta);
       }
     }
   }

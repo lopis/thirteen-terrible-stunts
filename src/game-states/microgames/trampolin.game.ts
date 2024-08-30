@@ -1,4 +1,4 @@
-import { CHARACTER_SIZE } from "@/core/entities/character";
+import { character, CHARACTER_SIZE } from "@/core/entities/character";
 import { BuildingJumpGame } from "./building-jump.game";
 import { Building, BUILDING_WIDTH } from "@/core/entities/building";
 import { colors, drawEngine, HEIGHT, WIDTH } from "@/core/draw-engine";
@@ -54,7 +54,7 @@ class TrampolinGame extends BuildingJumpGame {
   onUpdate(delta: number): void {
     const {collides, standsOn} = this.trampolin.collision();
     if (collides || standsOn) {
-      this.velocity.y = -this.velocity.y;
+      character.velocity.y = -character.velocity.y;
     }
 
     const trampolinPos = this.trampolin.pos;
