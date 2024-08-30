@@ -203,26 +203,20 @@ class DrawEngine {
     let dy = y1 - y;
     let dmax = Math.max(Math.abs(dx), Math.abs(dy));
     
-    // Either dx or dy will equal 1
-    // and the other will be less than 1
-    dx = dx / dmax;
-    dy = dy / dmax;
+    // Normalize deltas
+    dx /= dmax;
+    dy /= dmax;
 
-    const points = [ ];
     this.ctx.fillStyle = color;
-    while(dmax--) {
-      // The points won't have integer coordinates;
-      // We'll round them later.
-      points.push([x, y]);
+    this.ctx.beginPath();
+
+    // Draw the line
+    for (let i = 0; i <= dmax; i++) {
+      this.ctx.rect(Math.round(x), Math.round(y), 3, 3);
       x += dx;
       y += dy;
     }
 
-    this.ctx.beginPath();
-    points.map(([px, py]) => {
-      // We round the coordinates when drawing the pixel.
-      this.ctx.rect(Math.round(px), Math.round(py), 3, 3);
-    });
     this.ctx.fill();
   }
 

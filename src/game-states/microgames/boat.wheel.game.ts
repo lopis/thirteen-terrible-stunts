@@ -1,16 +1,22 @@
 import { drawEngine, HEIGHT, IconKey, WIDTH } from "@/core/draw-engine";
-import JumpGame from "./templates/jump.game";
 import { character, CHARACTER_SIZE } from "@/core/entities/character";
 import { addTimeEvent } from "@/core/timer";
+import { GameBase } from "./templates/base.game";
 
 // before this level: 68%
 let radius = 40;
 const initialPos = -7;
 
-class BoatWheel extends JumpGame {
+class BoatWheel extends GameBase {
   wheelPos = 0;
-  wheelTurnTime = 4000;
+  wheelOffset = 0;
+  wheelTurnTime = 3000;
   characterPos = initialPos;
+  
+  isJumping = false;
+  jumpProgress = 0;
+  jumpTime = 50;
+
   isFalling = false;
   isDrifting = false;
 
@@ -25,20 +31,29 @@ class BoatWheel extends JumpGame {
     this.setCharacterPos();
   }
 
+  timeOver(): void {
+    this.nextLevel();
+  }
+
   onUpdate(delta: number): void {
+    super.onUpdate(delta);
+
     if (!this.isStarting) {
       this.wheelPos += delta / this.wheelTurnTime;
+      this.wheelOffset = Math.cos(this.wheelPos * 2 * Math.PI) / 20;
+      
       if (this.wheelPos >= 1) {
         this.wheelPos -= 1;
       }
 
       if (!this.isFalling && !this.isDrifting) {
-        const pos = (this.wheelPos - (this.characterPos%8)/8);    
-        if (pos <= 0.7 && pos >= 0.07) {
-          this.isFalling = pos > 0.5;
-          this.isDrifting = !this.isFalling;
-          console.log(this.isFalling, this.isDrifting);
-          
+        if (character.pos.y > (HEIGHT/2 + 20)) {
+          this.isFalling = false;
+          this.isDrifting = true;
+          addTimeEvent(() => this.loseLife(), 500);
+        } else if (character.pos.x < (WIDTH/2 - 20)) {
+          this.isFalling = true;
+          this.isDrifting = false;
           addTimeEvent(() => this.loseLife(), 500);
         } else {
           this.setCharacterPos();
@@ -57,22 +72,38 @@ class BoatWheel extends JumpGame {
       }
     }
 
-    drawEngine.drawBoatWheel(this.wheelPos);
-    character.draw(character.dead ? IconKey.dead : IconKey.base);
+    if (this.isJumping) {
+      this.jumpProgress += delta / this.jumpTime;
+      
+      if (this.jumpProgress > 1) {
+        this.isJumping = false;
+        this.jumpProgress = 0;
+      }
+    }
+
+    drawEngine.drawBoatWheel(this.wheelPos + this.wheelOffset);
+    character.mirror = !this.isDrifting;
+    character.draw(this.isDrifting ? IconKey.jumping : IconKey.base);
   }
+
   setCharacterPos() {
-    const pos = (this.wheelPos - this.characterPos/8) % 1;
+    let pos = (this.wheelPos + this.wheelOffset - this.characterPos/8) % 1;
+    if (this.isJumping) {
+      pos = (this.wheelPos + this.wheelOffset - (this.characterPos - 1 + this.jumpProgress)/8) % 1;
+    }
     
     const angle = pos * 2 * Math.PI;
     character.setPos(
-      WIDTH/2 +  (radius * 1.4) * Math.cos(angle) - CHARACTER_SIZE/2,
-      HEIGHT/2 + (radius * 1.4) * Math.sin(angle) - CHARACTER_SIZE,
+      WIDTH/2 +  (radius * 1.5) * Math.cos(angle) - CHARACTER_SIZE/2,
+      HEIGHT/2 + (radius * 1.5) * Math.sin(angle) - CHARACTER_SIZE,
     );
   }
 
   onConfirm(){
-    if (!this.isStarting && !this.isEnding) {
+    if (!this.isStarting && !this.isEnding && !this.isJumping) {
       this.characterPos++;
+      this.isJumping = true;
+      this.jumpProgress = 0;
     }
   }
 }

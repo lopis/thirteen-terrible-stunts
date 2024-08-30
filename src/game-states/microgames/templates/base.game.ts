@@ -46,6 +46,10 @@ export class GameBase implements State {
     return HEART.repeat(gameData.lives - offset) + BROKEN_HEART.repeat(3 - (gameData.lives - offset));
   }
 
+  timeOver() {
+    this.loseLife();
+  }
+
   loseLife() {
     this.stop();
     const strBefore = `Oh no! ${this.getHearts()}`;
@@ -94,7 +98,7 @@ export class GameBase implements State {
       this.queryControls(delta);
       this.timeLeft = Math.max(0, this.timeLeft - delta / 1000);
       if (Math.round(this.timeLeft) <= 0) {
-        this.loseLife();
+        this.timeOver();
       }
     }
   }
