@@ -1,9 +1,9 @@
 import { colors, drawEngine, easeInOutSine, HEIGHT, WIDTH } from '@/core/draw-engine';
 import { character } from '@/core/entities/character';
 import { BROKEN_HEART, HEART, preLoadStrings } from '@/core/font';
-import { gameData } from '@/core/game-data';
+import { gameData, MAX_LIVES } from '@/core/game-data';
 import { State } from '@/core/state';
-import { addTimeEvent } from '@/core/timer';
+import { addTimeEvent, clearTimers } from '@/core/timer';
 import { gameStateMachine } from '@/game-state-machine';
 import { menuState } from '@/game-states/menu.state';
 
@@ -29,6 +29,10 @@ export class GameBase implements State {
     this.start();
   }
 
+  onLeave() {
+    clearTimers();
+  }
+
   queryControls(_delta: number) {}
 
   stop() {
@@ -41,7 +45,7 @@ export class GameBase implements State {
   }
 
   getHearts(offset = 0) {
-    return HEART.repeat(gameData.lives - offset) + BROKEN_HEART.repeat(3 - (gameData.lives - offset));
+    return HEART.repeat(gameData.lives - offset) + BROKEN_HEART.repeat(MAX_LIVES - (gameData.lives - offset));
   }
 
   timeOver() {

@@ -84,7 +84,11 @@ class BoatWheel extends GameBase {
 
     drawEngine.drawBoatWheel(this.wheelPos + this.wheelOffset);
     character.mirror = !this.isDrifting;
-    character.draw(this.isDrifting ? IconKey.jumping : IconKey.base);
+    if (this.isDrifting) {
+      character.drawDrowning();
+    } else {
+      character.draw(this.isJumping ? IconKey.jumping : IconKey.base);
+    }
   }
 
   setCharacterPos() {

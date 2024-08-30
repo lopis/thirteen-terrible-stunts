@@ -2,7 +2,7 @@ import { State } from '@/core/state';
 import { stopAudio } from '@/core/audio';
 import { colors, drawEngine, HEIGHT, IconKey, WIDTH } from '@/core/draw-engine';
 import { gameStateMachine } from '@/game-state-machine';
-import { gameData } from '@/core/game-data';
+import { gameData, MAX_LIVES } from '@/core/game-data';
 import { levelsState } from './levels.state';
 
 const menu = [
@@ -91,7 +91,9 @@ class MenuState implements State {
 
   onConfirm() {
     if (this.selectedButton === 0) {
+      gameData.endless = true;
       gameData.level = -1;
+      gameData.lives = MAX_LIVES;
       gameStateMachine.setState(levelsState);
     }
   }

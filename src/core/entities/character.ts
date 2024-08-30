@@ -75,6 +75,10 @@ export class Character {
     this.draw(IconKey.falling);
   }
 
+  drawDrowning() {
+    drawEngine.drawIcon(IconKey.jumping, this.pos, false, this.mirror, true);
+  }
+
   hold(icon: IconKey) {
     this.holding.push(icon);
   }

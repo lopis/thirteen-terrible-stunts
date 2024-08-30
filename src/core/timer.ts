@@ -5,10 +5,14 @@ type TimeEventHandler = {
   repeat: number
 }
 
-const timeEvents: TimeEventHandler[] = [];
+let timeEvents: TimeEventHandler[] = [];
 
 export function addTimeEvent (callback: () => void, time: number, repeat = 0, delay = 0) {
   timeEvents.push({callback, time, timeLeft: time + delay, repeat});
+}
+
+export function clearTimers() {
+  timeEvents = [];
 }
 
 /**

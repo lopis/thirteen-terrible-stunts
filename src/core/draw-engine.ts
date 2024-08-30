@@ -146,7 +146,7 @@ class DrawEngine {
     icons[id] = bitmap;
   }
 
-  drawIcon(iconKey: IconKey, pos: Vec2, dark = false, mirrored = false) {
+  drawIcon(iconKey: IconKey, pos: Vec2, dark = false, mirrored = false, halfOnly = false) {
     const icon = icons[iconKey];
     if (!icon) {
       return;
@@ -156,6 +156,11 @@ class DrawEngine {
     this.ctx.translate(pos.x + (mirrored ? icon.width : 0), pos.y);
     this.ctx.save();
     this.ctx.scale(mirrored ? -1 : 1, 1);
+    if (halfOnly) {
+      this.ctx.beginPath();
+      this.ctx.rect(0, 0, 16, 8);
+      this.ctx.clip();
+    }
     this.ctx.drawImage(icon, 0, 0);
     this.ctx.restore();
     this.ctx.restore();

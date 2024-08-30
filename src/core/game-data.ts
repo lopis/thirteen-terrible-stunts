@@ -70,33 +70,44 @@ export const levels: GameBase[][] = [
     jumpingTrainGame,
   ],
   [
-    fallingBuildingGame,
+    boatWheelGame,
+    buildingClimbGame,
     coffeeGame,
     buildingJumpGame,
-    mattressGame,
+    fallingBuildingGame,
     trampolinGame,
+    mattressGame,
+    jumpingTrainGame,
   ],
   [
-    fallingBuildingGame,
+    boatWheelGame,
+    buildingClimbGame,
     coffeeGame,
     buildingJumpGame,
-    mattressGame,
+    fallingBuildingGame,
     trampolinGame,
+    mattressGame,
+    jumpingTrainGame,
   ],
   [
-    fallingBuildingGame,
+    boatWheelGame,
+    buildingClimbGame,
     coffeeGame,
     buildingJumpGame,
-    mattressGame,
+    fallingBuildingGame,
     trampolinGame,
+    mattressGame,
+    jumpingTrainGame,
   ],
 ];
 
+export const MAX_LIVES = 4;
 class GameData {
   boss = 0;
   level = -1;
   maxLevel = 0;
-  lives = 3;
+  lives = MAX_LIVES;
+  endless = false;
 
   constructor() {
   }
@@ -113,12 +124,19 @@ class GameData {
 
   nextLevel() {
     this.level++;
-    this.lives = 3;
-    let level = levels[this.boss][this.level];
-    if(!level) {
-      level = levels[0][Math.round(Math.random() * (levels.length - 1))];
+    let level;
+    if (this.endless) {
+      level = this.getRandomLevel();
+    } else {
+      level = levels[this.boss][this.level];
     }
     gameStateMachine.setState(level);
+  }
+
+  getRandomLevel(): GameBase {
+    const randomBossIndex = Math.floor(Math.random() * levels.length);
+    const randomLevelIndex = Math.floor(Math.random() * levels[randomBossIndex].length);
+    return levels[randomBossIndex][randomLevelIndex];
   }
 
   restartLevel() {
