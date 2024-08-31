@@ -4,6 +4,7 @@ import { colors, drawEngine, HEIGHT, IconKey, WIDTH } from '@/core/draw-engine';
 import { gameStateMachine } from '@/game-state-machine';
 import { gameData, MAX_LIVES } from '@/core/game-data';
 import { levelsState } from './levels.state';
+import { musicPlayer } from '@/core/music';
 
 const menu = [
   'new game',
@@ -95,6 +96,7 @@ class MenuState implements State {
       gameData.level = -1;
       gameData.lives = MAX_LIVES;
       gameStateMachine.setState(levelsState);
+      musicPlayer.startPlayback();
     }
   }
 }
