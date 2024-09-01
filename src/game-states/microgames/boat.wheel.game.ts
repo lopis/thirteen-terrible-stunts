@@ -2,11 +2,14 @@ import { drawEngine, HEIGHT, IconKey, WIDTH } from "@/core/draw-engine";
 import { character, CHARACTER_SIZE } from "@/core/entities/character";
 import { addTimeEvent } from "@/core/timer";
 import { GameBase } from "./templates/base.game";
+import { interpolate } from "@/util/util";
+import { gameData } from "@/core/game-data";
 
 // before this level: 68%
 
 let radius = 40;
 const initialPos = -7;
+const difficultyRange:[number,number] = [3000, 2500];
 
 class BoatWheel extends GameBase {
   wheelPos = 0;
@@ -23,6 +26,9 @@ class BoatWheel extends GameBase {
 
   onEnter() {
     super.onEnter();
+    const difficulty = gameData.getDifficulty(); // From 0.0 to 1.0
+    this.wheelTurnTime = interpolate(difficultyRange, difficulty);
+
     this.text = 'Stay dry';
     character.mirror = true;
     this.characterPos = initialPos;

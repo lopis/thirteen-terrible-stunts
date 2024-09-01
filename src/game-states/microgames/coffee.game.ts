@@ -51,7 +51,6 @@ class CoffeeGame extends MoveGame {
 
     this.npcs = [];
     const difficulty = gameData.getDifficulty(); // From 0.0 to 1.0
-    console.log('difficulty', difficulty);
     
     this.npcNum = interpolate(difficultyRange.npcNum, difficulty);
     while (this.npcs.length < this.npcNum) {

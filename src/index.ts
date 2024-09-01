@@ -1,6 +1,5 @@
 import { createGameStateMachine, gameStateMachine } from './game-state-machine';
 import { controls } from '@/core/controls';
-import { initAudio } from './core/audio';
 import { drawEngine } from './core/draw-engine';
 import { updateTimeEvents } from './core/timer';
 import { menuState } from './game-states/menu.state';
@@ -14,7 +13,6 @@ createGameStateMachine(menuState);
 
 let previousTime = 0;
 let fpsBacklog: number[] = [];
-initAudio();
 
 function draw(currentTime: number) {
   const delta = currentTime - previousTime;

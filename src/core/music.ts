@@ -1,95 +1,132 @@
 const queue = Array();
+const SAMPLE_RATE = 40000;
 
-function Square(pitch: number) {
+function Square(pitch: number, duration: number) {
   let t = 0;
   const p = 2 ** (pitch / 12) * 1.24;
+  const totalSamples = duration * SAMPLE_RATE;
   return function render() {
-    let s = (t * p / 2 & 128) / 96 - .75;
+    let s = (t*p/2&128)/96-.75;
     ++t;
-    if (t == 32768) return undefined;
-    return s * .9999 ** t;
+    if (t >= totalSamples * 0.2) return undefined;
+    return s * Math.pow(.99985, t);
   };
 }
 
-function Tri(pitch: number) {
-  let t = 0;
-  const p = 2 ** (pitch / 12) * 1.24;
-  return function render() {
-    let s = Math.asin(Math.sin(t * p * Math.PI / 256)) * 2 / Math.PI;
-    ++t;
-    if (t == 32768) return undefined;
-    return s * .9998 ** t;
-  };
-}
+// function Tri(pitch: number, duration = 1) {
+//   let t = 0;
+//   const p = 2**(pitch/12)*1.24;
+//   const totalSamples = duration * SAMPLE_RATE;
+//   return function render() {
+//     // let s = Math.asin(Math.sin((t / 1) * p * Math.PI / 256)) * 2 / Math.PI;
+//     let s = Math.asin(Math.sin(t*p*Math.PI/256))*2/Math.PI;
+//     ++t;
+//     if (t >= totalSamples) return undefined;
+//     return s * Math.pow(.9999, 2*t) * 0.2;
+//   };
+// }
 
-function Sine(pitch: number) {
-  let t = 0;
-  const p = 2 ** (pitch / 12) * 1.24;
-  return function render() {
-    let s = Math.sin(t * p * Math.PI / 256) / 2;
-    ++t;
-    if (t == 32768) return undefined;
-    return s * .9999 ** t;
-  };
-}
+// function Sine(pitch: number, duration: number) {
+//   let t = 0;
+//   const p = 2 ** (pitch / 12) * BASE_PITCH;
+//   const totalSamples = duration * SAMPLE_RATE;
+//   return function render() {
+//     let s = Math.sin(t * p * Math.PI / 256) / 2;
+//     ++t;
+//     if (t >= totalSamples) return undefined;
+//     return s * .9999 ** t;
+//   };
+// }
 
-const Tacet = (ticks: number) => Array(ticks);
+type NoteList = [values: number[], duration: number][]
 
 type Voice = {
-  gen: (pitch: number) => () => number | undefined;
-  notes: (number[] | undefined)[];
+  gen: typeof Square;
+  notes: NoteList;
+};
+
+const genNotes = (str: string, noteDuration: number, offset = 0) => {
+  return str.split(',').flatMap(value => {
+    let duration = noteDuration;
+    if (value.includes('!')) {
+      duration = 4;
+    }
+    if (value.includes('_')) {
+      duration = 2;
+    }
+    const values = value.replace(/!_/g, '').split(' ').flatMap(n => isNaN(parseInt(n)) ? [] : [parseInt(n) + offset]);
+    
+    const note:[values: number[], duration: number] = [values, duration];
+    
+    const emptyNote: [values: number[], duration: number] = [[], 4];
+    const notes = [note];
+    for(let i = 0; i < (duration-1); i++) {
+      notes.push(emptyNote);
+    }
+    return notes;
+  });
 };
 
 const lowNotes: Voice = {
 	gen: Square,
-	notes: [
-		[11],,[18,23],,[10],,[13,18,25],,
-		[8],,[11,15,20],,[6],,[10,15,22],,
-		[4],,[11,16],,[3],,[6,11,18],,
-		[5],,[11,13,20],,[6],,[16,18,22],,
-		[11],,[15,23],,[10],,[13,18,25],,
-		[8],,[11,15,20],,[6],,[10,15,22],,
-		[4],,[11,16],,[3],,[6,11,18],,
-		[5,11,20],,[6,16,22],,[11,15],,[-1],,
-	]
+	notes: genNotes(
+    ('0,4 7,-3,4 7,-3,4 6,-6 4 6!,' + 
+    '-3,4 6,-6,4 6,-2,4 7,-5 4 7!,' + 
+    '0,4 7,-3,4 7,-3,4 6,-6!,' + 
+    '-5,4 6,-6,-1 4 6,0,-3 4 7,-7!').repeat(2),
+    2,
+    1
+  )
 };
 
 const highNotes: Voice = {
-	gen: Tri,
-	notes: [
-		[27],[35,39],[28,40],[29,41],[30],[37,42],[32,44],[30,42],
-		[23],[32,35],[25,37],[26,38],[27],[34,39],[28,40],[27,39],
-		[20],[28,32],[21,33],[22,34],[23],[30,35],[22,34],[23,35],
-		[25],[32,37],[27,39],[25,37],[25],[34,37],[27,39],[28,40],
-		[35,39],[27],[28,40],[29,41],[30],[37,42],[32,44],[30,42],
-		[32,35],[23],[25,37],[26,38],[27],[34,39],[28,40],[27,39],
-		[28,32],[20],[21,33],[22,34],[23],[30,35],[22,34],[23,35],
-		[25],[35,37],[27,34,39],[25,37],[23],[30,35],,
-	]
+  gen: Square,
+  notes: genNotes(
+    ','.repeat(lowNotes.notes.length / 2) +
+    '4,3,4,5,' +
+    '4,3,2,4,' +
+    '3,2,3,4,' +
+    '3!,' +
+    '3,2,3,4,' +
+    '5,4,3,2,' +
+    '2,2,3,3,' +
+    '4!,' +
+    '4,3,4,5,' +
+    '4,3,2,4,' +
+    '3,2,3,4,' +
+    '3!,' +
+    '3,2,3,4,' +
+    '5,4,3,2,' +
+    '0_,-3_,0!',
+    1,
+    30
+  )
 };
 
-const bellNotes: Voice = {
-	gen: Sine,
-	notes: [
-		...Tacet(32),
-		[39,51],,[40,52],[41,53],[42,54],,,,
-		[35,47],,[37,49],[38,50],[39,51],,,,
-		[32,44],,[33,45],[34,46],[35,47],,,,
-		[37,49],,[39,51],[37,49],[35,47],,[47,51,54,59],,
-	]
-};
+// const bellNotes: Voice = {
+// 	gen: Sine,
+// 	notes: [
+// 		...Tacet(32),
+// 		[39,51],,[40,52],[41,53],[42,54],,,,
+// 		[35,47],,[37,49],[38,50],[39,51],,,,
+// 		[32,44],,[33,45],[34,46],[35,47],,,,
+// 		[37,49],,[39,51],[37,49],[35,47],,[47,51,54,59],,
+// 	]
+// };
 
-const voices: Voice[] = [lowNotes, highNotes, bellNotes];
+const voices: Voice[] = [highNotes, lowNotes];
 
-const playNote = (t: number, sampleRate = 40000)=>{
-	t *= sampleRate*0.8;
+const playNote = (t: number)=> {
+	t = t * SAMPLE_RATE * 0.8;
 	t |= 0;
 	if (t%4096 == 0) {
-		for (let voice of voices)
-			if (voice.notes[t/4096] !== undefined)
-        // @ts-ignore
-				for (let note of voice.notes[t/4096])
-					queue.push(voice.gen(note));
+		for (let voice of voices) {
+			if (voice.notes[t/4096] !== undefined) {
+        const [values, duration] = voice.notes[t/4096];
+        for (let value of values)
+          queue.push(voice.gen(value, duration));
+      }
+    }
 	}
 	let out = 0;
 	for (let i=0; i < queue.length; ++i) {
@@ -102,27 +139,28 @@ const playNote = (t: number, sampleRate = 40000)=>{
 	return out/8;
 };
 
-const SAMPLE_RATE = 32000;
 class MusicPlayer {
   audioContext: AudioContext;
   buffer: AudioBuffer;
   source: AudioBufferSourceNode;
-  sampleRate: number;
   queue: (() => number | undefined)[];
+  startTime = 0;
 
-  constructor(sampleRate = SAMPLE_RATE) {
-    this.sampleRate = sampleRate;
+  constructor() {
     this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
     this.queue = [];
     const totalDuration = this.calculateTotalDuration();
-    this.buffer = this.audioContext.createBuffer(1, totalDuration * this.sampleRate, this.sampleRate);
+    this.startTime = performance.now();
+    this.buffer = this.audioContext.createBuffer(1, (totalDuration*1.2) * 4096, SAMPLE_RATE);
     this.source = this.audioContext.createBufferSource();
+
+    requestAnimationFrame(() => this.preLoad());
   }
 
   calculateTotalDuration(): number {
     let maxDuration = 0;
     for (const voice of voices) {
-      const voiceDuration = (voice.notes.length + 20) * 4096 / this.sampleRate;
+      const voiceDuration = (voice.notes.length + 20);
       if (voiceDuration > maxDuration) {
         maxDuration = voiceDuration;
       }
@@ -130,13 +168,17 @@ class MusicPlayer {
     return maxDuration;
   }
 
-  startPlayback() {
+  preLoad() {
     const bufferData = this.buffer.getChannelData(0);
     for (let i = 0; i < bufferData.length; i++) {
-      bufferData[i] = playNote(i / this.sampleRate);
+      bufferData[i] = playNote(i / SAMPLE_RATE);
     }
     this.source.buffer = this.buffer;
     this.source.connect(this.audioContext.destination);
+    console.log(`Created music buffer in ${performance.now() - this.startTime}ms`);
+  }
+
+  startPlayback() {
     this.source.start();
   }
 }

@@ -1,5 +1,4 @@
 import { State } from '@/core/state';
-import { stopAudio } from '@/core/audio';
 import { colors, drawEngine, HEIGHT, IconKey, WIDTH } from '@/core/draw-engine';
 import { gameStateMachine } from '@/game-state-machine';
 import { StartState } from './start.state';
@@ -15,7 +14,6 @@ class LevelsState implements State {
 
   onEnter() {
     this.selectedButton = 1;
-    stopAudio();
   }
 
   onLeave() {
