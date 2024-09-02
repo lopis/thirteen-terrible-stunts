@@ -183,4 +183,7 @@ class MusicPlayer {
   }
 }
 
-export const musicPlayer = new MusicPlayer();
+export let musicPlayer: MusicPlayer;
+export const initMusic = () => {
+  musicPlayer = new MusicPlayer();
+};

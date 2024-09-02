@@ -16,7 +16,7 @@ export class Collider {
   size: Vec2;
   hasCollided = false;
 
-  constructor(pos: Vec2, size: Vec2) {
+  constructor(pos: Vec2 = {x:0, y:0}, size: Vec2 = {x:0, y:0}) {
     this.pos = pos;
     this.size = size;
   }
