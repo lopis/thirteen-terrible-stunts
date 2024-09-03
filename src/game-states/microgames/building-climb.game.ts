@@ -14,7 +14,7 @@ export class BuildingClimbGame extends JumpGame {
 
   onEnter() {
     super.onEnter();
-    this.text = 'Climb up';
+    this.text = ' Escape ';
 
     this.maxY = Number.MAX_SAFE_INTEGER;
     this.minY = -Number.MAX_SAFE_INTEGER;
@@ -24,11 +24,17 @@ export class BuildingClimbGame extends JumpGame {
     for (let i = 0; i < this.buildingNum; i++) {
       this.platforms.push(new Building({x: (WIDTH - BUILDING_WIDTH) / 2, y: FLOOR_HEIGHT * i + HEIGHT / 2}, 1));
     }
+
+    // Add floor
     const last = this.platforms[this.platforms.length - 1];
     this.platforms.push(new Platform(
       addVec(last.pos, {x: 0, y: FLOOR_HEIGHT}),
       last.size
     ));
+    this.setDeathColliders();
+  }
+
+  setDeathColliders() {
     this.deathColliders = [new Collider(
       { x: 0, y: 10 + FLOOR_HEIGHT * this.buildingNum + HEIGHT / 2 },
       { x: WIDTH, y: HEIGHT },
@@ -45,11 +51,18 @@ export class BuildingClimbGame extends JumpGame {
     }
     this.deathColliders[0].render(colors.gray);
     super.onUpdate(delta);
+    this.drawExtras();
     drawEngine.ctx.restore();
 
-    if (!this.isEnding && this.platforms[0].standsOn()) {
+    if (this.hasWon()) {
       this.nextLevel();
     }
+  }
+
+  drawExtras() {}
+
+  hasWon(): boolean {
+    return !this.isEnding && this.platforms[0].standsOn();
   }
 }
 

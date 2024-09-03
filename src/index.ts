@@ -8,13 +8,14 @@ import { menuState } from './game-states/menu.state';
 document.querySelector('link[type="image/x-icon"]').href = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ctext y=\'.9em\' font-size=\'90\'%3E🎞%3C/text%3E%3C/svg%3E';
 
 
-createGameStateMachine(menuState);
-// createGameStateMachine(ropeJumpingGame);
+async function init() {
+  await drawEngine.init();
+}
 
 let previousTime = 0;
 let fpsBacklog: number[] = [];
 
-function draw(currentTime: number) {
+function update(currentTime: number) {
   const delta = currentTime - previousTime;
   
   previousTime = currentTime;
@@ -34,7 +35,11 @@ function draw(currentTime: number) {
     updateTimeEvents(delta);
   // }
 
-  requestAnimationFrame(draw);
+  requestAnimationFrame(update);
 };
 
-requestAnimationFrame(draw);
+init()
+.then(() => {
+  createGameStateMachine(menuState);
+  requestAnimationFrame(update);
+});

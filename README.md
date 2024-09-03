@@ -26,6 +26,11 @@ yarn dev
 - [josetxu](https://codepen.io/josetxu/pen/yLjwOwQ) for the original film grain effect
 - [Black and White Assets - Home Interior](https://silvershield000.itch.io/black-and-white-assets) for providing some of the assets
 
+## Outstanding bugs
+
+- Building collisions still sometimes hits from below
+- In falling building, character can get stuck in a bush in the start
+
 ## Inspiration
 
 <https://www.youtube.com/watch?v=UWEjxkkB8Xs>

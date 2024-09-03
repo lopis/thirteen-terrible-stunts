@@ -90,24 +90,30 @@ export function exponencialSmoothing(value: number, target: number, elapsedMilis
   return value + (target - value) * (elapsedMilis * speed / 1000);
 }
 
-export const HEIGHT = 260;
+export const HEIGHT = 256;
 export const WIDTH = 320;
+export const ROWS = HEIGHT / 16;
+export const COLUMNS = WIDTH / 16;
 
 class DrawEngine {
   charFrame = 0;
   ctx: CanvasRenderingContext2D;
+  ready = false;
 
   constructor() {
     this.ctx = c2d.getContext("2d", {alpha: false}) as CanvasRenderingContext2D;
     this.ctx.imageSmoothingEnabled = false;
+  }
 
+  async init() {
     const time = performance.now();
-    Promise.all(iconsData.map((value, i) => this.preLoadIcon(i, value, false))).then(() => {
+    return Promise.all(iconsData.map((value, i) => this.preLoadIcon(i, value, false))).then(() => {
       console.debug(`Loaded icons in ${performance.now() - time}ms`);
       
       npcIcons = [IconKey.npc1, IconKey.npc2, IconKey.npc3];
       bossIcons = [IconKey.boss1, IconKey.boss2, IconKey.boss3, IconKey.boss4];
       walkAnimationIcons = [IconKey.walk1, IconKey.walk2, IconKey.walk3, IconKey.walk4, IconKey.walk5, IconKey.walk6];
+      this.ready = true;
     });
   }
 
@@ -352,16 +358,16 @@ class DrawEngine {
     this.ctx.fill();
   }
 
-  // drawGrid(step = 20) {
+  // drawGrid() {
   //   this.ctx.strokeStyle = '#ccc';
   //   this.ctx.lineWidth = 1;
-  //   for (let x = 0; x < WIDTH; x += step) {
+  //   for (let x = 0; x < WIDTH; x += 16) {
   //       this.ctx.beginPath();
   //       this.ctx.moveTo(x + 0.5, 0);
   //       this.ctx.lineTo(x + 0.5, HEIGHT);
   //       this.ctx.stroke();
   //   }
-  //   for (let y = 0; y < HEIGHT; y += step) {
+  //   for (let y = 0; y < HEIGHT; y += 16) {
   //       this.ctx.beginPath();
   //       this.ctx.moveTo(0, y + 0.5);
   //       this.ctx.lineTo(WIDTH, y + 0.5);

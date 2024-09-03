@@ -37,8 +37,8 @@ class TrampolinGame extends BuildingJumpGame {
       colors.gray
     )];
     this.platforms = [
-      new Building({x: -BUILDING_WIDTH*spaceApart, y: HEIGHT - buildingHeight + CHARACTER_SIZE}),
-      new Building({x: WIDTH -BUILDING_WIDTH*(1-spaceApart), y: HEIGHT - buildingHeight + CHARACTER_SIZE}),
+      new Building({x: -BUILDING_WIDTH*spaceApart, y: HEIGHT - buildingHeight + CHARACTER_SIZE}, 4),
+      new Building({x: WIDTH -BUILDING_WIDTH*(1-spaceApart), y: HEIGHT - buildingHeight + CHARACTER_SIZE}, 4),
     ];
     this.goalColliders = [
       new Collider(this.platforms[1].pos, {x: BUILDING_WIDTH, y: 1})

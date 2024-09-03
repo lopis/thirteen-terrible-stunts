@@ -126,9 +126,9 @@ export default class JumpGame extends GameBase {
         character.velocity.x += this.acceleration.x * delta;
       } else if (character.velocity.y == 0) {
         if (character.velocity.x > 0) {
-          character.velocity.x = Math.max(0, character.velocity.x - this.acceleration.x * delta);
+          character.velocity.x = Math.max(0, character.velocity.x - 2*this.acceleration.x * delta);
         } else if (character.velocity.x < 0) {
-          character.velocity.x = Math.min(0, character.velocity.x + this.acceleration.x * delta);
+          character.velocity.x = Math.min(0, character.velocity.x + 2*this.acceleration.x * delta);
         }
       }
     }

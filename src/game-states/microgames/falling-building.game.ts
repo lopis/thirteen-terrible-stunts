@@ -1,4 +1,4 @@
-import { drawEngine, HEIGHT, IconKey, WIDTH } from "@/core/draw-engine";
+import { COLUMNS, drawEngine, HEIGHT, IconKey, ROWS, WIDTH } from "@/core/draw-engine";
 import { MoveGame } from "./templates/move.game";
 import { character } from "@/core/entities/character";
 import { Collider } from "@/core/entities/collider";
@@ -40,18 +40,23 @@ class FallingBuildingGame extends MoveGame {
       { x: newWidth, y: newHeight }
     );
 
-    this.entities = [];
+    this.entities = Array.from({ length: ROWS }, () => []);
     for(let i = 0; i < bushNum; i++) {
-      const x = Math.round((Math.random()) * WIDTH / 16)*16;
-      const y = Math.round((Math.random()) * HEIGHT / 16)*16;
-      this.entities.push(new Entity({x, y}, IconKey.plant));
+      let unique = false;
+      let x = 0, y = 0;
+      while (!unique) {
+        x = Math.floor((Math.random()) * COLUMNS);
+        y = Math.floor((Math.random()) * ROWS);
+        unique = !this.entities[y][x];
+      }
+      this.entities[y][x] = new Entity({x: x*16, y: y*16}, IconKey.plant);
     }
   }
 
   onUpdate(delta: number) {
     super.onUpdate(delta);
     // this.goalCollider?.render('#00ff0055');
-    this.entities.forEach(f => f.update());
+    this.entities.flat().forEach(f => f.update());
     if (!this.isStarting) {
       if (this.progress >= 1) {
         if (!this.isEnding) {

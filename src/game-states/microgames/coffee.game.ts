@@ -1,30 +1,29 @@
-import { colors, drawEngine, HEIGHT, IconKey, npcIcons, WIDTH } from "@/core/draw-engine";
+import { colors, COLUMNS, drawEngine, HEIGHT, IconKey, npcIcons, ROWS, WIDTH } from "@/core/draw-engine";
 import { MoveGame } from "./templates/move.game";
 import { Entity } from "@/core/entities/entity";
-import { Vec2 } from "@/util/types";
 import { character } from "@/core/entities/character";
 import { preLoadStrings } from "@/core/font";
-import { interpolate, roundTo16 } from "@/util/util";
+import { interpolate } from "@/util/util";
 import { gameData } from "@/core/game-data";
 
-type ObjectProps = [IconKey, Vec2, boolean?]
+type ObjectProps = [IconKey, number, number, boolean?]
 const getObjects = () => {
   const objects: ObjectProps[] = [
-    [IconKey.chair, {x: 100, y: 101}],
-    [IconKey.chair, {x: 132, y: 101}, true],
+    [IconKey.chair, 6, 6],
+    [IconKey.chair, 8, 6, true],
   
-    [IconKey.table, {x: 116, y: 101}],
+    [IconKey.table, 7, 6],
     
-    [IconKey.table, {x: 116, y: 116}],
-    [IconKey.chair, {x: 132, y: 116}, true],
-    [IconKey.chair, {x: 100, y: 116}],
+    [IconKey.table, 7, 7],
+    [IconKey.chair, 8, 7, true],
+    [IconKey.chair, 6, 7],
   
-    [IconKey.plant, {x: 100, y: 80}],
-    [IconKey.plant, {x: 116, y: 80}],
-    [IconKey.plant, {x: 132, y: 80}],
-    [IconKey.camera, {x: 200, y: 116}, true],
+    [IconKey.plant, 6, 5],
+    [IconKey.plant, 7, 5],
+    [IconKey.plant, 8, 5],
+    [IconKey.camera, 12, 7, true],
   ];
-  return objects.sort((a,b) => (a[1].y) - (b[1].y));
+  return objects.sort((a,b) => (a[2]) - (b[2]));
 };
 
 // Difficulty range of each property
@@ -36,61 +35,57 @@ const difficultyRange: Record<string, [number,number]> = {
 preLoadStrings(['TY#'], [colors.black, colors.gray, colors.light], 1);
 
 class CoffeeGame extends MoveGame {
-  objects: ObjectProps[] = [];
-  coffeeMaker: Entity = new Entity({x: 50, y: 195}, IconKey.coffeMachine, {mirror: true, onTable: true});
+  coffeeMaker: Entity = new Entity({x: 48, y: 192}, IconKey.coffeMachine, {mirror: true, onTable: true});
   maxCofees = 1;
-  npcs:  Vec2[] = [];
   npcNum = 0;
 
   onEnter(): void {
-    if (this.objects.length === 0) {
-      this.objects = getObjects();
-    }
     this.text = 'Bring coffee';
-    this.entities = [];
+    this.entities = Array.from({ length: ROWS }, () => []);
 
-    this.npcs = [];
     const difficulty = gameData.getDifficulty(); // From 0.0 to 1.0
     
     this.npcNum = interpolate(difficultyRange.npcNum, difficulty);
-    while (this.npcs.length < this.npcNum) {
-      let newNpc: Vec2;
-      let isUnique = false;
-    
-      while (!isUnique) {
-        newNpc = {
-          x: roundTo16((Math.random() * 0.4 + 0.6) * WIDTH),
-          y: roundTo16((Math.random() * 0.6 + 0.3) * HEIGHT),
-        };
-    
-        isUnique = !this.npcs.some(npc => npc.x === newNpc.x && npc.y === newNpc.y);
-        isUnique && this.npcs.push(newNpc);
-      }
-    }
 
     super.onEnter();
     character.setPos(30, 30);
     character.holding = [];
-    this.objects.forEach(([icon, pos, mirror = false]) => {
-      this.entities.push(new Entity(pos, icon, {mirror}));
+    getObjects().forEach(([icon, x, y, mirror = false]) => {
+      this.entities[y][x] = new Entity({x: x * 16, y: y * 16}, icon, {mirror});
     });
-    this.npcs.forEach((pos, i) => {
-      this.entities.push(new Entity(pos, npcIcons[i%npcIcons.length], {isNPC: true}));
-    });
+    for (let n = 0; n < this.npcNum; n++) {
+      let x = 0;
+      let y = 0;
+      let isUnique = false;
+    
+      while (!isUnique) {
+        x = Math.floor((Math.random()) * COLUMNS);
+        y = Math.floor((Math.random()) * ROWS);
+    
+        isUnique = !this.entities[y][x];
+      }
+
+      this.entities[y][x] = new Entity(
+        {x: x * 16, y: y * 16},
+        npcIcons[n % (npcIcons.length)],
+        {isNPC: true, mirror: true}
+      );
+    }
+
     this.coffeeMaker.hasCollided = false;
-    this.entities.push(this.coffeeMaker);
+    this.entities[this.coffeeMaker.pos.x/16][this.coffeeMaker.pos.y/16] = this.coffeeMaker;
   }
 
   onUpdate(delta: number): void {
     this.render();
-    this.entities.forEach((f) => {
+    this.entities.flat().forEach((f) => {
       f.update(delta);
       if (f.isNPC && f.hasCollided) {
         if (!f.holding && character.holding.length > 0) {
           f.holding = IconKey.coffee;
           f.say('TY#');
           character.pop();
-          if (!this.entities.some(e => e.isNPC && !e.holding)) {
+          if (!this.entities.flat().some(e => e.isNPC && !e.holding)) {
             this.nextLevel();
           }
         } else {
@@ -106,6 +101,7 @@ class CoffeeGame extends MoveGame {
       }
     }
     super.onUpdate(delta);
+    // drawEngine.drawGrid();
   }
 
   render() {

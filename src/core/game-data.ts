@@ -134,9 +134,8 @@ class GameData {
   }
 
   getRandomLevel(): GameBase {
-    const randomBossIndex = Math.floor(Math.random() * levels.length);
-    const randomLevelIndex = Math.floor(Math.random() * levels[randomBossIndex].length);
-    return levels[randomBossIndex][randomLevelIndex];
+    const allLevels = levels.flat();
+    return allLevels[Math.floor(Math.random()*(allLevels.length - 1))];
   }
 
   restartLevel() {

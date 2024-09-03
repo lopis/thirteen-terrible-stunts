@@ -14,7 +14,7 @@ export class MoveGame extends GameBase {
     [-10, HEIGHT, WIDTH, 10],
   ].map(([x,y,w,h]) => new Collider({x,y}, {x:w, y:h}));
 
-  entities: Entity[] = [];
+  entities: Entity[][] = Array.from({ length: 16 }, () => []);
 
   maxSpeed = 3;
   acceleration = 0.02;
@@ -25,7 +25,7 @@ export class MoveGame extends GameBase {
     super.onUpdate(delta);
 
     if (!this.isEnding) {
-      [...this.entities, ...this.walls].forEach(f => {
+      [...this.entities.flat(), ...this.walls].forEach(f => {
         const collision = f.collision();
         if (collision.collides) {
           if (collision.right) {
