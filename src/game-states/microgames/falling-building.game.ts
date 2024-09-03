@@ -22,7 +22,7 @@ class FallingBuildingGame extends MoveGame {
     super.onEnter();
     this.progress = 0;
     this.text = 'Stay in';
-    character.setPos(150, 150);
+    character.setPos(160, 160);
     const difficulty = gameData.getDifficulty(); // From 0.0 to 1.0
     const bushNum = interpolate(difficultyRange.bushNum, difficulty);
     this.houseFallDuration = interpolate(difficultyRange.houseFallDuration, difficulty);
@@ -47,7 +47,7 @@ class FallingBuildingGame extends MoveGame {
       while (!unique) {
         x = Math.floor((Math.random()) * COLUMNS);
         y = Math.floor((Math.random()) * ROWS);
-        unique = !this.entities[y][x];
+        unique = !this.entities[y][x] && x != character.pos.x && y != character.pos.y;
       }
       this.entities[y][x] = new Entity({x: x*16, y: y*16}, IconKey.plant);
     }

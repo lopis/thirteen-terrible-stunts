@@ -8,6 +8,7 @@ import { fallingBuildingGame } from "@/game-states/microgames/falling-building.g
 import jumpingTrainGame from "@/game-states/microgames/jumping-train.game";
 import boatWheelGame from "@/game-states/microgames/boat.wheel.game";
 import buildingClimbGame from "@/game-states/microgames/building-climb.game";
+import ropeJumpingGame from "@/game-states/microgames/rope-jumping.game";
 
 export type Boss = {
   name: string
@@ -68,6 +69,7 @@ export const levels: GameBase[][] = [
     trampolinGame,
     mattressGame,
     jumpingTrainGame,
+    ropeJumpingGame,
   ],
   [
     boatWheelGame,
@@ -78,6 +80,7 @@ export const levels: GameBase[][] = [
     trampolinGame,
     mattressGame,
     jumpingTrainGame,
+    ropeJumpingGame,
   ],
   [
     boatWheelGame,
@@ -88,6 +91,7 @@ export const levels: GameBase[][] = [
     trampolinGame,
     mattressGame,
     jumpingTrainGame,
+    ropeJumpingGame,
   ],
   [
     boatWheelGame,
@@ -98,6 +102,7 @@ export const levels: GameBase[][] = [
     trampolinGame,
     mattressGame,
     jumpingTrainGame,
+    ropeJumpingGame,
   ],
 ];
 
@@ -107,7 +112,7 @@ class GameData {
   level = -1;
   maxLevel = 0;
   lives = MAX_LIVES;
-  endless = false;
+  endless = true;
 
   constructor() {
   }

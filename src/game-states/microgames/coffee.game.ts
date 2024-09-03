@@ -3,8 +3,8 @@ import { MoveGame } from "./templates/move.game";
 import { Entity } from "@/core/entities/entity";
 import { character } from "@/core/entities/character";
 import { preLoadStrings } from "@/core/font";
-import { interpolate } from "@/util/util";
 import { gameData } from "@/core/game-data";
+import { interpolate } from "@/util/util";
 
 type ObjectProps = [IconKey, number, number, boolean?]
 const getObjects = () => {
@@ -61,8 +61,18 @@ class CoffeeGame extends MoveGame {
       while (!isUnique) {
         x = Math.floor((Math.random()) * COLUMNS);
         y = Math.floor((Math.random()) * ROWS);
-    
-        isUnique = !this.entities[y][x];
+      
+        isUnique = true;
+        for (let i = -1; i <= 1 && isUnique; i++) {
+          for (let j = -1; j <= 1 && isUnique; j++) {
+            if (
+              this.entities[y + i] && this.entities[y + i][x + j] ||
+              ((character.pos.x == x+j) && (character.pos.y == y+i))
+            ) {
+              isUnique = false;
+            }
+          }
+        }
       }
 
       this.entities[y][x] = new Entity(
