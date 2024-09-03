@@ -9,6 +9,7 @@ import jumpingTrainGame from "@/game-states/microgames/jumping-train.game";
 import boatWheelGame from "@/game-states/microgames/boat.wheel.game";
 import buildingClimbGame from "@/game-states/microgames/building-climb.game";
 import ropeJumpingGame from "@/game-states/microgames/rope-jumping.game";
+import { shuffleArray } from "@/util/util";
 
 export type Boss = {
   name: string
@@ -59,51 +60,23 @@ const bossData: Boss[] = [
 //   return storage;
 // }
 
+const levelList = [
+  boatWheelGame,
+  buildingClimbGame,
+  coffeeGame,
+  buildingJumpGame,
+  fallingBuildingGame,
+  trampolinGame,
+  mattressGame,
+  jumpingTrainGame,
+  ropeJumpingGame,
+];
+
 export const levels: GameBase[][] = [
-  [
-    boatWheelGame,
-    buildingClimbGame,
-    coffeeGame,
-    buildingJumpGame,
-    fallingBuildingGame,
-    trampolinGame,
-    mattressGame,
-    jumpingTrainGame,
-    ropeJumpingGame,
-  ],
-  [
-    boatWheelGame,
-    buildingClimbGame,
-    coffeeGame,
-    buildingJumpGame,
-    fallingBuildingGame,
-    trampolinGame,
-    mattressGame,
-    jumpingTrainGame,
-    ropeJumpingGame,
-  ],
-  [
-    boatWheelGame,
-    buildingClimbGame,
-    coffeeGame,
-    buildingJumpGame,
-    fallingBuildingGame,
-    trampolinGame,
-    mattressGame,
-    jumpingTrainGame,
-    ropeJumpingGame,
-  ],
-  [
-    boatWheelGame,
-    buildingClimbGame,
-    coffeeGame,
-    buildingJumpGame,
-    fallingBuildingGame,
-    trampolinGame,
-    mattressGame,
-    jumpingTrainGame,
-    ropeJumpingGame,
-  ],
+  [...levelList],
+  [...levelList],
+  [...levelList],
+  [...levelList],
 ];
 
 export const MAX_LIVES = 4;
@@ -113,8 +86,10 @@ class GameData {
   maxLevel = 0;
   lives = MAX_LIVES;
   endless = true;
+  randomLevels: GameBase[] = [];
 
   constructor() {
+    this.randomLevels = shuffleArray(levelList);
   }
 
   getBoss(): Boss {
@@ -131,16 +106,11 @@ class GameData {
     this.level++;
     let level;
     if (this.endless) {
-      level = this.getRandomLevel();
+      level = this.randomLevels[this.level%this.randomLevels.length];
     } else {
       level = levels[this.boss][this.level];
     }
     gameStateMachine.setState(level);
-  }
-
-  getRandomLevel(): GameBase {
-    const allLevels = levels.flat();
-    return allLevels[Math.floor(Math.random()*(allLevels.length - 1))];
   }
 
   restartLevel() {
