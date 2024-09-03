@@ -7,7 +7,7 @@ import { gameData } from "@/core/game-data";
 import { interpolate } from "@/util/util";
 
 const difficultyRange: Record<string, [number,number]> = {
-  bushNum: [3, 15],
+  bushNum: [10, 30],
   houseFallDuration: [5000, 2000]
 };
 
@@ -41,13 +41,21 @@ class FallingBuildingGame extends MoveGame {
     );
 
     this.entities = Array.from({ length: ROWS }, () => []);
-    for(let i = 0; i < bushNum; i++) {
-      let unique = false;
+    for(let n = 0; n < bushNum; n++) {
+      let isUnique = false;
       let x = 0, y = 0;
-      while (!unique) {
+      while (!isUnique) {
         x = Math.floor((Math.random()) * COLUMNS);
         y = Math.floor((Math.random()) * ROWS);
-        unique = !this.entities[y][x] && x != character.pos.x && y != character.pos.y;
+
+        isUnique = !this.entities[y][x];
+        for (let i = -1; i <= 1 && isUnique; i++) {
+          for (let j = -1; j <= 1 && isUnique; j++) {
+            if (((character.pos.x == (x+j)*16) && (character.pos.y == (y+i) * 16))) {
+              isUnique = false;
+            }
+          }
+        }
       }
       this.entities[y][x] = new Entity({x: x*16, y: y*16}, IconKey.plant);
     }

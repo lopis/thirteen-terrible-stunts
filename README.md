@@ -29,7 +29,6 @@ yarn dev
 ## Outstanding bugs
 
 - Building collisions still sometimes hits from below
-- In falling building, character can get stuck in a bush in the start
 - Not adapted to difficulty:
   - buildingClimbGame,
   - buildingJumpGame,

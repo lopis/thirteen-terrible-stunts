@@ -29,20 +29,20 @@ export class MoveGame extends GameBase {
         const collision = f.collision();
         if (collision.collides) {
           if (collision.right) {
-            character.velocity.x = -character.velocity.x;
-            character.pos.x -= -character.velocity.x;
+            character.pos.x = f.pos.x + f.size.x;
+            character.velocity.x = 0;
           }
           if (collision.left) {
-            character.velocity.x = -character.velocity.x;
-            character.pos.x -= -character.velocity.x;
+            character.pos.x = f.pos.x - f.size.x;
+            character.velocity.x = 0;
           }
           if (collision.bottom) {
-            character.velocity.y = -character.velocity.y;
-            character.pos.y -= -character.velocity.y;
+            character.pos.y = f.pos.y + f.size.y;
+            character.velocity.y = 0;
           }
           if (collision.top) {
-            character.velocity.y = -character.velocity.y;
-            character.pos.y -= -character.velocity.y;
+            character.pos.y = f.pos.y - f.size.y;
+            character.velocity.y = 0;
           }
         }
       });
