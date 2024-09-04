@@ -1,6 +1,14 @@
+import buildingJumpGame from "@/game-states/microgames/building-jump.game";
 import { gameStateMachine } from "@/game-state-machine";
+import coffeeGame from "@/game-states/microgames/coffee.game";
 import { GameBase } from "@/game-states/microgames/templates/base.game";
+import { trampolinGame } from "@/game-states/microgames/trampolin.game";
+import { mattressGame } from "@/game-states/microgames/mattress.game";
 import { fallingBuildingGame } from "@/game-states/microgames/falling-building.game";
+import jumpingTrainGame from "@/game-states/microgames/jumping-train.game";
+import boatWheelGame from "@/game-states/microgames/boat.wheel.game";
+import buildingClimbGame from "@/game-states/microgames/building-climb.game";
+import ropeJumpingGame from "@/game-states/microgames/rope-jumping.game";
 import { shuffleArray } from "@/util/util";
 
 export type Boss = {
@@ -53,15 +61,15 @@ const bossData: Boss[] = [
 // }
 
 const levelList = [
+  coffeeGame,
   fallingBuildingGame,
-  // boatWheelGame,
-  // buildingClimbGame,
-  // coffeeGame,
-  // buildingJumpGame,
-  // trampolinGame,
-  // mattressGame,
-  // jumpingTrainGame,
-  // ropeJumpingGame,
+  boatWheelGame,
+  buildingClimbGame,
+  buildingJumpGame,
+  trampolinGame,
+  mattressGame,
+  jumpingTrainGame,
+  ropeJumpingGame,
 ];
 
 export const levels: GameBase[][] = [

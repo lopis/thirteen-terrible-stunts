@@ -13,6 +13,7 @@ export class RopeJumpingGame extends JumpGame {
   swingPos = 0; // from 0 to 1
   grabbing = false;
   isJumping = false;
+  maxSpeed = 3;
 
   onEnter() {
     super.onEnter();

@@ -57,10 +57,7 @@ export default class JumpGame extends GameBase {
       );
       const platform = this.platforms.find(p => p.standsOn());
   
-      if(!this.isEnding && this.goalColliders.some((c) => {
-        const {collides, standsOn} = c.collision();
-        return collides || standsOn;
-      })) {
+      if(!this.isEnding && this.goalColliders.some((c) => c.collision().standsOn)) {
         this.nextLevel();
       }
   

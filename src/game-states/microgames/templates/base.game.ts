@@ -26,6 +26,7 @@ export class GameBase implements State {
     this.isStarting = false;
     this.isEnding = false;
     this.gameOver = false;
+    character.velocity = {x:0, y:0};
     this.start();
   }
 

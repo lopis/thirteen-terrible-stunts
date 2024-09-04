@@ -53,14 +53,18 @@ class CoffeeGame extends MoveGame {
     getObjects().forEach(([icon, x, y, mirror = false]) => {
       this.entities[y][x] = new Entity({x: x * 16, y: y * 16}, icon, {mirror});
     });
+
+    this.coffeeMaker.hasCollided = false;
+    this.entities[this.coffeeMaker.pos.y/16][this.coffeeMaker.pos.x/16] = this.coffeeMaker;
+
     for (let n = 0; n < this.npcNum; n++) {
       let x = 0;
       let y = 0;
       let isUnique = false;
     
       while (!isUnique) {
-        x = Math.floor((Math.random()) * COLUMNS);
-        y = Math.floor((Math.random()) * ROWS);
+        x = Math.floor((0.15 + 0.7 *Math.random()) * COLUMNS);
+        y = Math.floor((0.15 + 0.7 *Math.random()) * ROWS);
       
         isUnique = true;
         for (let i = -1; i <= 1 && isUnique; i++) {
@@ -81,9 +85,6 @@ class CoffeeGame extends MoveGame {
         {isNPC: true, mirror: true}
       );
     }
-
-    this.coffeeMaker.hasCollided = false;
-    this.entities[this.coffeeMaker.pos.x/16][this.coffeeMaker.pos.y/16] = this.coffeeMaker;
   }
 
   onUpdate(delta: number): void {

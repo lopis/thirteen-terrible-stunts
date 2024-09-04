@@ -28,7 +28,6 @@ yarn dev
 
 ## Outstanding bugs
 
-- Building collisions still sometimes hits from below
 - Not adapted to difficulty:
   - buildingClimbGame,
   - buildingJumpGame,

@@ -1,10 +1,12 @@
 import { character } from "@/core/entities/character";
 import { BuildingClimbGame } from "./building-climb.game";
-import { colors, drawEngine, HEIGHT, WIDTH } from "@/core/draw-engine";
+import { colors, drawEngine, HEIGHT, IconKey, WIDTH } from "@/core/draw-engine";
 import { BUILDING_WIDTH, FLOOR_HEIGHT } from "@/core/entities/building";
 
 class FireEscapeGame extends BuildingClimbGame {
   ladders: number[] = [];
+  fireAnimationProgress = 0;
+  fireAnimationTime = 60;
 
   onEnter(): void {
     super.onEnter();
@@ -15,12 +17,25 @@ class FireEscapeGame extends BuildingClimbGame {
     }
   }
 
+  onUpdate(delta: number): void {
+    super.onUpdate(delta);
+    this.fireAnimationProgress += delta/this.fireAnimationTime;    
+  }
+
   hasWon(): boolean {
     return this.platforms[this.platforms.length - 1].standsOn();
   }
 
   drawExtras() {
     const {x, y} = this.platforms[0].pos;
+
+    const fireAnimationFrame = Math.round(this.fireAnimationProgress / 3);
+    drawEngine.drawIcon(
+      fireAnimationFrame % 2 === 0 ? IconKey.fire1 : IconKey.fire2,
+      {x: x-10, y: y-10},
+      false,
+      fireAnimationFrame >= 1
+    );
 
     this.ladders.forEach((ladderPos, index) => {
       drawEngine.ctx.save();

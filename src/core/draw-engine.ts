@@ -43,6 +43,9 @@ export const enum IconKey {
   walk4,
   walk5,
   walk6,
+
+  fire1,
+  fire2,
 };
 export const iconsData = [
   /*base*/         upperBody + 'PA@E@@E@T@@T@PA@',
@@ -74,6 +77,9 @@ export const iconsData = [
   /*walk4*/        upperBody + '@EPA@@T@@@@PA@@@',
   /*walk5*/        upperBody + '@E@E@@T@T@@PA@@@',
   /*walk6*/        upperBody + '@E@E@@T@T@@@@PA@',
+
+  /*fire1*/        "@|@L|psO|Lk~czhzChN@",
+  /*fire2*/        "C@@sp||@so{`jNhzChN@",
 ];
 
 export type Icon = ImageBitmap;

@@ -77,7 +77,7 @@ class FallingBuildingGame extends MoveGame {
       } else {
         this.progress += delta / this.houseFallDuration;
       }
-      drawEngine.drawHouse(Math.pow(this.progress, 2), this.windowSize, this.windowOffset);
+      drawEngine.drawHouse(Math.pow(this.progress, 3), this.windowSize, this.windowOffset);
     }
   }
 }
