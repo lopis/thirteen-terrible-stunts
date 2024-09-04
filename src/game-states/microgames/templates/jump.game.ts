@@ -3,7 +3,7 @@ import { controls } from '@/core/controls';
 import { cap, clampNearZero } from '@/util/util';
 import { Collider } from '@/core/entities/collider';
 import { GameBase } from './base.game';
-import { HEIGHT, WIDTH } from '@/core/draw-engine';
+import { drawEngine, HEIGHT, WIDTH } from '@/core/draw-engine';
 import { Platform } from '@/core/entities/platform';
 
 export default class JumpGame extends GameBase {
@@ -25,6 +25,8 @@ export default class JumpGame extends GameBase {
   maxY = HEIGHT*2;
   minY = -HEIGHT;
 
+  yOffset = 0;
+
   onEnter() {
     super.onEnter();
     Object.assign(character, {
@@ -40,10 +42,6 @@ export default class JumpGame extends GameBase {
       character.dead = true;
       this.loseLife();
     }
-
-    [...this.platforms, ...this.deathColliders, ...this.goalColliders].forEach(p => {
-      p.update(delta);
-    });
 
     if (!this.isEnding) {
       character.velocity = {
@@ -72,12 +70,21 @@ export default class JumpGame extends GameBase {
         character.velocity.y += this.acceleration.y * delta;
         this.isGrounded = false;
       }
-    }
-  
-    this.renderCharacter(delta);
+    } 
 
+    drawEngine.ctx.save();
+    drawEngine.ctx.translate(0, this.yOffset);
+    [...this.platforms, ...this.deathColliders, ...this.goalColliders].forEach(p => {
+      p.update(delta);
+    });
+    this.drawExtras();
+    this.renderCharacter(delta);
+    drawEngine.ctx.restore();
     super.onUpdate(delta);
+
   }
+
+  drawExtras() {}
 
   renderCharacter(delta: number) {
     if (character.dead) {

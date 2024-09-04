@@ -42,24 +42,22 @@ export class BuildingClimbGame extends JumpGame {
   }
 
   onUpdate(delta: number): void {
-    drawEngine.ctx.save();
-    drawEngine.ctx.translate(0, -character.pos.y + HEIGHT / 2);
+    this.yOffset = -character.pos.y + HEIGHT / 2;
+    super.onUpdate(delta);
+    if (this.hasWon()) {
+      this.nextLevel();
+    }
+  }
+
+  drawExtras(): void {
+    super.drawExtras();
     const y = this.deathColliders[0].pos.y - CHARACTER_SIZE;
     for (let p = 0; p < 6; p++) {
       drawEngine.drawIcon(IconKey.plant, {x: (WIDTH + BUILDING_WIDTH)/2 + 16*p, y});
       drawEngine.drawIcon(IconKey.plant, {x: (WIDTH - BUILDING_WIDTH)/2 - 16*(p+1), y});
     }
     this.deathColliders[0].render(colors.gray);
-    super.onUpdate(delta);
-    this.drawExtras();
-    drawEngine.ctx.restore();
-
-    if (this.hasWon()) {
-      this.nextLevel();
-    }
   }
-
-  drawExtras() {}
 
   hasWon(): boolean {
     return !this.isEnding && this.platforms[0].standsOn();

@@ -78,8 +78,8 @@ export const iconsData = [
   /*walk5*/        upperBody + '@E@E@@T@T@@PA@@@',
   /*walk6*/        upperBody + '@E@E@@T@T@@@@PA@',
 
-  /*fire1*/        "@|@L|psO|Lk~czhzChN@",
-  /*fire2*/        "C@@sp||@so{`jNhzChN@",
+  /*fire1*/        "@|@L|psO|Lk~szlzC|O@",
+  /*fire2*/        "C@@sp||@so{ljNlzC|O@",
 ];
 
 export type Icon = ImageBitmap;
@@ -364,22 +364,22 @@ class DrawEngine {
     this.ctx.fill();
   }
 
-  // drawGrid() {
-  //   this.ctx.strokeStyle = '#ccc';
-  //   this.ctx.lineWidth = 1;
-  //   for (let x = 0; x < WIDTH; x += 16) {
-  //       this.ctx.beginPath();
-  //       this.ctx.moveTo(x + 0.5, 0);
-  //       this.ctx.lineTo(x + 0.5, HEIGHT);
-  //       this.ctx.stroke();
-  //   }
-  //   for (let y = 0; y < HEIGHT; y += 16) {
-  //       this.ctx.beginPath();
-  //       this.ctx.moveTo(0, y + 0.5);
-  //       this.ctx.lineTo(WIDTH, y + 0.5);
-  //       this.ctx.stroke();
-  //   }
-  // }
+  drawGrid() {
+    this.ctx.strokeStyle = '#ccc';
+    this.ctx.lineWidth = 1;
+    for (let x = 0; x < WIDTH; x += 16) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(x + 0.5, 0);
+        this.ctx.lineTo(x + 0.5, HEIGHT);
+        this.ctx.stroke();
+    }
+    for (let y = 0; y < HEIGHT; y += 16) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, y + 0.5);
+        this.ctx.lineTo(WIDTH, y + 0.5);
+        this.ctx.stroke();
+    }
+  }
 }
 
 export const drawEngine = new DrawEngine();
