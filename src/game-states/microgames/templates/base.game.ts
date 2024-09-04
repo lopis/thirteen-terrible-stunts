@@ -83,7 +83,7 @@ export class GameBase implements State {
       }, this.animationDuration * 7);
     } else {
       addTimeEvent(() => {        
-        this.onEnter();
+        gameData.nextLevel();
       }, this.animationDuration * 4);
     }
   }
