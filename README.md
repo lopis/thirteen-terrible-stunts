@@ -26,11 +26,13 @@ yarn dev
 - [josetxu](https://codepen.io/josetxu/pen/yLjwOwQ) for the original film grain effect
 - [Black and White Assets - Home Interior](https://silvershield000.itch.io/black-and-white-assets) for providing some of the assets
 
-## Outstanding bugs
+## TODO
 
 - Microgame ideas
   - clean the floor
   - NEED ONE MORE IDEA
+- Implement story mode
+- Implement saving
 
 ## Inspiration
 

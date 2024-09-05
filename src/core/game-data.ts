@@ -2,6 +2,16 @@ import { gameStateMachine } from "@/game-state-machine";
 import { GameBase } from "@/game-states/microgames/templates/base.game";
 import { shuffleArray } from "@/util/util";
 import spotlightGame from "@/game-states/microgames/spotlight.game";
+import fireEscapeGame from "@/game-states/microgames/fire-escape.game";
+import coffeeGame from "@/game-states/microgames/coffee.game";
+import { fallingBuildingGame } from "@/game-states/microgames/falling-building.game";
+import boatWheelGame from "@/game-states/microgames/boat.wheel.game";
+import buildingClimbGame from "@/game-states/microgames/building-climb.game";
+import buildingJumpGame from "@/game-states/microgames/building-jump.game";
+import { trampolinGame } from "@/game-states/microgames/trampolin.game";
+import { mattressGame } from "@/game-states/microgames/mattress.game";
+import jumpingTrainGame from "@/game-states/microgames/jumping-train.game";
+import ropeJumpingGame from "@/game-states/microgames/rope-jumping.game";
 
 export type Boss = {
   name: string
@@ -54,16 +64,16 @@ const bossData: Boss[] = [
 
 const levelList = [
   spotlightGame,
-  // fireEscapeGame,
-  // coffeeGame,
-  // fallingBuildingGame,
-  // boatWheelGame,
-  // buildingClimbGame,
-  // buildingJumpGame,
-  // trampolinGame,
-  // mattressGame,
-  // jumpingTrainGame,
-  // ropeJumpingGame,
+  fireEscapeGame,
+  coffeeGame,
+  fallingBuildingGame,
+  boatWheelGame,
+  buildingClimbGame,
+  buildingJumpGame,
+  trampolinGame,
+  mattressGame,
+  jumpingTrainGame,
+  ropeJumpingGame,
 ];
 
 export const levels: GameBase[][] = [
