@@ -1,6 +1,6 @@
 import { character, CHARACTER_SIZE } from '@/core/entities/character';
 import { controls } from '@/core/controls';
-import { cap, clampNearZero } from '@/util/util';
+import { cap } from '@/util/util';
 import { Collider } from '@/core/entities/collider';
 import { GameBase } from './base.game';
 import { drawEngine, HEIGHT, WIDTH } from '@/core/draw-engine';
@@ -53,13 +53,13 @@ export default class JumpGame extends GameBase {
 
     if (!this.isEnding) {
       character.velocity = {
-        x: clampNearZero(cap(character.velocity.x, -this.maxSpeed, this.maxSpeed)),
-        y: clampNearZero(character.velocity.y),
+        x: cap(character.velocity.x, -this.maxSpeed, this.maxSpeed),
+        y: character.velocity.y,
       };
   
       character.setPos(
         cap(character.pos.x + character.velocity.x, 0, WIDTH - CHARACTER_SIZE),
-        cap(character.pos.y + Math.min(this.maxFallSpeed, character.velocity.y), this.minY, this.maxY) + 1,
+        cap(character.pos.y + Math.min(this.maxFallSpeed, character.velocity.y * delta/16), this.minY, this.maxY) + 1,
       );
       const platform = this.platforms.find(p => p.standsOn());
   
