@@ -31,7 +31,6 @@ yarn dev
 - Not adapted to difficulty:
   - buildingClimbGame,
   - buildingJumpGame,
-  - mattressGame,
 - Microgame ideas
   - clean the floor
   - NEED ONE MORE IDEA
