@@ -175,8 +175,8 @@ export class GameBase implements State {
     // Text
     drawEngine.drawText({
       text: this.text,
-      x: this.animationProgress * WIDTH / 2,
-      y: this.animationProgress * (HEIGHT / 2),
+      x,
+      y,
       textAlign: 'center',
       textBaseline: 'middle',
       size: Math.floor(panelWidth / (6 * this.text.length)),
