@@ -28,8 +28,6 @@ yarn dev
 
 ## Outstanding bugs
 
-- Not adapted to difficulty:
-  - fire escape
 - Microgame ideas
   - clean the floor
   - NEED ONE MORE IDEA

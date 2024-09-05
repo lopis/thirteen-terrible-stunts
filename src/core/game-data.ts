@@ -93,7 +93,7 @@ class GameData {
   }
 
   getDifficulty(): number {
-    return (this.boss /3 + this.level / 12) / 2;
+    return this.endless ? this.level / 26 : (this.boss /3 + this.level / 12) / 2;
   }
 
   nextLevel() {

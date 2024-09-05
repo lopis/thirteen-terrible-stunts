@@ -2,7 +2,13 @@ import { character } from "@/core/entities/character";
 import { BuildingClimbGame } from "./building-climb.game";
 import { colors, drawEngine, HEIGHT, IconKey, WIDTH } from "@/core/draw-engine";
 import { BUILDING_WIDTH, FLOOR_HEIGHT } from "@/core/entities/building";
-import { roundTo16 } from "@/util/util";
+import { interpolate, roundTo16 } from "@/util/util";
+import { gameData } from "@/core/game-data";
+
+// Difficulty range of each property
+const difficultyRange: Record<string, [number,number]> = {
+  buildingNum: [4, 6],
+};
 
 class FireEscapeGame extends BuildingClimbGame {
   ladders: number[] = [];
@@ -16,6 +22,10 @@ class FireEscapeGame extends BuildingClimbGame {
     this.text = ' Escape ';
     this.ladders = [];
     this.standingOnStairs = false;
+    
+    const difficulty = gameData.getDifficulty();
+    this.buildingNum = interpolate(difficultyRange.buildingNum, difficulty);
+
     character.pos = {x: WIDTH / 2, y: HEIGHT / 2};
     for(let p=0; p < this.platforms.length - 1; p++) {
       this.ladders.push(4 + roundTo16(Math.random() * (BUILDING_WIDTH - 32)));
