@@ -1,12 +1,19 @@
 import { colors, drawEngine, HEIGHT, IconKey, WIDTH } from "@/core/draw-engine";
 import { GameBase } from "./templates/base.game";
 import { controls } from "@/core/controls";
-import { cap } from "@/util/util";
+import { cap, interpolate } from "@/util/util";
+import { gameData } from "@/core/game-data";
+
+// Difficulty range of each property
+const difficultyRange: Record<string, [number,number]> = {
+  changeChance: [0, 0.2],
+  actorSpeed: [0.04, 0.08],
+};
 
 class SpotlightGame extends GameBase {
   actorPos = 0;
-  actorSpeed = 0.08;
-  changeChance = 0.01;
+  actorSpeed = 0.07;
+  changeChance = 0.1;
 
   spotlightSpeed = 0.0002;
   spotlightSize = 0.05;
@@ -17,6 +24,10 @@ class SpotlightGame extends GameBase {
     this.text = 'Spotlight';
     this.actorPos = WIDTH / 2;
     this.spotlightAngle = 0;
+
+    const difficulty = gameData.getDifficulty();
+    this.actorSpeed = interpolate(difficultyRange.actorSpeed, difficulty);
+    this.changeChance = interpolate(difficultyRange.changeChance, difficulty);
   }
 
   onUpdate(delta: number): void {
@@ -65,6 +76,9 @@ class SpotlightGame extends GameBase {
     }
 
     if (!this.isEnding && !this.isStarting) {
+      if(delta * Math.random() < this.changeChance) {
+        this.actorSpeed *= -1;
+      }
       this.actorPos += delta * this.actorSpeed;
     }
 
