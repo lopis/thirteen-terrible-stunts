@@ -13,6 +13,7 @@ class FireEscapeGame extends BuildingClimbGame {
 
   onEnter(): void {
     super.onEnter();
+    this.text = ' Escape ';
     this.ladders = [];
     this.standingOnStairs = false;
     character.pos = {x: WIDTH / 2, y: HEIGHT / 2};
@@ -49,6 +50,7 @@ class FireEscapeGame extends BuildingClimbGame {
         fireAnimationFrame % 2 === 0
       );
     });
+    this.platforms[this.platforms.length-1].render(colors.white, colors.black);
 
     this.standingOnStairs = false;
     this.ladders.forEach((ladderPos, index) => {   

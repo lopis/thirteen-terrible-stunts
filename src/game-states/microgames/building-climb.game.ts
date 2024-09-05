@@ -14,7 +14,7 @@ export class BuildingClimbGame extends JumpGame {
 
   onEnter() {
     super.onEnter();
-    this.text = ' Escape ';
+    this.text = 'Climb up';
 
     this.maxY = Number.MAX_SAFE_INTEGER;
     this.minY = -Number.MAX_SAFE_INTEGER;
@@ -29,7 +29,7 @@ export class BuildingClimbGame extends JumpGame {
     const last = this.platforms[this.platforms.length - 1];
     this.platforms.push(new Platform(
       addVec(last.pos, {x: 0, y: FLOOR_HEIGHT}),
-      last.size
+      {x: BUILDING_WIDTH, y: 10}
     ));
     this.setDeathColliders();
   }
@@ -44,9 +44,6 @@ export class BuildingClimbGame extends JumpGame {
   onUpdate(delta: number): void {
     this.yOffset = -character.pos.y + HEIGHT / 2;
     super.onUpdate(delta);
-    if (this.hasWon()) {
-      this.nextLevel();
-    }
   }
 
   drawExtras(): void {

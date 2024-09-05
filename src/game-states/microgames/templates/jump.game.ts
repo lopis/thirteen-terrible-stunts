@@ -37,10 +37,18 @@ export default class JumpGame extends GameBase {
     });
   }
 
+  hasWon() {
+    return !this.isEnding && this.goalColliders.some((c) => c.collision().standsOn);
+  }
+
   onUpdate(delta: number) {
     if(!this.isEnding && this.deathColliders.some((c) => c.collision().collides)) {
       character.dead = true;
       this.loseLife();
+    }
+
+    if (!this.isEnding && this.hasWon()) {
+      this.nextLevel();
     }
 
     if (!this.isEnding) {
@@ -54,10 +62,6 @@ export default class JumpGame extends GameBase {
         cap(character.pos.y + Math.min(this.maxFallSpeed, character.velocity.y), this.minY, this.maxY) + 1,
       );
       const platform = this.platforms.find(p => p.standsOn());
-  
-      if(!this.isEnding && this.goalColliders.some((c) => c.collision().standsOn)) {
-        this.nextLevel();
-      }
   
       // Ensure character doesn't fall below the floor
       if (platform) {
