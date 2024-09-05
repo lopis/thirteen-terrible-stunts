@@ -23,7 +23,7 @@ export class BuildingClimbGame extends JumpGame {
     this.text = 'Climb up';
 
     const difficulty = gameData.getDifficulty();
-    this.buildingNum = interpolate(difficultyRange.buildingNum, difficulty);
+    this.buildingNum = Math.round(interpolate(difficultyRange.buildingNum, difficulty));
 
     this.maxY = Number.MAX_SAFE_INTEGER;
     this.minY = -Number.MAX_SAFE_INTEGER;

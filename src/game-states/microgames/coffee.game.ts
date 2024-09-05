@@ -87,6 +87,10 @@ class CoffeeGame extends MoveGame {
     }
   }
 
+  onLeave(): void {
+    character.holding = [];
+  }
+
   onUpdate(delta: number): void {
     this.render();
     this.entities.flat().forEach((f) => {

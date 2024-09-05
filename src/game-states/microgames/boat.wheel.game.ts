@@ -26,6 +26,7 @@ class BoatWheel extends GameBase {
 
   onEnter() {
     super.onEnter();
+    this.timeLeft = 5;
     const difficulty = gameData.getDifficulty(); // From 0.0 to 1.0
     this.wheelTurnTime = interpolate(difficultyRange, difficulty);
 
@@ -33,6 +34,7 @@ class BoatWheel extends GameBase {
     character.mirror = true;
     this.characterPos = initialPos;
     this.wheelPos = 0;
+    this.wheelOffset = Math.cos(this.wheelPos * 2 * Math.PI) / 20;
     this.isFalling = false;
     this.isDrifting = false;
     this.setCharacterPos();

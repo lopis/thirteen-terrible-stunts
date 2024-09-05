@@ -8,7 +8,7 @@ import { gameData } from '@/core/game-data';
 
 // Difficulty range of each property
 const difficultyRange: Record<string, [number,number]> = {
-  swigSpeed: [1800, 2500],
+  swingTime: [2500, 1800],
   ropeHeight: [120, 100],
 };
 
@@ -16,7 +16,7 @@ export class RopeJumpingGame extends JumpGame {
   acceleration = { x: 0.01, y: 0.05 };
   rope = new Collider({x:0,y:0}, {x:5,y:5});
   ropeHeight = 110;
-  swingSpeed = 2000;
+  swingTime = 2000;
   swingPos = 0; // from 0 to 1
   grabbing = false;
   isJumping = false;
@@ -42,13 +42,13 @@ export class RopeJumpingGame extends JumpGame {
     )];
 
     const difficulty = gameData.getDifficulty();
-    this.swingSpeed = interpolate(difficultyRange.swingSpeed, difficulty);
+    this.swingTime = interpolate(difficultyRange.swingTime, difficulty);
     this.ropeHeight = interpolate(difficultyRange.ropeHeight, difficulty);
   }
 
   onUpdate(delta: number) {
     super.onUpdate(delta);
-    this.swingPos += delta / this.swingSpeed;
+    this.swingPos += delta / this.swingTime;
     const ropeAngle = Math.sin(this.swingPos * 2 * Math.PI);
 
     // draw rope

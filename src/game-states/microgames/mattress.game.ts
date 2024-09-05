@@ -9,12 +9,12 @@ import { interpolate } from "@/util/util";
 // Difficulty range of each property
 const difficultyRange: Record<string, [number,number]> = {
   goalSize: [4, 2],
-  buildingHeigh: [100, 50],
+  buildingHeight: [100, 50],
 };
 
 class MattressGame extends BuildingJumpGame {
   goalSize = 0;
-  buildingHeigh = 0;
+  buildingHeight = 0;
 
   onEnter() {
     super.onEnter();
@@ -22,7 +22,7 @@ class MattressGame extends BuildingJumpGame {
 
     const difficulty = gameData.getDifficulty();
     this.goalSize = interpolate(difficultyRange.goalSize, difficulty);
-    this.buildingHeigh = interpolate(difficultyRange.buildingHeigh, difficulty);
+    this.buildingHeight = interpolate(difficultyRange.buildingHeight, difficulty);
 
     this.deathColliders = [new Platform(
       { x: 0, y: HEIGHT - 20 },
@@ -37,9 +37,14 @@ class MattressGame extends BuildingJumpGame {
     );
     this.goalColliders = [goal];
     this.platforms = [
-      new Building({x: -20, y: this.buildingHeigh + CHARACTER_SIZE}, 4),
-      goal,
+      new Building({x: -20, y: this.buildingHeight + CHARACTER_SIZE}, 4),
+      new Platform({...goal.pos}, {...goal.size})
     ];
+    goal.pos.y--;
+  }
+
+  hasWon() {
+    return !this.isEnding && this.goalColliders[0].collision().standsOn;
   }
 }
 

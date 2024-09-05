@@ -33,6 +33,8 @@ yarn dev
   - NEED ONE MORE IDEA
 - Implement story mode
 - Implement saving
+- There's no variation in the falling building level
+- If you lose with a coffee in your head, the coffee stays
 
 ## Inspiration
 

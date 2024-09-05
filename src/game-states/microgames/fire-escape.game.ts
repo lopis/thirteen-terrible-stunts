@@ -24,7 +24,7 @@ class FireEscapeGame extends BuildingClimbGame {
     this.standingOnStairs = false;
     
     const difficulty = gameData.getDifficulty();
-    this.buildingNum = interpolate(difficultyRange.buildingNum, difficulty);
+    this.buildingNum = Math.round(interpolate(difficultyRange.buildingNum, difficulty));
 
     character.pos = {x: WIDTH / 2, y: HEIGHT / 2};
     for(let p=0; p < this.platforms.length - 1; p++) {
