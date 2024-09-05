@@ -229,7 +229,7 @@ class DrawEngine {
 
     // Draw the line
     for (let i = 0; i <= dmax; i++) {
-      this.ctx.rect(Math.round(x), Math.round(y), 3, 3);
+      this.ctx.rect(Math.round(x) - 1, Math.round(y) - 1, 3, 3);
       x += dx;
       y += dy;
     }

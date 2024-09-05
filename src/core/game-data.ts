@@ -1,7 +1,7 @@
 import { gameStateMachine } from "@/game-state-machine";
 import { GameBase } from "@/game-states/microgames/templates/base.game";
 import { shuffleArray } from "@/util/util";
-import fireEscapeGame from "@/game-states/microgames/fire-escape.game";
+import spotlightGame from "@/game-states/microgames/spotlight.game";
 
 export type Boss = {
   name: string
@@ -53,7 +53,8 @@ const bossData: Boss[] = [
 // }
 
 const levelList = [
-  fireEscapeGame,
+  spotlightGame,
+  // fireEscapeGame,
   // coffeeGame,
   // fallingBuildingGame,
   // boatWheelGame,

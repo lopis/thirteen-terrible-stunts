@@ -34,10 +34,14 @@ yarn dev
   - mattressGame,
   - jumpingTrainGame,
   - ropeJumpingGame,
+- Microgame ideas
+  - clean the floor
+  - spotlight
+  -
 
 ## Inspiration
 
 <https://www.youtube.com/watch?v=UWEjxkkB8Xs>
 <https://www.youtube.com/watch?v=frYIj2FGmMA>
 
-Music is "Barroom Ballet" by Kevin MacLeod (Licensed under Creative Commons: By Attribution 3.0)
+Music is "Barroom Ballet" by Kevin MacLeod (Licensed under  ·-Creative Commons: By Attribution 3.0)
