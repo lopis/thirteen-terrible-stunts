@@ -3,9 +3,16 @@ import JumpGame from './templates/jump.game';
 import { Collider } from '@/core/entities/collider';
 import { colors, drawEngine, HEIGHT, IconKey, WIDTH } from '@/core/draw-engine';
 import { Platform } from '@/core/entities/platform';
-import { vecAdd } from '@/util/util';
+import { interpolate, vecAdd } from '@/util/util';
+import { gameData } from '@/core/game-data';
 
 const trainSize = 70;
+
+// Difficulty range of each property
+const difficultyRange: Record<string, [number,number]> = {
+  goalSize: [4, 2.5],
+  trainSpeed: [130, 200],
+};
 
 export class BuildingJumpGame extends JumpGame {
   acceleration = { x: 0.05, y: 0.05 };
@@ -13,10 +20,15 @@ export class BuildingJumpGame extends JumpGame {
   trainSpeed = 150;
   trainNum = 4;
   maxFallSpeed = 7;
+  goalSize = 3;
 
   onEnter() {
     super.onEnter();
     this.text = 'Land safely';
+
+    const difficulty = gameData.getDifficulty();
+    this.goalSize = interpolate(difficultyRange.goalSize, difficulty);
+    this.trainSpeed = interpolate(difficultyRange.trainSpeed, difficulty);
 
     this.platforms = [];
     for (let i = 0; i < this.trainNum; i++) {
@@ -30,7 +42,7 @@ export class BuildingJumpGame extends JumpGame {
     )];
     this.goalColliders = [new Collider(
       {x: WIDTH - 102, y: HEIGHT - 30},
-      {x: CHARACTER_SIZE*3, y: 10}
+      {x: CHARACTER_SIZE * this.goalSize, y: 10}
     )];
 
     character.pos = {x: 20, y: 70};
