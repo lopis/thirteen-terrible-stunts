@@ -33,8 +33,6 @@ yarn dev
   - buildingJumpGame,
   - mattressGame,
   - jumpingTrainGame,
-  - ropeJumpingGame,
-  - spotlight
 - Microgame ideas
   - clean the floor
   - NEED ONE MORE IDEA

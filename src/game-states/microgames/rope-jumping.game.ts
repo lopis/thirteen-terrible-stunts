@@ -3,7 +3,14 @@ import JumpGame from './templates/jump.game';
 import { Building, BUILDING_WIDTH } from '@/core/entities/building';
 import { Collider } from '@/core/entities/collider';
 import { colors, drawEngine, HEIGHT, WIDTH } from '@/core/draw-engine';
-import { vecAdd } from '@/util/util';
+import { interpolate, vecAdd } from '@/util/util';
+import { gameData } from '@/core/game-data';
+
+// Difficulty range of each property
+const difficultyRange: Record<string, [number,number]> = {
+  swigSpeed: [1800, 2500],
+  ropeHeight: [120, 100],
+};
 
 export class RopeJumpingGame extends JumpGame {
   acceleration = { x: 0.01, y: 0.05 };
@@ -33,6 +40,10 @@ export class RopeJumpingGame extends JumpGame {
       {x: WIDTH - BUILDING_WIDTH/3, y: 100 + CHARACTER_SIZE - 1},
       {x: BUILDING_WIDTH, y: 10}
     )];
+
+    const difficulty = gameData.getDifficulty();
+    this.swingSpeed = interpolate(difficultyRange.swingSpeed, difficulty);
+    this.ropeHeight = interpolate(difficultyRange.ropeHeight, difficulty);
   }
 
   onUpdate(delta: number) {
