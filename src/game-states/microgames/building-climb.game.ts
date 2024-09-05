@@ -4,7 +4,13 @@ import { Building, BUILDING_WIDTH, FLOOR_HEIGHT } from '@/core/entities/building
 import { Collider } from '@/core/entities/collider';
 import { colors, drawEngine, HEIGHT, IconKey, WIDTH } from '@/core/draw-engine';
 import { Platform } from '@/core/entities/platform';
-import { addVec } from '@/util/util';
+import { addVec, interpolate } from '@/util/util';
+import { gameData } from '@/core/game-data';
+
+// Difficulty range of each property
+const difficultyRange: Record<string, [number,number]> = {
+  buildingNum: [8, 12],
+};
 
 export class BuildingClimbGame extends JumpGame {
   acceleration = { x: 0.01, y: 0.05 };
@@ -15,6 +21,9 @@ export class BuildingClimbGame extends JumpGame {
   onEnter() {
     super.onEnter();
     this.text = 'Climb up';
+
+    const difficulty = gameData.getDifficulty();
+    this.buildingNum = interpolate(difficultyRange.buildingNum, difficulty);
 
     this.maxY = Number.MAX_SAFE_INTEGER;
     this.minY = -Number.MAX_SAFE_INTEGER;
