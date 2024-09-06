@@ -2,9 +2,9 @@ import { createGameStateMachine, gameStateMachine } from './game-state-machine';
 import { controls } from '@/core/controls';
 import { drawEngine } from './core/draw-engine';
 import { updateTimeEvents } from './core/timer';
+import { menuState } from './game-states/menu.state';
 import { preLoadLevels as preLoadLevelsStrings } from './core/font';
 import { gameData } from './core/game-data';
-import spotlightGame from './game-states/microgames/spotlight.game';
 
 // @ts-ignore -- is not undefined for sure
 document.querySelector('link[type="image/x-icon"]').href = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ctext y=\'.9em\' font-size=\'90\'%3E🎞%3C/text%3E%3C/svg%3E';
@@ -46,6 +46,6 @@ function update(currentTime: number) {
 
 init()
 .then(() => {
-  createGameStateMachine(spotlightGame);
+  createGameStateMachine(menuState);
   requestAnimationFrame(update);
 });

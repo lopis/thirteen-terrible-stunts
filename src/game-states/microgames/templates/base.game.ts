@@ -86,12 +86,13 @@ export class GameBase implements State {
       addTimeEvent(() => {
         this.gameOver = true;
         this.text = 'you\'re fired!';
+        this.inTransition = true;
+        const { name, gameover } = gameData.getBoss();
+        setBossDialog(name, gameover);
+        this.confirmCallback = () => {
+          gameStateMachine.setState(menuState);
+        };
       }, this.animationDuration * 4);
-      const { name, gameover } = gameData.getBoss();
-      setBossDialog(name, gameover);
-      this.confirmCallback = () => {
-        gameStateMachine.setState(menuState);
-      };
     } else {
       addTimeEvent(() => {        
         gameData.nextLevel();
