@@ -11,15 +11,14 @@
   image-rendering: -moz-crisp-edges;
   background: var(--color-white);
   border-radius: 5%;
-  height: 80vmin;
+  height: 95vmin;
   aspect-ratio: 320 / 256;
 }
 
-/* #c2d::before {
+#c2d::before {
   content: "";
   position: absolute;
-  box-shadow: 0 0 10vmin 0 var(--color-black) inset, 0 0 1vmin 0.2vmin var(--color-black) inset;
-} */
+}
 
 html, body {
   margin: 0;
@@ -31,10 +30,11 @@ html, body {
   font-family: Arial, Helvetica, sans-serif;
   overscroll-behavior: none;
   touch-action: none;
-  background: var(--color-gray);
+  background: var(--color-black);
 }
 
 /* FILM STRIP */
+/*
 body {
   background: 
   linear-gradient(
@@ -45,8 +45,8 @@ body {
     var(--color-black) 8%,
 
     var(--color-black) 10%,
-    /* var(--color-white) 10%,
-    var(--color-white) 90%, */
+    var(--color-white) 10%,
+    var(--color-white) 90%,
     var(--color-black) 90%,
 
     var(--color-black) 92%,
@@ -64,6 +64,7 @@ body {
     var(--color-black) 10%
   )
 }
+*/
 
 * {
   user-select: none !important;

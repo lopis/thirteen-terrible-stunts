@@ -31,12 +31,9 @@ yarn dev
 - Microgame ideas
   - clean the floor
   - rolling rocks
-- Implement story mode
 - Implement saving
-  - Save the last boss cleared
   - Save high score in endless mode
 - There's no variation in the falling building level
-- The spotlight level is way too hard when she turns around. make her stop for a bit before turning.
 
 ## Inspiration
 
