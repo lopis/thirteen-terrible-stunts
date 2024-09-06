@@ -62,26 +62,39 @@ const bossData: Boss[] = [
 //   return storage;
 // }
 
-const levelList = [
-  spotlightGame,
-  fireEscapeGame,
-  coffeeGame,
-  fallingBuildingGame,
-  boatWheelGame,
-  buildingClimbGame,
-  buildingJumpGame,
-  trampolinGame,
-  mattressGame,
-  jumpingTrainGame,
-  ropeJumpingGame,
+export const levels: GameBase[][] = [
+  [
+    coffeeGame,
+    buildingJumpGame,
+    // cleaninigGame,
+    jumpingTrainGame,
+  ],
+  [
+    coffeeGame,
+    buildingClimbGame,
+    buildingJumpGame,
+    trampolinGame,
+    fallingBuildingGame,
+  ],
+  [
+    spotlightGame,
+    boatWheelGame,
+    fallingBuildingGame,
+    jumpingTrainGame,
+    trampolinGame,
+  ],
+  [
+    spotlightGame,
+    fireEscapeGame,
+    mattressGame,
+    ropeJumpingGame,
+    //rollingRockGame,
+  ],
 ];
 
-export const levels: GameBase[][] = [
-  [...levelList],
-  [...levelList],
-  [...levelList],
-  [...levelList],
-];
+const allLevels: Set<GameBase> = new Set(levels.flat());
+console.log(allLevels);
+
 
 export const MAX_LIVES = 4;
 class GameData {
@@ -93,7 +106,7 @@ class GameData {
   randomLevels: GameBase[] = [];
 
   constructor() {
-    this.randomLevels = shuffleArray(levelList);
+    this.randomLevels = shuffleArray(Array.from(allLevels));
   }
 
   getBoss(): Boss {

@@ -30,11 +30,14 @@ yarn dev
 
 - Microgame ideas
   - clean the floor
-  - NEED ONE MORE IDEA
+  - rolling rocks
 - Implement story mode
 - Implement saving
+  - Save the last boss cleared
+  - Save high score in endless mode
 - There's no variation in the falling building level
-- If you lose with a coffee in your head, the coffee stays
+- The spotlight level is way too hard when she turns around. make her stop for a bit before turning.
+- It's possible climb 2 floors in building climbing
 
 ## Inspiration
 
