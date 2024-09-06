@@ -19,7 +19,7 @@ export class StartState implements State {
 
   onConfirm() {
     stopPlayingSentence();
-    gameData.nextLevel();
+    gameData.start();
   }
 }
 

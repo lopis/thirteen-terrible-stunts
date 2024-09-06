@@ -6,7 +6,7 @@ import { gameData } from '@/core/game-data';
 import { controls } from '@/core/controls';
 
 const menu: [string, number][] = [
-  [' Story mode /soon/', 80],
+  [' Story mode', 80],
   [' Endless mode', 160],
 ];
 
@@ -102,7 +102,7 @@ class LevelsState implements State {
   onConfirm() {
     if (this.selectedButton === 0) {
       gameData.endless = false;
-      gameData.level = 11;
+      gameData.level = -1;
       gameStateMachine.setState(startState);
     } else {
       gameData.endless = true;

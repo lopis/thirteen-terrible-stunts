@@ -21,26 +21,28 @@ let fpsBacklog: number[] = [];
 function update(currentTime: number) {
   let delta = currentTime - previousTime;
 
-  delta *= 1.3;
-  if (gameData.speedUp) {
-  }
+  if (delta >= 16) {
+    if (gameData.speedUp) {
+      delta *= 1.3;
+    }
+    
+    previousTime = currentTime;
+    fpsBacklog.push(1000 / delta);
+    if (fpsBacklog.length === 15) {
+      fps.innerHTML = `${Math.round(fpsBacklog.reduce((a, b) => a + b) / 15)} FPS`;
+      fpsBacklog = [];
+    }
   
-  previousTime = currentTime;
-  fpsBacklog.push(1000 / delta);
-  if (fpsBacklog.length === 15) {
-    fps.innerHTML = `${Math.round(fpsBacklog.reduce((a, b) => a + b) / 15)} FPS`;
-    fpsBacklog = [];
+    // if (document.hasFocus()) {
+      drawEngine.clear();
+    
+      const state = gameStateMachine.getState();
+      controls.onUpdate(state);
+      state.onUpdate(delta);
+      state.postRender && state.postRender(delta);
+      updateTimeEvents(delta);
+    // }
   }
-
-  // if (document.hasFocus()) {
-    drawEngine.clear();
-  
-    const state = gameStateMachine.getState();
-    controls.onUpdate(state);
-    state.onUpdate(delta);
-    state.postRender && state.postRender(delta);
-    updateTimeEvents(delta);
-  // }
 
   requestAnimationFrame(update);
 };

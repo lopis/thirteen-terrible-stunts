@@ -13,6 +13,7 @@ import { mattressGame } from "@/game-states/microgames/mattress.game";
 import jumpingTrainGame from "@/game-states/microgames/jumping-train.game";
 import ropeJumpingGame from "@/game-states/microgames/rope-jumping.game";
 import startState from "@/game-states/start.state";
+import { loadLevel, saveLevel } from "./storage";
 
 export type Boss = {
   name: string
@@ -50,18 +51,13 @@ const bossData: Boss[] = [
   {
     // https://en.wikipedia.org/wiki/Walt_Disney
     name: 'Wally',
-    intro: 'I\'ve been following you growth. Show me what you got, ha ha.',
+    intro: 'I\'ve been watching you grow. Show me what you got, ha ha.',
     final: 'The wheel must keep spinning, ha ha!',
     outro: 'Splendid. I can definitely use you, ha ha!',
     gameover: 'This just won\'t do ha ha',
   },
 ];
 
-// function getStorage(): string {
-//   const storage = localStorage.getItem('') || "";
-
-//   return storage;
-// }
 
 export const levels: GameBase[][] = [
   [
@@ -93,7 +89,7 @@ export const levels: GameBase[][] = [
   ],
 ];
 
-const allLevels: Set<GameBase> = new Set(levels.flat());
+const allLevels: Set<GameBase> = new Set([buildingJumpGame]); //levels.flat());
 
 export const MAX_LIVES = 4;
 class GameData {
@@ -108,6 +104,7 @@ class GameData {
 
   constructor() {
     this.randomLevels = shuffleArray(Array.from(allLevels));
+    this.boss = loadLevel();
   }
 
   getBoss(): Boss {
@@ -118,6 +115,13 @@ class GameData {
     const difficulty = this.endless ? this.level / 26 : (this.boss /3 + this.level / 12) / 2;
 
     return this.easyMode ? difficulty * 0.5 : difficulty;
+  }
+
+  start() {
+    this.level = -1;
+    this.level = -1;
+    this.speedUp = false;
+    this.nextLevel();
   }
 
   nextLevel() {
@@ -134,6 +138,7 @@ class GameData {
 
   nextBoss() {
     this.boss++;
+    saveLevel(this.boss);
     this.level = -1;
     this.speedUp = false;
     gameStateMachine.setState(startState);

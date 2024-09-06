@@ -32,7 +32,6 @@ yarn dev
   - clean the floor
   - rolling rocks
 - Implement story mode
-  - 
 - Implement saving
   - Save the last boss cleared
   - Save high score in endless mode
