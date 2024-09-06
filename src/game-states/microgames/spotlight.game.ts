@@ -6,14 +6,15 @@ import { gameData } from "@/core/game-data";
 
 // Difficulty range of each property
 const difficultyRange: Record<string, [number,number]> = {
-  changeChance: [0, 0.2],
+  changeChance: [0.2, 0.2],
   actorSpeed: [0.04, 0.08],
 };
 
 class SpotlightGame extends GameBase {
   actorPos = 0;
   actorSpeed = 0.07;
-  changeChance = 0.1;
+  actorDirection: number = 0;
+  changeChance = 0;
 
   spotlightSpeed = 0.0002;
   spotlightSize = 0.05;
@@ -24,6 +25,7 @@ class SpotlightGame extends GameBase {
     this.text = 'Spotlight';
     this.actorPos = WIDTH / 2;
     this.spotlightAngle = 0;
+    this.actorDirection = 1;
 
     const difficulty = gameData.getDifficulty();
     this.actorSpeed = interpolate(difficultyRange.actorSpeed, difficulty);
@@ -41,7 +43,7 @@ class SpotlightGame extends GameBase {
       drawEngine.drawIcon(IconKey.plant, {x: WIDTH/2 - 16*i*2 - 24, y: HEIGHT-50-16});
       drawEngine.drawIcon(IconKey.plant, {x: WIDTH/2 + 16*i*2 + 8, y: HEIGHT-50-16});
     }
-    drawEngine.drawIcon(IconKey.npc1, {x: this.actorPos - 8, y: HEIGHT-50-10}, false, this.actorSpeed < 0);
+    drawEngine.drawIcon(IconKey.npc1, {x: this.actorPos - 8, y: HEIGHT-50-10}, false, this.actorDirection < 0);
 
     // Spotlight
     drawEngine.ctx.beginPath();
@@ -76,17 +78,20 @@ class SpotlightGame extends GameBase {
     }
 
     if (!this.isEnding && !this.isStarting) {
-      if(delta * Math.random() < this.changeChance) {
-        this.actorSpeed *= -1;
+      // Change Direction
+      if(delta * Math.random() < (this.actorDirection === 0 ? this.changeChance*2 : this.changeChance)) {
+        const r = Math.random();
+        if (r > 0.5) {
+          this.actorDirection = (this.actorDirection + 1) % 2;       
+        } else {
+          this.actorDirection = (this.actorDirection - 1) % 2;
+        }
       }
-      this.actorPos += delta * this.actorSpeed;
+      this.actorPos += delta * this.actorSpeed * this.actorDirection;
     }
 
-    if (this.actorPos > WIDTH*0.8) {
-      this.actorSpeed *= -1;
-    }
-    if (this.actorPos < WIDTH*0.2) {
-      this.actorSpeed *= -1;
+    if (this.actorPos > WIDTH*0.8 || this.actorPos < WIDTH*0.2) {
+      this.actorDirection *= -1;
     }
   }
 
