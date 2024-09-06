@@ -17,6 +17,7 @@ class Controls {
   isRight = false;
   isConfirm = false;
   isEscape = false;
+  isKeyE = false;
   inputDirection: DOMPoint;
 
   keyMap: Map<string, boolean> = new Map();
@@ -26,7 +27,8 @@ class Controls {
     isRight: this.isRight,
     isLeft: this.isLeft,
     isConfirm: this.isConfirm,
-    isEscape: this.isEscape
+    isEscape: this.isEscape,
+    isKeyE: this.isKeyE,
   };
   keyboard: Keyboard | unknown;
 
@@ -44,6 +46,7 @@ class Controls {
     this.previousState.isDown = this.isDown;
     this.previousState.isConfirm = this.isConfirm;
     this.previousState.isEscape = this.isEscape;
+    this.previousState.isKeyE = this.isKeyE;
 
     const leftVal = (this.keyMap.get('KeyA') || this.keyMap.get('KeyQ') || this.keyMap.get('ArrowLeft')) ? -1 : 0;
     const rightVal = (this.keyMap.get('KeyD') || this.keyMap.get('ArrowRight')) ? 1 : 0;
@@ -58,6 +61,7 @@ class Controls {
     this.isRight = this.inputDirection.x > 0;
     this.isConfirm = Boolean(this.keyMap.get('Enter')) || Boolean(this.keyMap.get('Space'));
     this.isEscape = Boolean(this.keyMap.get('Escape'));
+    this.isKeyE = Boolean(this.keyMap.get('KeyE'));
 
     if (this.isEscape && gameStateMachine.getState() != menuState) {
       gameStateMachine.setState(menuState);

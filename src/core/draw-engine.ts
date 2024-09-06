@@ -238,25 +238,25 @@ class DrawEngine {
   }
 
   drawControls() {
-    const keySize = 10;
+    const keySize = 20;
     const padding = 2;
     const space = keySize + padding;
     this.ctx.save();
-    this.ctx.translate(80, 80);
+    this.ctx.translate(WIDTH / 2, 80);
     [
-      {x: space, y: 0},
+      {x: 0, y: 0},
       {x: 0, y: space},
+      {x: -space, y: space},
       {x: space, y: space},
-      {x: space*2, y: space},
     ].forEach(({x, y}) => {
-      this.drawRect({x, y}, {x: keySize, y: keySize}, colors.gray, colors.light);
+      this.drawRect({x: x - space/2, y}, {x: keySize, y: keySize}, colors.gray, colors.light);
     });
     this.drawText({
-      text: 'move',
-      x: space * 1.5,
+      text: 'move with arrows or wasd',
+      x: 0,
       y: keySize * 3,
       textAlign: 'center',
-      size: 2,
+      size: 1,
     });
     this.ctx.restore();
 

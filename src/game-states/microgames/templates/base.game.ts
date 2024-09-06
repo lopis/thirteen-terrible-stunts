@@ -22,6 +22,8 @@ export class GameBase implements State {
   gameOver = false;
 
   onEnter() {
+    this.maxTime = gameData.easyMode ? 20 : 10;
+    
     this.timeLeft = this.maxTime;
     this.isStarting = false;
     this.isEnding = false;

@@ -3,6 +3,7 @@ import { colors, drawEngine, HEIGHT, IconKey, WIDTH } from '@/core/draw-engine';
 import { gameStateMachine } from '@/game-state-machine';
 import { StartState } from './start.state';
 import { gameData } from '@/core/game-data';
+import { controls } from '@/core/controls';
 
 const menu: [string, number][] = [
   [' Story mode /soon/', 80],
@@ -10,14 +11,7 @@ const menu: [string, number][] = [
 ];
 
 class LevelsState implements State {
-  private selectedButton = 0;
-
-  onEnter() {
-    this.selectedButton = 1;
-  }
-
-  onLeave() {
-  }
+  selectedButton = 0;
 
   onUpdate(_delta: number) {
     // title
@@ -45,6 +39,26 @@ class LevelsState implements State {
       });
     });
 
+    if (gameData.easyMode) {
+      drawEngine.drawText({
+        text: '# Easy Mode Enabled #',
+        x: WIDTH / 2,
+        y: HEIGHT - 35,
+        textAlign: 'center',
+        color: colors.gray,
+        size: 1,
+      });
+    } else {
+      drawEngine.drawText({
+        text: 'Press E for easy mode',
+        x: WIDTH / 2,
+        y: HEIGHT - 35,
+        textAlign: 'center',
+        color: colors.light,
+        size: 1,
+      });
+    }
+
     drawEngine.drawText({
       text: 'Press ENTER to start',
       x: WIDTH / 2,
@@ -65,26 +79,32 @@ class LevelsState implements State {
       drawEngine.ctx.restore();
     });
     drawEngine.ctx.restore();
+
+    if (controls.isKeyE && !controls.previousState.isKeyE) {
+      gameData.easyMode = !gameData.easyMode;
+    }
   }
 
-  // onUp() {
-  //   this.selectedButton--;
-  //   if (this.selectedButton < 0) {
-  //     this.selectedButton = menu.length - 1;
-  //   }
-  // }
+  onUp() {
+    this.selectedButton--;
+    if (this.selectedButton < 0) {
+      this.selectedButton = menu.length - 1;
+    }
+  }
 
-  // onDown() {
-  //   this.selectedButton++;
-  //   if (this.selectedButton > menu.length - 1) {
-  //     this.selectedButton = 0;
-  //   }
-  // }
+  onDown() {
+    this.selectedButton++;
+    if (this.selectedButton > menu.length - 1) {
+      this.selectedButton = 0;
+    }
+  }
 
   onConfirm() {
     if (this.selectedButton === 0) {
+      gameData.endless = false;
       gameStateMachine.setState(new StartState());
     } else {
+      gameData.endless = true;
       gameData.nextLevel();
     }
   }

@@ -93,8 +93,6 @@ export const levels: GameBase[][] = [
 ];
 
 const allLevels: Set<GameBase> = new Set(levels.flat());
-console.log(allLevels);
-
 
 export const MAX_LIVES = 4;
 class GameData {
@@ -104,19 +102,20 @@ class GameData {
   lives = MAX_LIVES;
   endless = true;
   randomLevels: GameBase[] = [];
+  easyMode = false;
 
   constructor() {
     this.randomLevels = shuffleArray(Array.from(allLevels));
   }
 
   getBoss(): Boss {
-    console.log(this.boss, bossData[this.boss]);
-    
     return bossData[this.boss];
   }
 
   getDifficulty(): number {
-    return this.endless ? this.level / 26 : (this.boss /3 + this.level / 12) / 2;
+    const difficulty = this.endless ? this.level / 26 : (this.boss /3 + this.level / 12) / 2;
+
+    return this.easyMode ? difficulty * 0.5 : difficulty;
   }
 
   nextLevel() {
@@ -125,7 +124,8 @@ class GameData {
     if (this.endless) {
       level = this.randomLevels[this.level%this.randomLevels.length];
     } else {
-      level = levels[this.boss][this.level];
+      const bossLevels = levels[this.boss];
+      level = bossLevels[this.level % bossLevels.length];
     }
     gameStateMachine.setState(level);
   }

@@ -33,8 +33,6 @@ export const playSentence = (sentence: string) => {
   let index = 0;
   let interval = 60;
   let time = 0;
-  console.log(words);
-  
 
   const playNextWord = () => {
     if (isPlayingVoice && index < words.length) {  
@@ -43,7 +41,6 @@ export const playSentence = (sentence: string) => {
       playWord(syllables, () => {
         const duration = performance.now() - time;
         time = performance.now();
-        console.log(index, syllables, duration, 'ms');
         const remainingDelay = Math.max((syllables + 1) * interval - duration, 0);
         setTimeout(playNextWord, remainingDelay);
       });
@@ -70,7 +67,6 @@ export const stopPlayingSentence = () => {
 //   cumulativeDelay += i == 0 ? 0 : (1000 * (r + 1) * 4e3 / 48e3);  // Increase the cumulative delay based on the word length
 //   const pitchShift = 1 + (Math.random() - 0.5) * 0.5;
 //   setTimeout(() => {
-//     console.log(w, r, pitchShift);
 //     play(r, pitchShift);
 //   }, cumulativeDelay);  // Add an initial delay of 500ms
 // });
