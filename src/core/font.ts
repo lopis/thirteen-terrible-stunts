@@ -104,3 +104,9 @@ export const preLoadStrings = (strings: string[], textColors: string[], size: nu
     textColors.forEach(color => createImageData(str, size, color));
   });
 };
+
+export const preLoadLevels = () => {
+  for (let i = 1; i <= 13; i++) {
+    preLoadStrings([`Level ${(' ' + i).slice(-2)}`], [colors.black], 4);
+  }
+};

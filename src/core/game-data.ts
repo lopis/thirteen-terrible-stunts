@@ -12,6 +12,7 @@ import { trampolinGame } from "@/game-states/microgames/trampolin.game";
 import { mattressGame } from "@/game-states/microgames/mattress.game";
 import jumpingTrainGame from "@/game-states/microgames/jumping-train.game";
 import ropeJumpingGame from "@/game-states/microgames/rope-jumping.game";
+import startState from "@/game-states/start.state";
 
 export type Boss = {
   name: string
@@ -103,6 +104,7 @@ class GameData {
   endless = true;
   randomLevels: GameBase[] = [];
   easyMode = false;
+  speedUp = false;
 
   constructor() {
     this.randomLevels = shuffleArray(Array.from(allLevels));
@@ -128,6 +130,13 @@ class GameData {
       level = bossLevels[this.level % bossLevels.length];
     }
     gameStateMachine.setState(level);
+  }
+
+  nextBoss() {
+    this.boss++;
+    this.level = -1;
+    this.speedUp = false;
+    gameStateMachine.setState(startState);
   }
 
   restartLevel() {

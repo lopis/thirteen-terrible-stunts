@@ -1,3 +1,5 @@
+import { ooof } from '@/core/audio';
+import { renderBossDialog, setBossDialog } from '@/core/boss-dialog';
 import { colors, drawEngine, easeInOutSine, HEIGHT, WIDTH } from '@/core/draw-engine';
 import { character } from '@/core/entities/character';
 import { BROKEN_HEART, HEART, preLoadStrings } from '@/core/font';
@@ -13,6 +15,8 @@ const panelHeight = 50;
 export class GameBase implements State {
   isStarting = false;
   isEnding = false;
+  inTransition = false;
+
   animationDuration = 500;
   animationTimer = 0;
   animationProgress = 0;
@@ -27,6 +31,7 @@ export class GameBase implements State {
     this.timeLeft = this.maxTime;
     this.isStarting = false;
     this.isEnding = false;
+    this.inTransition = false;
     this.gameOver = false;
     character.velocity = {x:0, y:0};
     this.start();
@@ -93,11 +98,44 @@ export class GameBase implements State {
   nextLevel() {
     this.stop();
     this.animationTimer = 0;
-    this.text = 'Nice!';
     this.isEnding = true;
-    addTimeEvent(() => {
-      gameData.nextLevel();
-    }, this.animationDuration * 3);
+    this.text = 'Nice!';
+
+    if (!gameData.endless && gameData.level == 12) {
+      const { name, final, outro } = gameData.getBoss();
+      if (gameData.speedUp) {
+        gameData.speedUp = false;
+        this.inTransition = true;
+        setBossDialog(name, outro);
+        addTimeEvent(() => {
+          gameData.nextBoss();
+        }, 4000);
+      } else {
+        setBossDialog(name, final);
+        this.inTransition = true;
+        let startTime = this.animationDuration;
+        for (let i = 13; i >= 1; i--) {
+          startTime += 100 + 500 * (13 - i) / 13;
+          
+          addTimeEvent(() => {      
+            ooof();  
+            this.text = `Level ${(' ' + i).slice(-2)}`;
+          }, startTime, 0, this.animationDuration * 2);
+        }
+        addTimeEvent(() => {        
+          this.text = `SPEED UP!`;
+          addTimeEvent(() => {        
+            gameData.speedUp = true;
+            gameData.level = -1;
+            gameData.nextLevel();
+          }, 1000, 0, this.animationDuration * 2);
+        }, startTime + 2000, 0, this.animationDuration * 2);
+      }
+    } else {
+      addTimeEvent(() => {
+        gameData.nextLevel();
+      }, this.animationDuration * 3);
+    }
   }
 
   onUpdate(delta: number) {
@@ -124,6 +162,10 @@ export class GameBase implements State {
           this.isStarting = false;
         }
       }
+    }
+
+    if (this.inTransition) {
+      renderBossDialog(delta);
     }
 
     this.renderStats();

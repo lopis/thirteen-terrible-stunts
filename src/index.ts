@@ -3,6 +3,8 @@ import { controls } from '@/core/controls';
 import { drawEngine } from './core/draw-engine';
 import { updateTimeEvents } from './core/timer';
 import { menuState } from './game-states/menu.state';
+import { preLoadLevels as preLoadLevelsStrings } from './core/font';
+import { gameData } from './core/game-data';
 
 // @ts-ignore -- is not undefined for sure
 document.querySelector('link[type="image/x-icon"]').href = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ctext y=\'.9em\' font-size=\'90\'%3E🎞%3C/text%3E%3C/svg%3E';
@@ -10,13 +12,18 @@ document.querySelector('link[type="image/x-icon"]').href = 'data:image/svg+xml,%
 
 async function init() {
   await drawEngine.init();
+  preLoadLevelsStrings();
 }
 
 let previousTime = 0;
 let fpsBacklog: number[] = [];
 
 function update(currentTime: number) {
-  const delta = currentTime - previousTime;
+  let delta = currentTime - previousTime;
+
+  delta *= 1.3;
+  if (gameData.speedUp) {
+  }
   
   previousTime = currentTime;
   fpsBacklog.push(1000 / delta);

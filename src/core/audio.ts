@@ -1,3 +1,26 @@
+const t = (i: number, n: number)=>(n-i)/n;
+
+// Sound player
+export const playSound = (f: (i: number) => number) => {
+  const A = new AudioContext();
+  const m = A.createBuffer(1,96e3,48e3);
+  const b = m.getChannelData(0);
+  for(let i = 96e3; i--;) b[i] = f(i);
+  const s = A.createBufferSource();
+  s.buffer=m;
+  s.connect(A.destination);
+  s.start();
+};
+
+// Sound
+export const ooof = () => playSound((i: number) => {
+  var n=2e4;
+  if (i > n) return 0;
+  var q = t(i,n);
+  return 0.1 * Math.sin(-i*0.03*Math.sin(0.09*i+Math.sin(i/200))+Math.sin(i/100))*q*q;
+});
+
+
 // Voice Effects
 export const voiceFn = function(i: number, syllables: number, pitchShift: number): number {
   const n = syllables * 3e3;

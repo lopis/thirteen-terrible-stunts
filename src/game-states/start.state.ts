@@ -22,3 +22,5 @@ export class StartState implements State {
     gameData.nextLevel();
   }
 }
+
+export default new StartState();

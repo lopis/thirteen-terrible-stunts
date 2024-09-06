@@ -1,7 +1,7 @@
 import { State } from '@/core/state';
 import { colors, drawEngine, HEIGHT, IconKey, WIDTH } from '@/core/draw-engine';
 import { gameStateMachine } from '@/game-state-machine';
-import { StartState } from './start.state';
+import startState from './start.state';
 import { gameData } from '@/core/game-data';
 import { controls } from '@/core/controls';
 
@@ -102,7 +102,8 @@ class LevelsState implements State {
   onConfirm() {
     if (this.selectedButton === 0) {
       gameData.endless = false;
-      gameStateMachine.setState(new StartState());
+      gameData.level = 11;
+      gameStateMachine.setState(startState);
     } else {
       gameData.endless = true;
       gameData.nextLevel();
