@@ -37,7 +37,6 @@ yarn dev
   - Save high score in endless mode
 - There's no variation in the falling building level
 - The spotlight level is way too hard when she turns around. make her stop for a bit before turning.
-- It's possible climb 2 floors in building climbing
 
 ## Inspiration
 

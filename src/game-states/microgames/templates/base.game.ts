@@ -25,6 +25,8 @@ export class GameBase implements State {
   text = '';
   gameOver = false;
 
+  confirmCallback = () => {};
+
   onEnter() {
     this.maxTime = gameData.easyMode ? 20 : 10;
     
@@ -85,9 +87,11 @@ export class GameBase implements State {
         this.gameOver = true;
         this.text = 'you\'re fired!';
       }, this.animationDuration * 4);
-      addTimeEvent(() => {
+      const { name, gameover } = gameData.getBoss();
+      setBossDialog(name, gameover);
+      this.confirmCallback = () => {
         gameStateMachine.setState(menuState);
-      }, this.animationDuration * 7);
+      };
     } else {
       addTimeEvent(() => {        
         gameData.nextLevel();
@@ -107,9 +111,9 @@ export class GameBase implements State {
         gameData.speedUp = false;
         this.inTransition = true;
         setBossDialog(name, outro);
-        addTimeEvent(() => {
+        this.confirmCallback = () => {
           gameData.nextBoss();
-        }, 4000);
+        };
       } else {
         setBossDialog(name, final);
         this.inTransition = true;
@@ -128,7 +132,7 @@ export class GameBase implements State {
             gameData.speedUp = true;
             gameData.level = -1;
             gameData.nextLevel();
-          }, 1000, 0, this.animationDuration * 2);
+          }, 1000, 0, this.animationDuration);
         }, startTime + 2000, 0, this.animationDuration * 2);
       }
     } else {
@@ -226,5 +230,9 @@ export class GameBase implements State {
       size: Math.floor(panelWidth / (6 * this.text.length)),
       color: foreground
     });
+  }
+
+  onConfirm() {
+    this.confirmCallback();
   }
 }
