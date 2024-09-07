@@ -48,7 +48,7 @@ export default class JumpGame extends GameBase {
     }
 
     if (!this.isEnding && this.hasWon()) {
-      this.nextLevel();
+      this.nice();
     }
 
     if (!this.isEnding) {

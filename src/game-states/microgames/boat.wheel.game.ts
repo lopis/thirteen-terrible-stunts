@@ -41,7 +41,7 @@ class BoatWheel extends GameBase {
   }
 
   timeOver(): void {
-    this.nextLevel();
+    this.nice();
   }
 
   onUpdate(delta: number): void {

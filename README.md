@@ -34,6 +34,7 @@ yarn dev
 - Implement saving
   - Save high score in endless mode
 - There's no variation in the falling building level
+- If you die on Lvl 13, you don't procceed
 
 ## Inspiration
 

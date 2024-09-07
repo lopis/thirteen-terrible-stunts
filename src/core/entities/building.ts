@@ -1,6 +1,7 @@
 import { Vec2 } from "@/util/types";
 import { colors, drawEngine } from "../draw-engine";
 import { Platform } from "./platform";
+import { roundVec } from "@/util/util";
 
 export const BUILDING_WIDTH = 130;
 export const FLOOR_HEIGHT = 50;
@@ -10,7 +11,7 @@ export class Building extends Platform {
 
   constructor(pos: Vec2, floors = 3) {
     const size = {x: BUILDING_WIDTH, y: FLOOR_HEIGHT * floors};
-    super(pos, size);
+    super(roundVec(pos), size);
     this.floors = floors;
   }
 

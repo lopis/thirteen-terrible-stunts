@@ -94,47 +94,59 @@ export class GameBase implements State {
         };
       }, this.animationDuration * 4);
     } else {
-      addTimeEvent(() => {        
-        gameData.nextLevel();
-      }, this.animationDuration * 4);
+      addTimeEvent(() => {
+        this.nextLevel();
+      }, this.animationDuration);
     }
   }
 
-  nextLevel() {
+  nice() {
     this.stop();
     this.animationTimer = 0;
     this.isEnding = true;
     this.text = 'Nice!';
+    this.nextLevel();
+  }
 
+  endBoss() {
+    const { name, outro } = gameData.getBoss();
+    gameData.speedUp = false;
+    this.inTransition = true;
+    setBossDialog(name, outro);
+    this.confirmCallback = () => {
+      gameData.nextBoss();
+    };
+  }
+
+  phaseTwo() {
+    const { name, final } = gameData.getBoss();
+    setBossDialog(name, final);
+    this.inTransition = true;
+    let startTime = this.animationDuration;
+    for (let i = 13; i >= 1; i--) {
+      startTime += 100 + 500 * (13 - i) / 13;
+      
+      addTimeEvent(() => {      
+        ooof();  
+        this.text = `Level ${(' ' + i).slice(-2)}`;
+      }, startTime, 0, this.animationDuration * 2);
+    }
+    addTimeEvent(() => {        
+      this.text = `SPEED UP!`;
+      addTimeEvent(() => {        
+        gameData.speedUp = true;
+        gameData.level = -1;
+        gameData.nextLevel();
+      }, 1000, 0, this.animationDuration);
+    }, startTime + 2000, 0, this.animationDuration * 2);
+  }
+
+  nextLevel() {
     if (!gameData.endless && gameData.level == 12) {
-      const { name, final, outro } = gameData.getBoss();
       if (gameData.speedUp) {
-        gameData.speedUp = false;
-        this.inTransition = true;
-        setBossDialog(name, outro);
-        this.confirmCallback = () => {
-          gameData.nextBoss();
-        };
+        this.endBoss();
       } else {
-        setBossDialog(name, final);
-        this.inTransition = true;
-        let startTime = this.animationDuration;
-        for (let i = 13; i >= 1; i--) {
-          startTime += 100 + 500 * (13 - i) / 13;
-          
-          addTimeEvent(() => {      
-            ooof();  
-            this.text = `Level ${(' ' + i).slice(-2)}`;
-          }, startTime, 0, this.animationDuration * 2);
-        }
-        addTimeEvent(() => {        
-          this.text = `SPEED UP!`;
-          addTimeEvent(() => {        
-            gameData.speedUp = true;
-            gameData.level = -1;
-            gameData.nextLevel();
-          }, 1000, 0, this.animationDuration);
-        }, startTime + 2000, 0, this.animationDuration * 2);
+        this.phaseTwo();
       }
     } else {
       addTimeEvent(() => {

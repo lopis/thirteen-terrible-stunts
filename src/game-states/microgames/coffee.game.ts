@@ -101,7 +101,7 @@ class CoffeeGame extends MoveGame {
           f.say('TY#');
           character.pop();
           if (!this.entities.flat().some(e => e.isNPC && !e.holding)) {
-            this.nextLevel();
+            this.nice();
           }
         } else {
           f.hasCollided = false;

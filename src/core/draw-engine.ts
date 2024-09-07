@@ -67,7 +67,7 @@ export const iconsData = [
   /*coffeMachine*/ "PUUUU@ijjjAdjjjFPjjjZ@UUUUAtGPUUu^@@@PAPUEmGPTVt_@QYQADeE}G@TUt_@UUUAtGPUUUU@",
   /*wheel*/        "@@C@@pkzC@pzz@p~Np~oC{N{oo~~{{os~oC{Np~N@l~oN@@ojO@@@C@@",
                    
-  /*npc1*/         "@@@@@@TUUA@TejZATUffEPUYZV@UejZAPeZiA@djjF@PUUU@PijjEPdjjFAQjjZDPUUUE@PAPA@@E@E@@@@@@@",
+  /*npc1*/         "@@@@@@TUUA@TejZATUffEPUYZV@UejZAPeZiA@djjF@PUiV@PUYfEPTUfEAQUeUDPUUUE@TUUE@@E@E@@@@@@@",
   /*npc2*/         "@@@@@@PUUA@PjjZ@@ijjA@dZZF@PjiY@@iZiA@djjF@PUUU@PiZiEPdjjFAQUUUDPUUUE@PAPA@@E@E@@@@@@@",
   /*npc3*/         "@@@@@@PUUA@PUUU@@ijjA@TUUE@PZiU@@ijjA@djjF@PUUU@PUUVEPTUYEAQUUUDPUUUE@PAPA@@E@E@@@@@@@",
                    

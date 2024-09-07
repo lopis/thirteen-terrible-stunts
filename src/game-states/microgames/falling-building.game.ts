@@ -69,7 +69,7 @@ class FallingBuildingGame extends MoveGame {
       if (this.progress >= 1) {
         if (!this.isEnding) {
           if (this.goalCollider?.collision().collides) {
-            this.nextLevel();
+            this.nice();
           } else {
             this.loseLife();
           }

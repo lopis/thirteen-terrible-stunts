@@ -33,10 +33,10 @@ const bossData: Boss[] = [
     gameover: 'Stop wasting my time kid!',
   },
   {
-    //https://de.wikipedia.org/wiki/Leni_Riefenstahl
-    name: 'Producer Elena',
-    intro: 'Just do as you\'re told and don\'t get in my way.',
-    final: 'Hurry, I don\'t have all day',
+    // https://en.wikipedia.org/wiki/Leni_Riefenstahl
+    name: 'Director Leni',
+    intro: 'Just do what one tells you, and stay out of my way.',
+    final: 'Hurry, I have not the whole day.',
     outro: 'Obedient and disciplined. You\'ll get far, child.',
     gameover: 'Is there some reason my coffee isn\t here?',
   },
@@ -44,7 +44,7 @@ const bossData: Boss[] = [
     // https://en.wikipedia.org/wiki/Alfred_Hitchcock
     name: 'Director Alfred',
     intro: 'Good evening. Are you ready to face your fears?',
-    final: 'Time for your final act',
+    final: 'It is time for your final act',
     outro: 'Well done. I must admit, you handled the tension admirably.',
     gameover: 'Was this worth the price of admission?',
   },
@@ -67,9 +67,9 @@ export const levels: GameBase[][] = [
     jumpingTrainGame,
   ],
   [
-    coffeeGame,
     buildingClimbGame,
     buildingJumpGame,
+    coffeeGame,
     trampolinGame,
     fallingBuildingGame,
   ],

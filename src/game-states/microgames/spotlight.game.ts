@@ -96,7 +96,7 @@ class SpotlightGame extends GameBase {
   }
 
   timeOver(): void {
-    this.nextLevel();
+    this.nice();
   }
 
   queryControls(delta: number): void {
