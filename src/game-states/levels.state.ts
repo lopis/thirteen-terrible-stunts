@@ -74,7 +74,7 @@ class LevelsState implements State {
       drawEngine.ctx.save();
       drawEngine.ctx.scale(2, 2);
       const pos = {x: width * i, y: 0};
-      drawEngine.drawRect(pos, {x: 16, y: 16}, colors.light);
+      drawEngine.drawRect(pos, {x: 16, y: 16}, colors.light, colors.light);
       drawEngine.drawIcon(boss, pos, true);
       drawEngine.ctx.restore();
     });
@@ -102,7 +102,6 @@ class LevelsState implements State {
   onConfirm() {
     if (this.selectedButton === 0) {
       gameData.endless = false;
-      gameData.level = -1;
       gameStateMachine.setState(startState);
     } else {
       gameData.endless = true;

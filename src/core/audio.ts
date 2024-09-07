@@ -17,7 +17,7 @@ export const ooof = () => playSound((i: number) => {
   var n=2e4;
   if (i > n) return 0;
   var q = t(i,n);
-  return 0.1 * Math.sin(-i*0.03*Math.sin(0.09*i+Math.sin(i/200))+Math.sin(i/100))*q*q;
+  return 0.3 * Math.tan(Math.cbrt(Math.sin(i/30)))*q*q;
 });
 
 

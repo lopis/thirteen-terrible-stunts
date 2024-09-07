@@ -192,11 +192,11 @@ class DrawEngine {
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
   }
 
-  drawRect(pos: Vec2, size: Vec2, stroke: string, fill?: string) {
+  drawRect(pos: Vec2, size: Vec2, stroke: string, fill: string) {
     const {x, y} = roundVec(pos);
     this.ctx.fillStyle = stroke;
     this.ctx.fillRect(x, y, size.x, size.y);
-    this.ctx.fillStyle = fill || stroke;
+    this.ctx.fillStyle = fill;
     this.ctx.fillRect(x+1, y+1, size.x-2, size.y-2);
   }
 
@@ -355,7 +355,7 @@ class DrawEngine {
       WIDTH, rightY,
       colors.gray,
     );
-    this.ctx.beginPath;
+    this.ctx.beginPath();
     this.ctx.moveTo(0, leftY);
     this.ctx.lineTo(WIDTH, rightY);
     this.ctx.lineTo(WIDTH, HEIGHT);

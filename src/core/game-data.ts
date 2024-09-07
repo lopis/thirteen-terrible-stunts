@@ -89,7 +89,7 @@ export const levels: GameBase[][] = [
   ],
 ];
 
-const allLevels: Set<GameBase> = new Set([buildingJumpGame]); //levels.flat());
+const allLevels: Set<GameBase> = new Set(levels.flat());
 
 export const MAX_LIVES = 4;
 class GameData {
@@ -119,7 +119,7 @@ class GameData {
 
   start() {
     this.level = -1;
-    this.level = -1;
+    this.level = 11;
     this.speedUp = false;
     this.nextLevel();
   }

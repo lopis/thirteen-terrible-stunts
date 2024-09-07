@@ -32,9 +32,9 @@ export class BuildingJumpGame extends JumpGame {
 
     this.platforms = [];
     for (let i = 0; i < this.trainNum; i++) {
-      this.platforms.push(new Platform(
-        {x: i * (3 * trainSize + 25), y: 150}, {x: 3*trainSize, y: trainSize}, colors.gray, colors.light)
-      );
+      const platform = new Platform({x: i * (3 * trainSize + 25), y: 150}, {x: 3*trainSize, y: trainSize})
+      platform.setColor(colors.gray, colors.light);
+      this.platforms.push(platform);
     }
     this.deathColliders = [new Collider(
       { x: 0, y: HEIGHT - 10 },
@@ -49,7 +49,7 @@ export class BuildingJumpGame extends JumpGame {
   }
 
   onUpdate(delta: number): void {
-    drawEngine.drawRect({x: 0, y: HEIGHT - 35}, {x: WIDTH, y: 35}, colors.gray);
+    drawEngine.drawRect({x: 0, y: HEIGHT - 35}, {x: WIDTH, y: 35}, colors.gray, colors.gray);
     this.goalColliders[0].render(colors.white, colors.black);
 
     super.onUpdate(delta);

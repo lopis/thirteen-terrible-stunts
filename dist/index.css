@@ -10,9 +10,10 @@
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   background: var(--color-white);
-  border-radius: 5%;
-  height: 95vmin;
+  border-radius: 5vmin;
+  height: 95vh;
   aspect-ratio: 320 / 256;
+  max-height: calc(95vw * 256 / 320);
 }
 
 #c2d::before {

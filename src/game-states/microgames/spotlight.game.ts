@@ -36,7 +36,7 @@ class SpotlightGame extends GameBase {
     super.onUpdate(delta);
 
     // Bottom
-    drawEngine.drawRect({x: 0, y: HEIGHT-50}, {x: WIDTH, y: 50}, colors.light);
+    drawEngine.drawRect({x: 0, y: HEIGHT-50}, {x: WIDTH, y: 50}, colors.light, colors.light);
 
     drawEngine.drawIcon(IconKey.camera, {x: 16, y: HEIGHT-50-16}, false, true);
     for(let i = 0; i < 4; i++) {

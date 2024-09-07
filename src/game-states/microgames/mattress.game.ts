@@ -24,17 +24,17 @@ class MattressGame extends BuildingJumpGame {
     this.goalSize = interpolate(difficultyRange.goalSize, difficulty);
     this.buildingHeight = interpolate(difficultyRange.buildingHeight, difficulty);
 
-    this.deathColliders = [new Platform(
+    const death = new Platform(
       { x: 0, y: HEIGHT - 20 },
-      { x: WIDTH, y: 20 },
-      colors.gray
-    )];
+      { x: WIDTH, y: 20 }
+    );
+    death.setColor(colors.gray, colors.gray);
+    this.deathColliders = [death];
     const goal = new Platform(
       {x: WIDTH - 102, y: HEIGHT - 25},
-      {x: CHARACTER_SIZE * this.goalSize, y: 5},
-      colors.black,
-      colors.white,
+      {x: CHARACTER_SIZE * this.goalSize, y: 5}
     );
+    goal.setColor(colors.black, colors.white);
     this.goalColliders = [goal];
     this.platforms = [
       new Building({x: -20, y: this.buildingHeight + CHARACTER_SIZE}, 4),

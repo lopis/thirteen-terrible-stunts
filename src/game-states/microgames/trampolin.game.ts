@@ -31,11 +31,12 @@ class TrampolinGame extends BuildingJumpGame {
       spaceApart: interpolate(difficultyRange.spaceApart, difficulty),
     });
 
-    this.deathColliders = [new Platform(
+    const death = new Platform(
       { x: 0, y: HEIGHT - 20 },
-      { x: WIDTH, y: 20 },
-      colors.gray
-    )];
+      { x: WIDTH, y: 20 }
+    );
+    this.deathColliders = [death];
+    death.setColor(colors.gray, colors.gray);
     this.platforms = [
       new Building({x: -BUILDING_WIDTH*spaceApart, y: HEIGHT - buildingHeight + CHARACTER_SIZE}, 4),
       new Building({x: WIDTH -BUILDING_WIDTH*(1-spaceApart), y: HEIGHT - buildingHeight + CHARACTER_SIZE}, 4),

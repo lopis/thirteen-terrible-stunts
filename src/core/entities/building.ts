@@ -33,7 +33,7 @@ export class Building extends Platform {
     drawEngine.drawRect(this.pos, this.size, colors.gray, colors.light);
     for (let floor = 0; floor < this.floors; floor++) {
       const [pos, size] = this.getPlatform(floor * FLOOR_HEIGHT);
-      drawEngine.drawRect(pos, size, colors.gray);
+      drawEngine.drawRect(pos, size, colors.gray, colors.gray);
 
       for (let w = 0; w < 5; w++) {
         drawEngine.ctx.save();

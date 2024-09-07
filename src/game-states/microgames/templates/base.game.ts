@@ -4,6 +4,7 @@ import { colors, drawEngine, easeInOutSine, HEIGHT, WIDTH } from '@/core/draw-en
 import { character } from '@/core/entities/character';
 import { BROKEN_HEART, HEART, preLoadStrings } from '@/core/font';
 import { gameData, MAX_LIVES } from '@/core/game-data';
+import { musicPlayer } from '@/core/music';
 import { State } from '@/core/state';
 import { addTimeEvent, clearTimers } from '@/core/timer';
 import { gameStateMachine } from '@/game-state-machine';
@@ -36,6 +37,11 @@ export class GameBase implements State {
     this.inTransition = false;
     this.gameOver = false;
     character.velocity = {x:0, y:0};
+
+    if(!musicPlayer.isPlaying) {
+      musicPlayer.startPlayback();
+    }
+
     this.start();
   }
 
@@ -224,6 +230,7 @@ export class GameBase implements State {
     drawEngine.drawRect(
       {x: WIDTH - x - (panelWidth / 2) + 8, y: HEIGHT - y - (panelHeight / 2) + 8},
       {x: panelWidth, y: panelHeight},
+      colors.black,
       colors.black,
     );
     // Front

@@ -25,10 +25,6 @@ export class Collider {
     this.hasCollided = false;
   }
 
-  /**
-   * Returns true if the character is colliding with this collider.
-   * @param character the character, which has a pos and a size.
-   */
   collision(): CollisionMap {
     const charRight = character.pos.x + character.size.x;
     const charBottom = character.pos.y + character.size.y;
