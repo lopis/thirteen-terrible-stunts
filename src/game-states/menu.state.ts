@@ -3,7 +3,8 @@ import { colors, drawEngine, HEIGHT, IconKey, WIDTH } from '@/core/draw-engine';
 import { gameStateMachine } from '@/game-state-machine';
 import { gameData, MAX_LIVES } from '@/core/game-data';
 import { levelsState } from './levels.state';
-import { initMusic, musicPlayer } from '@/core/music';
+import music from '@/core/music';
+// import { musicPlayer } from '@/core/music';
 
 const menu = [
   'start',
@@ -25,9 +26,9 @@ class MenuState implements State {
 
   onEnter() {
     byline = bylines[Math.floor(Math.random() * bylines.length)];
-    if (musicPlayer?.isPlaying) {
-      musicPlayer.stop();
-    }
+    // if (musicPlayer?.isPlaying) {
+    //   musicPlayer.stop();
+    // }
   }
 
   onLeave() {
@@ -96,7 +97,7 @@ class MenuState implements State {
       gameData.level = -1;
       gameData.lives = MAX_LIVES;
       gameStateMachine.setState(levelsState);
-      initMusic();
+      music.init();
     }
   }
 }

@@ -41,4 +41,14 @@ yarn dev
 - <https://www.youtube.com/watch?v=UWEjxkkB8Xs>
 - <https://www.youtube.com/watch?v=frYIj2FGmMA>
 
-Music is "Barroom Ballet" by Kevin MacLeod (Licensed under  ·-Creative Commons: By Attribution 3.0)
+## Music
+
+[Batty McFaddin](https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1200003)
+<br>
+Kevin MacLeod (incompetech.com)
+<br>
+Licensed under Creative Commons: By Attribution 3.0
+<br>
+<http://creativecommons.org/licenses/by/3.0/>
+
+Adapted for JS13k: <https://onlinesequencer.net/4178292>

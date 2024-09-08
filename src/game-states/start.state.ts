@@ -2,13 +2,13 @@ import { stopPlayingSentence } from '@/core/audio';
 import { renderBossDialog, setBossDialog } from '@/core/boss-dialog';
 import { drawEngine } from '@/core/draw-engine';
 import { gameData } from '@/core/game-data';
-import { musicPlayer } from '@/core/music';
+// import { musicPlayer } from '@/core/music';
 import { State } from '@/core/state';
 
 export class StartState implements State {
 
   onEnter() {
-    musicPlayer.stop();
+    // musicPlayer.stop();
     const { name, intro } = gameData.getBoss();
     setBossDialog(name, intro);
   }
