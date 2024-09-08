@@ -68,17 +68,17 @@ class LevelsState implements State {
       size: 1,
     });
   
-    drawEngine.ctx.save();
-    drawEngine.ctx.translate(x, 100);
+    c.save();
+    c.translate(x, 100);
     [IconKey.boss1, IconKey.boss2, IconKey.boss3, IconKey.boss4].forEach((boss, i) => {
-      drawEngine.ctx.save();
-      drawEngine.ctx.scale(2, 2);
+      c.save();
+      c.scale(2, 2);
       const pos = {x: width * i, y: 0};
       drawEngine.drawRect(pos, {x: 16, y: 16}, colors.light, colors.light);
       drawEngine.drawIcon(boss, pos, true);
-      drawEngine.ctx.restore();
+      c.restore();
     });
-    drawEngine.ctx.restore();
+    c.restore();
 
     if (controls.isKeyE && !controls.previousState.isKeyE) {
       gameData.easyMode = !gameData.easyMode;

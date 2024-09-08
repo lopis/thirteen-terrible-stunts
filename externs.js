@@ -2,3 +2,4 @@
 let c2d;
 let fps;
 let localStorage;
+let c;

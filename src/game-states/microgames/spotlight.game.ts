@@ -46,10 +46,10 @@ class SpotlightGame extends GameBase {
     drawEngine.drawIcon(IconKey.npc1, {x: this.actorPos - 8, y: HEIGHT-50-10}, false, this.actorDirection < 0);
 
     // Spotlight
-    drawEngine.ctx.beginPath();
-    drawEngine.ctx.moveTo(WIDTH/2, 80);
-    drawEngine.ctx.globalAlpha = 1;
-    drawEngine.ctx.fillStyle = colors.gray;
+    c.beginPath();
+    c.moveTo(WIDTH/2, 80);
+    c.globalAlpha = 1;
+    c.fillStyle = colors.gray;
     const rightCorner = {
       x: WIDTH/2 +  Math.sin((this.spotlightAngle + this.spotlightSize) * 2 * Math.PI) * HEIGHT * 2,
       y: 80 + HEIGHT * 2 * Math.cos((this.spotlightAngle + this.spotlightSize) * 2 * Math.PI),
@@ -58,14 +58,14 @@ class SpotlightGame extends GameBase {
       x: WIDTH/2 +  Math.sin((this.spotlightAngle - this.spotlightSize) * 2 * Math.PI) * HEIGHT * 2,
       y: 80 + HEIGHT * 2 * Math.cos((this.spotlightAngle - this.spotlightSize) * 2 * Math.PI),
     };
-    drawEngine.ctx.lineTo(rightCorner.x, rightCorner.y);
-    drawEngine.ctx.lineTo(WIDTH, HEIGHT);
-    drawEngine.ctx.lineTo(WIDTH, 0);
-    drawEngine.ctx.lineTo(0, 0);
-    drawEngine.ctx.lineTo(0, HEIGHT);
-    drawEngine.ctx.lineTo(leftCorner.x, leftCorner.y);
-    drawEngine.ctx.lineTo(WIDTH/2, 80);
-    drawEngine.ctx.fill();
+    c.lineTo(rightCorner.x, rightCorner.y);
+    c.lineTo(WIDTH, HEIGHT);
+    c.lineTo(WIDTH, 0);
+    c.lineTo(0, 0);
+    c.lineTo(0, HEIGHT);
+    c.lineTo(leftCorner.x, leftCorner.y);
+    c.lineTo(WIDTH/2, 80);
+    c.fill();
     drawEngine.drawLine(WIDTH/2, 80, rightCorner.x, rightCorner.y, colors.light);
     drawEngine.drawLine(WIDTH/2, 80, leftCorner.x, leftCorner.y, colors.light);
     drawEngine.drawIcon(IconKey.base, {x: WIDTH/2 - 8, y: 80-16});

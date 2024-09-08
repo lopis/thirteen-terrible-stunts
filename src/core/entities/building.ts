@@ -36,10 +36,10 @@ export class Building extends Platform {
       drawEngine.drawRect(pos, size, colors.gray, colors.gray);
 
       for (let w = 0; w < 5; w++) {
-        drawEngine.ctx.save();
-        drawEngine.ctx.translate(this.pos.x + 8 + 25 * w, this.pos.y + 14 + FLOOR_HEIGHT * floor);
+        c.save();
+        c.translate(this.pos.x + 8 + 25 * w, this.pos.y + 14 + FLOOR_HEIGHT * floor);
         this.drawWindow();
-        drawEngine.ctx.restore();
+        c.restore();
       }
     }
   }

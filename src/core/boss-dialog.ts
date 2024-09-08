@@ -56,11 +56,11 @@ export function renderBossDialog(delta: number) {
     });
   });
 
-  drawEngine.ctx.save();
-  drawEngine.ctx.translate(WIDTH - 45, HEIGHT - 60);
-  drawEngine.ctx.save();
-  drawEngine.ctx.scale(2, 2);
+  c.save();
+  c.translate(WIDTH - 45, HEIGHT - 60);
+  c.save();
+  c.scale(2, 2);
   drawEngine.drawIcon(icon, { x: 0, y: 0 });
-  drawEngine.ctx.restore();
-  drawEngine.ctx.restore();
+  c.restore();
+  c.restore();
 }

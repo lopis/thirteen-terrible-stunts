@@ -67,7 +67,6 @@ const createImageData = async (text: string, size: number, color: string) => {
 };
 
 export const drawText = (
-  ctx: CanvasRenderingContext2D,
   {
     text,
     color = colors.black,
@@ -90,11 +89,11 @@ export const drawText = (
   const offsetY = textBaseline === 'top' ? 0 : textBaseline === 'middle' ? Math.round(letterWidth / 2) : letterWidth;
   if (bitmaps[id]) {
     const maxWidth = maxLetters * spaced;
-    ctx.drawImage(bitmaps[id], 0, 0, maxWidth, spaced, x - offsetX, y - offsetY, maxWidth, spaced);
+    c.drawImage(bitmaps[id], 0, 0, maxWidth, spaced, x - offsetX, y - offsetY, maxWidth, spaced);
   } else {
     createImageData(text, size, color)
     .then(() => {
-      ctx.drawImage(bitmaps[id], x - offsetX, y);
+      c.drawImage(bitmaps[id], x - offsetX, y);
     });
   }
 };

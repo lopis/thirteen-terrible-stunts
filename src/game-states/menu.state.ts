@@ -26,9 +26,7 @@ class MenuState implements State {
 
   onEnter() {
     byline = bylines[Math.floor(Math.random() * bylines.length)];
-    // if (musicPlayer?.isPlaying) {
-    //   musicPlayer.stop();
-    // }
+    music.stop();
   }
 
   onLeave() {
@@ -59,13 +57,13 @@ class MenuState implements State {
       });
     });
 
-    drawEngine.ctx.save();
-    drawEngine.ctx.globalAlpha = 0.5;
-    drawEngine.ctx.translate(0.5, 0.5);
-    drawEngine.ctx.rotate(-25);
-    drawEngine.ctx.scale(8,8);
+    c.save();
+    c.globalAlpha = 0.5;
+    c.translate(0.5, 0.5);
+    c.rotate(-25);
+    c.scale(8,8);
     drawEngine.drawIcon(IconKey.jumping, {x: 3, y: 13});
-    drawEngine.ctx.restore();
+    c.restore();
 
     drawEngine.drawText({
       text: byline,
@@ -97,7 +95,6 @@ class MenuState implements State {
       gameData.level = -1;
       gameData.lives = MAX_LIVES;
       gameStateMachine.setState(levelsState);
-      music.init();
     }
   }
 }

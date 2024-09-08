@@ -103,12 +103,11 @@ export const COLUMNS = WIDTH / 16;
 
 class DrawEngine {
   charFrame = 0;
-  ctx: CanvasRenderingContext2D;
   ready = false;
 
   constructor() {
-    this.ctx = c2d.getContext("2d", {alpha: false}) as CanvasRenderingContext2D;
-    this.ctx.imageSmoothingEnabled = false;
+    (window as any).c = c2d.getContext("2d", {alpha: false}) as CanvasRenderingContext2D;
+    c.imageSmoothingEnabled = false;
   }
 
   async init() {
@@ -141,8 +140,8 @@ class DrawEngine {
     for (let j = 0; j < size; j++) {
       for (let i = 0; i < size; i++) {
         if (imageArray[j * size + i]) {
-          // this.ctx.fillStyle = '#' + iconPalette.substring(index, index + 6);        
-          // this.ctx.fillRect(i, j, 1, 1);
+          // c.fillStyle = '#' + iconPalette.substring(index, index + 6);        
+          // c.fillRect(i, j, 1, 1);
           const paletteIndex = 6 * (imageArray[j * size + i] - 1);
           const [r, g, b, a] = hexToRgb('#' + iconPalette.substring(paletteIndex, paletteIndex + 6));
           const index = (i + j * size) * 4; // 4 channels per pixel
@@ -163,19 +162,19 @@ class DrawEngine {
     if (!icon) {
       return;
     }
-    this.ctx.save();
-    dark && (this.ctx.filter = "brightness(0)");
-    this.ctx.translate(pos.x + (mirrored ? icon.width : 0), pos.y);
-    this.ctx.save();
-    this.ctx.scale(mirrored ? -1 : 1, 1);
+    c.save();
+    dark && (c.filter = "brightness(0)");
+    c.translate(pos.x + (mirrored ? icon.width : 0), pos.y);
+    c.save();
+    c.scale(mirrored ? -1 : 1, 1);
     if (halfOnly) {
-      this.ctx.beginPath();
-      this.ctx.rect(0, 0, 16, 8);
-      this.ctx.clip();
+      c.beginPath();
+      c.rect(0, 0, 16, 8);
+      c.clip();
     }
-    this.ctx.drawImage(icon, 0, 0);
-    this.ctx.restore();
-    this.ctx.restore();
+    c.drawImage(icon, 0, 0);
+    c.restore();
+    c.restore();
   }
 
   drawWalkingIcon(keyFrame: number, pos: Vec2, mirrored: boolean) {
@@ -183,21 +182,21 @@ class DrawEngine {
   }
 
   drawText(options: DrawTextProps) {
-    drawText(this.ctx, options);
+    drawText(options);
   }
 
   clear() {
-    this.ctx.clearRect(0, 0, WIDTH, HEIGHT);
-    this.ctx.fillStyle = colors.white;
-    this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    c.clearRect(0, 0, WIDTH, HEIGHT);
+    c.fillStyle = colors.white;
+    c.fillRect(0, 0, WIDTH, HEIGHT);
   }
 
   drawRect(pos: Vec2, size: Vec2, stroke: string, fill: string) {
     const {x, y} = roundVec(pos);
-    this.ctx.fillStyle = stroke;
-    this.ctx.fillRect(x, y, size.x, size.y);
-    this.ctx.fillStyle = fill;
-    this.ctx.fillRect(x+1, y+1, size.x-2, size.y-2);
+    c.fillStyle = stroke;
+    c.fillRect(x, y, size.x, size.y);
+    c.fillStyle = fill;
+    c.fillRect(x+1, y+1, size.x-2, size.y-2);
   }
 
   /**
@@ -224,25 +223,25 @@ class DrawEngine {
     dx /= dmax;
     dy /= dmax;
 
-    this.ctx.fillStyle = color;
-    this.ctx.beginPath();
+    c.fillStyle = color;
+    c.beginPath();
 
     // Draw the line
     for (let i = 0; i <= dmax; i++) {
-      this.ctx.rect(Math.round(x) - 1, Math.round(y) - 1, 3, 3);
+      c.rect(Math.round(x) - 1, Math.round(y) - 1, 3, 3);
       x += dx;
       y += dy;
     }
 
-    this.ctx.fill();
+    c.fill();
   }
 
   drawControls() {
     const keySize = 20;
     const padding = 2;
     const space = keySize + padding;
-    this.ctx.save();
-    this.ctx.translate(WIDTH / 2, 80);
+    c.save();
+    c.translate(WIDTH / 2, 80);
     [
       {x: 0, y: 0},
       {x: 0, y: space},
@@ -258,49 +257,49 @@ class DrawEngine {
       textAlign: 'center',
       size: 1,
     });
-    this.ctx.restore();
+    c.restore();
 
-    this.ctx.save();
-    this.ctx.restore();
+    c.save();
+    c.restore();
   }
 
   drawHouseShadow(points: number[][], progress: number) {
-    this.ctx.save();
-    this.ctx.globalAlpha = 0.5;
+    c.save();
+    c.globalAlpha = 0.5;
     const skewY = -1 + progress;
     const scaleX = progress;
-    this.ctx.transform(scaleX, skewY, 0, 1, 0, 0);
-    this.ctx.beginPath();
-    this.ctx.moveTo(0, HEIGHT);
+    c.transform(scaleX, skewY, 0, 1, 0, 0);
+    c.beginPath();
+    c.moveTo(0, HEIGHT);
     points.forEach(([x, y]) => {
-      this.ctx.lineTo(x * WIDTH, y * HEIGHT);
+      c.lineTo(x * WIDTH, y * HEIGHT);
     });
-    this.ctx.fillStyle = colors.black;
-    this.ctx.clip();
-    this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
-    this.ctx.restore();
+    c.fillStyle = colors.black;
+    c.clip();
+    c.fillRect(0, 0, WIDTH, HEIGHT);
+    c.restore();
   }
 
   drawHouseFace(points: number[][], progress: number) {
-    this.ctx.save();
+    c.save();
     const skewY = 0.5 * (-1 + progress);
     const scaleX = Math.pow(progress, 3);
-    this.ctx.transform(scaleX, skewY, 0, 1, 0, 0);
-    this.ctx.beginPath();
-    this.ctx.moveTo(0, HEIGHT);
+    c.transform(scaleX, skewY, 0, 1, 0, 0);
+    c.beginPath();
+    c.moveTo(0, HEIGHT);
     points.forEach(([x, y]) => {
-      this.ctx.lineTo(x * WIDTH, y * HEIGHT);
+      c.lineTo(x * WIDTH, y * HEIGHT);
     });
-    this.ctx.fillStyle = colors.white;
-    this.ctx.strokeStyle = colors.light;
-    this.ctx.stroke();
-    this.ctx.clip();
+    c.fillStyle = colors.white;
+    c.strokeStyle = colors.light;
+    c.stroke();
+    c.clip();
     const plankSize = Math.round(WIDTH / 30);
-    this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    c.fillRect(0, 0, WIDTH, HEIGHT);
     for(let i=0; i < 30; i++) {
-      this.ctx.strokeRect(plankSize * i, 0, plankSize, HEIGHT);
+      c.strokeRect(plankSize * i, 0, plankSize, HEIGHT);
     }
-    this.ctx.restore();
+    c.restore();
   }
 
   drawHouse(progress: number, windowSize: Vec2, windowOffset: number) {
@@ -332,8 +331,8 @@ class DrawEngine {
     const angleStep = 2 * Math.PI / sectionNum;
     for(let i = 0; i < sectionNum; i++) {
       const rad = angleStep * (i + (wheelPos * sectionNum));
-      this.ctx.save();
-      this.ctx.translate(WIDTH/2, HEIGHT/2);
+      c.save();
+      c.translate(WIDTH/2, HEIGHT/2);
       this.drawLine(
         radius * Math.cos(rad), radius * Math.sin(rad),
         radius * Math.cos(rad + angleStep), radius * Math.sin(rad + angleStep),
@@ -344,7 +343,7 @@ class DrawEngine {
         2 * radius * Math.cos(rad), 2 * radius * Math.sin(rad),
         colors.gray
       );
-      this.ctx.restore();
+      c.restore();
     }
 
     // Waterline
@@ -355,29 +354,29 @@ class DrawEngine {
       WIDTH, rightY,
       colors.gray,
     );
-    this.ctx.beginPath();
-    this.ctx.moveTo(0, leftY);
-    this.ctx.lineTo(WIDTH, rightY);
-    this.ctx.lineTo(WIDTH, HEIGHT);
-    this.ctx.lineTo(0, HEIGHT);
-    this.ctx.lineTo(0, leftY);
-    this.ctx.fill();
+    c.beginPath();
+    c.moveTo(0, leftY);
+    c.lineTo(WIDTH, rightY);
+    c.lineTo(WIDTH, HEIGHT);
+    c.lineTo(0, HEIGHT);
+    c.lineTo(0, leftY);
+    c.fill();
   }
 
   // drawGrid() {
-  //   this.ctx.strokeStyle = '#ccc';
-  //   this.ctx.lineWidth = 1;
+  //   c.strokeStyle = '#ccc';
+  //   c.lineWidth = 1;
   //   for (let x = 0; x < WIDTH; x += 16) {
-  //       this.ctx.beginPath();
-  //       this.ctx.moveTo(x + 0.5, 0);
-  //       this.ctx.lineTo(x + 0.5, HEIGHT);
-  //       this.ctx.stroke();
+  //       c.beginPath();
+  //       c.moveTo(x + 0.5, 0);
+  //       c.lineTo(x + 0.5, HEIGHT);
+  //       c.stroke();
   //   }
   //   for (let y = 0; y < HEIGHT; y += 16) {
-  //       this.ctx.beginPath();
-  //       this.ctx.moveTo(0, y + 0.5);
-  //       this.ctx.lineTo(WIDTH, y + 0.5);
-  //       this.ctx.stroke();
+  //       c.beginPath();
+  //       c.moveTo(0, y + 0.5);
+  //       c.lineTo(WIDTH, y + 0.5);
+  //       c.stroke();
   //   }
   // }
 }

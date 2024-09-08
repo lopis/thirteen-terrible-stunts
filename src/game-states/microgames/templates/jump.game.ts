@@ -3,7 +3,7 @@ import { controls } from '@/core/controls';
 import { cap } from '@/util/util';
 import { Collider } from '@/core/entities/collider';
 import { GameBase } from './base.game';
-import { drawEngine, HEIGHT, WIDTH } from '@/core/draw-engine';
+import { HEIGHT, WIDTH } from '@/core/draw-engine';
 import { Platform } from '@/core/entities/platform';
 
 export default class JumpGame extends GameBase {
@@ -76,14 +76,14 @@ export default class JumpGame extends GameBase {
       }
     } 
 
-    drawEngine.ctx.save();
-    drawEngine.ctx.translate(0, this.yOffset);
+    c.save();
+    c.translate(0, this.yOffset);
     [...this.platforms, ...this.deathColliders, ...this.goalColliders].forEach(p => {
       p.update(delta);
     });
     this.drawExtras();
     this.renderCharacter(delta);
-    drawEngine.ctx.restore();
+    c.restore();
     super.onUpdate(delta);
 
   }

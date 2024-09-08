@@ -73,13 +73,13 @@ class FireEscapeGame extends BuildingClimbGame {
          
       const color = standingOnStairs
         ? colors.black : colors.gray;
-      drawEngine.ctx.save();
-      drawEngine.ctx.translate(x + ladderPos, y + index*FLOOR_HEIGHT);
+      c.save();
+      c.translate(x + ladderPos, y + index*FLOOR_HEIGHT);
       [0, 10].forEach(x1 => drawEngine.drawRect({x: x1, y:0}, {x: 2, y:FLOOR_HEIGHT}, color, color));
       for(let i=0; i<6; i++) {
         drawEngine.drawRect({x:0, y: 6 + 7 * i}, {x: 10, y:2}, color, color);
       }
-      drawEngine.ctx.restore();
+      c.restore();
     });
   }
 

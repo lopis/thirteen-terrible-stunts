@@ -1,4 +1,4 @@
-const SAMPLE_RATE = 55000;
+const SAMPLE_RATE = 44000;
 
 function Square(pitch) {
   let t = 0;
@@ -36,7 +36,7 @@ const lowPart1 =
   "11 -1 11,,11 15 18,,-9 3,,11 15 18,,-2 10,,18 13 10 10,,3 -9,,18 13 10 10,,";
 const lowPart2 =
   "10 -2 10,,13 9 4,,3 -9,,9 13 4,,3 -9,,10 13 6,,4 -8,,-6 6 10 13,";
-const low = `${lowPart1}${lowPart1}${lowPart1}${lowPart2},11 -1,,11 15 18,,-9 3,,11 15 18,,-2 10,,18 13 10 10,,3 -9,,18 13 10 10,,${lowPart1}${lowPart1}${lowPart2}`
+const low = `${lowPart1}${lowPart1}${lowPart1}${lowPart2},11 -1,,11 15 18,,-9 3,,11 15 18,,-2 10,,18 13 10 10,,3 -9,,18 13 10 10,,${lowPart1}${lowPart1}${lowPart2}`;
 const lowNotes = {
   gen: Square,
   notes: genNotes(
@@ -58,7 +58,6 @@ const highNotes = {
 
 const voices = [highNotes, lowNotes];
 let queue = [];
-let samplesCollected = 128;
 const noteLength = SAMPLE_RATE / 8;
 const processNote = t => {
   t = t * SAMPLE_RATE;
@@ -76,10 +75,6 @@ const processNote = t => {
   }
   for (let i = 0; i < queue.length; ++i) {
     let result = queue[i]();
-    if (samplesCollected > 0) {
-      console.log(result);
-      samplesCollected--;
-    }
     if (result !== undefined) out += result;
     else queue.splice(i, 1);
   }
@@ -105,16 +100,8 @@ class MusicProcessor extends AudioWorkletProcessor {
 
     this.currentIndex = endIndex;
 
-    // Send a message to the main thread with the current progress
-    this.port.postMessage({
-      type: 'progress',
-      currentIndex: this.currentIndex,
-      sampleCount: this.sampleCount
-    });
-
     // Check if processing is complete
     if (this.currentIndex >= this.sampleCount) {
-      this.port.postMessage({ type: 'done' });
       return false; // Stop processing
     }
 
