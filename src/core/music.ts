@@ -8,7 +8,7 @@ class MusicPlayer {
   async init() {
     this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
     await this.audioContext.resume();
-    await this.audioContext.audioWorklet.addModule("/a.js");
+    await this.audioContext.audioWorklet.addModule("a.js");
 
     const musicProcessorNode = new AudioWorkletNode(this.audioContext, "music-processor");
     musicProcessorNode.port.onmessage = (event) => {
