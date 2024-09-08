@@ -1,15 +1,15 @@
 :root {
-  --color-black: #1F0A00;
-  --color-white: #FFFCEA;
-  --color-gray: #A29782;
-  --color-light: #CEC6AD;
+  --c1: #1F0A00;
+  --c2: #FFFCEA;
+  --c3: #A29782;
+  --c4: #CEC6AD;
 }
 
 #c2d {
   position: fixed;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
-  background: var(--color-white);
+  background: var(--c2);
   border-radius: 5vmin;
   height: 95vh;
   aspect-ratio: 320 / 256;
@@ -28,52 +28,14 @@ html, body {
   align-items: center;
   height: 100%;
   width: 100%;
-  font-family: Arial, Helvetica, sans-serif;
   overscroll-behavior: none;
   touch-action: none;
-  background: var(--color-black);
+  background: var(--c1);
 }
-
-/* FILM STRIP */
-/*
-body {
-  background: 
-  linear-gradient(
-    0deg,
-    var(--color-black) 2%,
-    transparent 2%,
-    transparent 8%,
-    var(--color-black) 8%,
-
-    var(--color-black) 10%,
-    var(--color-white) 10%,
-    var(--color-white) 90%,
-    var(--color-black) 90%,
-
-    var(--color-black) 92%,
-    transparent 92%,
-    transparent 98%,
-    var(--color-black) 98%
-  ),
-  repeating-linear-gradient(
-    90deg,
-    var(--color-black),
-    var(--color-black) 2.5%,
-    transparent 2.5%,
-    transparent 7.5%,
-    var(--color-black) 7.5%,
-    var(--color-black) 10%
-  )
-}
-*/
 
 * {
   user-select: none !important;
   -webkit-user-select: none !important;
-}
-
-html {
-  font-size: 20px;
 }
 
 #fps {
@@ -83,7 +45,4 @@ html {
   color: white;
   padding: 1vh;
   font-size: 10px;
-}
-.hidden {
-  display: none;
 }

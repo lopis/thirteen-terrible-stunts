@@ -116,7 +116,6 @@ class CoffeeGame extends MoveGame {
       }
     }
     super.onUpdate(delta);
-    // drawEngine.drawGrid();
   }
 
   render() {
