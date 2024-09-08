@@ -119,7 +119,7 @@ class GameData {
 
   start() {
     this.level = -1;
-    this.level = 11;
+    this.level = -1;
     this.speedUp = false;
     this.nextLevel();
   }

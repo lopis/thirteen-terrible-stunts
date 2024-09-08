@@ -107,7 +107,6 @@ class MusicProcessor extends AudioWorkletProcessor {
     super();
     this.currentIndex = 0;
     this.chunkSize = 128; // Adjust chunk size as needed
-    console.log('length', highNotes.notes.length);
     this.sampleCount = highNotes.notes.length * SAMPLE_RATE / 8;
   }
 
