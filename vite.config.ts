@@ -199,6 +199,7 @@ function ectPlugin(): Plugin {
         const assetFiles = files.filter(file => {
           return !file.includes('.js') && !file.includes('.css') && !file.includes('.html') && !file.includes('.zip') && file !== 'assets';
         }).map(file => 'dist/' + file);
+        assetFiles.push('dist/a.js')
         const args = ['-strip', '-zip', '-10009', 'dist/index.html', ...assetFiles];
         const result = execFileSync(ect, args);
         // console.log('ECT result', result.toString().trim());
@@ -219,7 +220,7 @@ function ectPlugin(): Plugin {
         const colorBar = '█'.repeat(Math.round(progress * 20));
         const grayBar = progress >= 0.95 ? '' : '█'.repeat(Math.round((1 - progress) * 20));
         const progressBar = `${colorCode}${colorBar}\x1b\x1b[37m${grayBar}\x1b`;
-        console.log(`\nSize: ${colorCode}${sizeInKB}KB (${percentage}%)\x1b[0m  ${progressBar}\n`);
+        console.log(`\n\nSize: ${colorCode}${sizeInKB}KB (${percentage}%)\x1b[0m  ${progressBar}\n`);
 
       } catch (err) {
         console.log('ECT error', err);
