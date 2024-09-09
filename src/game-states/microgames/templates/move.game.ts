@@ -1,19 +1,11 @@
-import { character } from '@/core/entities/character';
+import { character, CHARACTER_SIZE } from '@/core/entities/character';
 import { controls } from '@/core/controls';
 import { cap, clampNearZero } from '@/util/util';
-import { Collider } from '@/core/entities/collider';
 import { Entity } from '@/core/entities/entity';
 import { GameBase } from './base.game';
 import { HEIGHT, WIDTH } from '@/core/draw-engine';
 
 export class MoveGame extends GameBase {
-  walls: Collider[] = [
-    [-10, -10, 10, HEIGHT],
-    [-10, -10, WIDTH, 10],
-    [WIDTH, -10, 10, HEIGHT],
-    [-10, HEIGHT, WIDTH, 10],
-  ].map(([x,y,w,h]) => new Collider({x,y}, {x:w, y:h}));
-
   entities: Entity[][] = Array.from({ length: 16 }, () => []);
 
   maxSpeed = 3;
@@ -25,7 +17,7 @@ export class MoveGame extends GameBase {
     super.onUpdate(delta);
 
     if (!this.isEnding) {
-      [...this.entities.flat(), ...this.walls].forEach(f => {
+      [...this.entities.flat()].forEach(f => {
         const collision = f.collision();
         if (collision.collides) {
           if (collision.right) {
@@ -46,8 +38,9 @@ export class MoveGame extends GameBase {
           }
         }
       });
-
       character.move();
+      character.pos.x = cap(character.pos.x, 0, WIDTH - CHARACTER_SIZE);
+      character.pos.y = cap(character.pos.y, 0, HEIGHT - CHARACTER_SIZE);
       
       character.velocity = {
         x: clampNearZero(cap(character.velocity.x, -this.maxSpeed, this.maxSpeed)),
