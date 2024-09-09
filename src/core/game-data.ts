@@ -14,6 +14,7 @@ import jumpingTrainGame from "@/game-states/microgames/jumping-train.game";
 import ropeJumpingGame from "@/game-states/microgames/rope-jumping.game";
 import startState from "@/game-states/start.state";
 import { loadHiScore, loadLevel, saveLevel } from "./storage";
+import { levelsState } from "@/game-states/levels.state";
 
 export type Boss = {
   name: string
@@ -139,6 +140,11 @@ class GameData {
   }
 
   nextBoss() {
+    if (this.boss == 3) {
+      gameStateMachine.setState(levelsState);
+      return;
+    }
+
     this.boss++;
     saveLevel(this.boss);
     this.level = -1;

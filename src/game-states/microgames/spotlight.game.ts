@@ -10,10 +10,17 @@ const difficultyRange: Record<string, [number,number]> = {
   actorSpeed: [0.04, 0.08],
 };
 
+enum actorState {
+  MOVING_LEFT  = 0,
+  FACING_LEFT  = 1,
+  FACING_RIGHT = 2,
+  MOVING_RIGHT = 3,
+}
+
 class SpotlightGame extends GameBase {
   actorPos = 0;
   actorSpeed = 0.07;
-  actorDirection: number = 0;
+  actorState = actorState.MOVING_RIGHT;
   changeChance = 0;
 
   spotlightSpeed = 0.0002;
@@ -25,7 +32,7 @@ class SpotlightGame extends GameBase {
     this.text = 'Spotlight';
     this.actorPos = WIDTH / 2;
     this.spotlightAngle = 0;
-    this.actorDirection = 1;
+    this.actorState = actorState.MOVING_RIGHT;
 
     const difficulty = gameData.getDifficulty();
     this.actorSpeed = interpolate(difficultyRange.actorSpeed, difficulty);
@@ -43,7 +50,8 @@ class SpotlightGame extends GameBase {
       drawEngine.drawIcon(IconKey.plant, {x: WIDTH/2 - 16*i*2 - 24, y: HEIGHT-50-16});
       drawEngine.drawIcon(IconKey.plant, {x: WIDTH/2 + 16*i*2 + 8, y: HEIGHT-50-16});
     }
-    drawEngine.drawIcon(IconKey.npc1, {x: this.actorPos - 8, y: HEIGHT-50-10}, false, this.actorDirection < 0);
+    const facingLeft = this.actorState == actorState.FACING_LEFT || this.actorState == actorState.MOVING_LEFT;
+    drawEngine.drawIcon(IconKey.npc1, {x: this.actorPos - 8, y: HEIGHT-50-10}, false, facingLeft);
 
     // Spotlight
     c.beginPath();
@@ -79,19 +87,26 @@ class SpotlightGame extends GameBase {
 
     if (!this.isEnding && !this.isStarting) {
       // Change Direction
-      if(delta * Math.random() < (this.actorDirection === 0 ? this.changeChance*2 : this.changeChance)) {
-        const r = Math.random();
-        if (r > 0.5) {
-          this.actorDirection = (this.actorDirection + 1) % 2;       
-        } else {
-          this.actorDirection = (this.actorDirection - 1) % 2;
-        }
-      }
-      this.actorPos += delta * this.actorSpeed * this.actorDirection;
+      // const isMoving = this.actorState === actorState.MOVING_LEFT || this.actorState === actorState.MOVING_RIGHT;
+      // if(delta * Math.random() < this.changeChance * (isMoving ? 1 : 2)) {
+      //   const r = Math.random();
+      //   if (r > 0.5) {
+      //     this.actorState = Math.abs(this.actorState - 1);
+      //   } else {
+      //     this.actorState += (this.actorState === 3 ? -1 : 1);
+      //   }
+      // }
+      this.actorPos += delta * this.actorSpeed * (
+        this.actorState === actorState.MOVING_LEFT ? -1
+        : this.actorState === actorState.MOVING_RIGHT ? 1
+        : 0
+      );
     }
 
-    if (this.actorPos > WIDTH*0.8 || this.actorPos < WIDTH*0.2) {
-      this.actorDirection *= -1;
+    if (this.actorPos > WIDTH*0.8 && this.actorState === actorState.MOVING_RIGHT) {
+      this.actorState = actorState.MOVING_LEFT;
+    } else if (this.actorPos < WIDTH*0.2 && this.actorState === actorState.MOVING_LEFT) {
+      this.actorState = actorState.MOVING_RIGHT;
     }
   }
 

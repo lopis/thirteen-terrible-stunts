@@ -122,8 +122,14 @@ export class GameBase implements State {
     gameData.speedUp = false;
     this.inTransition = true;
     setBossDialog(name, outro);
+
     this.confirmCallback = () => {
-      gameData.nextBoss();
+      if(gameData.boss === 3) {
+        this.text = '# You\'re a star! #';
+        this.confirmCallback = gameData.nextBoss;
+      } else {
+        gameData.nextBoss();
+      }
     };
   }
 
@@ -136,7 +142,7 @@ export class GameBase implements State {
       startTime += 100 + 250 * (13 - i) / 13;
       
       addTimeEvent(() => {      
-        ooof();  
+        ooof(i);  
         this.text = `Level ${(' ' + i).slice(-2)}`;
       }, startTime, 0, this.animationDuration * 2);
     }

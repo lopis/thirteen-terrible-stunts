@@ -3,8 +3,8 @@ import { colors, drawEngine } from "../draw-engine";
 import { Collider } from "./collider";
 
 export class Platform extends Collider {
-  stroke = colors.black;
-  fill = colors.black;
+  stroke = colors.gray;
+  fill = colors.gray;
 
   constructor(pos: Vec2, size: Vec2) {
     super(pos, size);

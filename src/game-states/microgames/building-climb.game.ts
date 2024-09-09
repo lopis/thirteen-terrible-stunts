@@ -7,23 +7,21 @@ import { Platform } from '@/core/entities/platform';
 import { addVec, interpolate } from '@/util/util';
 import { gameData } from '@/core/game-data';
 
-// Difficulty range of each property
-const difficultyRange: Record<string, [number,number]> = {
-  buildingNum: [8, 12],
-};
-
 export class BuildingClimbGame extends JumpGame {
   acceleration = { x: 0.01, y: 0.05 };
   buildingNum = 10;
   jumpSpeed = 7.5;
   maxJumps = 1;
+  difficultyRange: Record<string, [number,number]> = {
+    buildingNum: [8, 12],
+  };
 
   onEnter() {
     super.onEnter();
     this.text = 'Climb up';
 
     const difficulty = gameData.getDifficulty();
-    this.buildingNum = Math.round(interpolate(difficultyRange.buildingNum, difficulty));
+    this.buildingNum = Math.round(interpolate(this.difficultyRange.buildingNum, difficulty));
 
     this.maxY = Number.MAX_SAFE_INTEGER;
     this.minY = -Number.MAX_SAFE_INTEGER;

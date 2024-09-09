@@ -13,11 +13,11 @@ export const playSound = (f: (i: number) => number) => {
 };
 
 // Sound
-export const ooof = () => playSound((i: number) => {
+export const ooof = (pitch: number) => playSound((i: number) => {
   var n=2e4;
   if (i > n) return 0;
   var q = t(i,n);
-  return 0.3 * Math.tan(Math.cbrt(Math.sin(i/80)))*q*q;
+  return 0.3 * Math.tan(Math.cbrt(Math.sin(i/(145 - 5 * pitch))))*q*q;
 });
 
 
