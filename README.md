@@ -32,9 +32,6 @@ yarn dev
   - clean the floor
   - rolling rocks
 - There should be an arrow pointing to where the goal is
-- Speed up the music in the speed up part
-- BUG: you can get stuck in the walls of coffee level
-- End game?
 
 ## Inspiration
 

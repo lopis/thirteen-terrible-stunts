@@ -32,7 +32,7 @@ export class BuildingJumpGame extends JumpGame {
 
     this.platforms = [];
     for (let i = 0; i < this.trainNum; i++) {
-      const platform = new Platform({x: i * (3 * trainSize + 25), y: 150}, {x: 3*trainSize, y: trainSize})
+      const platform = new Platform({x: i * (3 * trainSize + 25), y: 152}, {x: 3*trainSize, y: trainSize});
       platform.setColor(colors.gray, colors.light);
       this.platforms.push(platform);
     }
@@ -41,7 +41,7 @@ export class BuildingJumpGame extends JumpGame {
       { x: WIDTH, y: 10 },
     )];
     this.goalColliders = [new Collider(
-      {x: WIDTH - 102, y: HEIGHT - 30},
+      {x: WIDTH - 102, y: HEIGHT - 45},
       {x: CHARACTER_SIZE * this.goalSize, y: 10}
     )];
 
@@ -50,7 +50,13 @@ export class BuildingJumpGame extends JumpGame {
 
   onUpdate(delta: number): void {
     drawEngine.drawRect({x: 0, y: HEIGHT - 35}, {x: WIDTH, y: 35}, colors.gray, colors.gray);
+
     this.goalColliders[0].render(colors.white, colors.black);
+    drawEngine.drawText({
+      text: '(', // Pointer symbol
+      x: this.goalColliders[0].pos.x + this.goalColliders[0].size.x / 2 - 5,
+      y: this.goalColliders[0].pos.y - 20 - Math.round(this.timeLeft * 6) % 2,
+    });
 
     super.onUpdate(delta);
 

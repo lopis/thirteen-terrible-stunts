@@ -16,7 +16,7 @@ async function init() {
 }
 
 let previousTime = 0;
-let fpsBacklog: number[] = [];
+// let fpsBacklog: number[] = [];
 
 function update(currentTime: number) {
   let delta = currentTime - previousTime;
@@ -27,11 +27,11 @@ function update(currentTime: number) {
     }
     
     previousTime = currentTime;
-    fpsBacklog.push(1000 / delta);
-    if (fpsBacklog.length === 15) {
-      fps.innerHTML = `${Math.round(fpsBacklog.reduce((a, b) => a + b) / 15)} FPS`;
-      fpsBacklog = [];
-    }
+    // fpsBacklog.push(1000 / delta);
+    // if (fpsBacklog.length === 15) {
+    //   fps.innerHTML = `${Math.round(fpsBacklog.reduce((a, b) => a + b) / 15)} FPS`;
+    //   fpsBacklog = [];
+    // }
   
     drawEngine.clear();
     const state = gameStateMachine.getState();
