@@ -50,11 +50,11 @@ body {
 	box-shadow: 0 0 10vh 0px #1f0a00 inset;
 }
 
-#fps {
+/* #fps {
   position: fixed;
   top: 0;
   left: 0;
   color: white;
   padding: 1vh;
   font-size: 10px;
-}
+} */

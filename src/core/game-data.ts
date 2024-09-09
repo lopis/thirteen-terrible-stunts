@@ -8,6 +8,13 @@ import ropeJumpingGame from "@/game-states/microgames/rope-jumping.game";
 import startState from "@/game-states/start.state";
 import { loadHiScore, loadLevel, saveLevel } from "./storage";
 import { levelsState } from "@/game-states/levels.state";
+import coffeeGame from "@/game-states/microgames/coffee.game";
+import jumpingTrainGame from "@/game-states/microgames/jumping-train.game";
+import buildingClimbGame from "@/game-states/microgames/building-climb.game";
+import { fallingBuildingGame } from "@/game-states/microgames/falling-building.game";
+import spotlightGame from "@/game-states/microgames/spotlight.game";
+import boatWheelGame from "@/game-states/microgames/boat.wheel.game";
+import fireEscapeGame from "@/game-states/microgames/fire-escape.game";
 
 export type Boss = {
   name: string
@@ -54,40 +61,33 @@ const bossData: Boss[] = [
 
 
 export const levels: GameBase[][] = [
-  // [
-  //   coffeeGame,
-  //   buildingJumpGame,
-  //   // cleaninigGame,
-  //   jumpingTrainGame,
-  // ],
-  // [
-  //   buildingClimbGame,
-  //   buildingJumpGame,
-  //   coffeeGame,
-  //   trampolinGame,
-  //   fallingBuildingGame,
-  // ],
-  // [
-  //   spotlightGame,
-  //   boatWheelGame,
-  //   fallingBuildingGame,
-  //   jumpingTrainGame,
-  //   trampolinGame,
-  // ],
-  // [
-  //   spotlightGame,
-  //   fireEscapeGame,
-  //   mattressGame,
-  //   ropeJumpingGame,
-  //   //rollingRockGame,
-  // ],
-
   [
+    coffeeGame,
     buildingJumpGame,
-    ropeJumpingGame,
-    mattressGame,
+    // cleaninigGame,
+    jumpingTrainGame,
+  ],
+  [
+    buildingClimbGame,
+    buildingJumpGame,
+    coffeeGame,
     trampolinGame,
-  ]
+    fallingBuildingGame,
+  ],
+  [
+    spotlightGame,
+    boatWheelGame,
+    fallingBuildingGame,
+    jumpingTrainGame,
+    trampolinGame,
+  ],
+  [
+    spotlightGame,
+    fireEscapeGame,
+    mattressGame,
+    ropeJumpingGame,
+    //rollingRockGame,
+  ],
 ];
 
 const allLevels: Set<GameBase> = new Set(levels.flat());
