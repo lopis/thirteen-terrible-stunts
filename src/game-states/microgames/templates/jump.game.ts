@@ -3,7 +3,7 @@ import { controls } from '@/core/controls';
 import { cap } from '@/util/util';
 import { Collider } from '@/core/entities/collider';
 import { GameBase } from './base.game';
-import { drawEngine, HEIGHT, WIDTH } from '@/core/draw-engine';
+import { colors, drawEngine, HEIGHT, WIDTH } from '@/core/draw-engine';
 import { Platform } from '@/core/entities/platform';
 
 export default class JumpGame extends GameBase {
@@ -42,6 +42,13 @@ export default class JumpGame extends GameBase {
   }
 
   onUpdate(delta: number) {
+    drawEngine.drawText({
+      text: 'You can double jump',
+      x: WIDTH / 2,
+      y: 100,
+      color: colors.light,
+    });
+
     if(!this.isEnding && this.deathColliders.some((c) => c.collision().collides)) {
       character.dead = true;
       this.loseLife();

@@ -38,8 +38,6 @@ class Controls {
     }
     document.addEventListener('keydown', event => this.toggleKey(event, true));
     document.addEventListener('keyup', event => this.toggleKey(event, false));
-    document.addEventListener('pointerdown', () => this.keyMap.set('Enter', true));
-    document.addEventListener('pointerup', () => this.keyMap.set('Enter', false));
     this.inputDirection = new DOMPoint();
   }
 

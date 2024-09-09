@@ -7,12 +7,17 @@ import music from '@/core/music';
 // import { musicPlayer } from '@/core/music';
 
 const menu = [
-  'start',
-  'about',
+  'start  ',
+  'about  ',
 ];
 
 class MenuState implements State {
-  private selectedButton = 0;
+  selectedButton = 0;
+  showWarning = false;
+
+  constructor() {
+    document.addEventListener('click', () => this.showWarning = true);
+  }
 
   onEnter() {
     music.stop();
@@ -45,6 +50,19 @@ class MenuState implements State {
         size: 1,
       });
     });
+
+    if (this.showWarning) {
+      [colors.light, colors.black].forEach((color, i) => {
+        drawEngine.drawText({
+          text: 'Use  Enter + WASD/Arrows  to play',
+          x: WIDTH / 2,
+          y: 100 - i,
+          textAlign: 'center',
+          color,
+          size: 1,
+        });
+      });
+    }
 
     c.save();
     c.globalAlpha = 0.5;
