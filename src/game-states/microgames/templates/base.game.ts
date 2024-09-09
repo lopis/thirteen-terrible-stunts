@@ -7,6 +7,7 @@ import { gameData, MAX_LIVES } from '@/core/game-data';
 import music from '@/core/music';
 // import { musicPlayer } from '@/core/music';
 import { State } from '@/core/state';
+import { saveHiScore } from '@/core/storage';
 import { addTimeEvent, clearTimers } from '@/core/timer';
 import { gameStateMachine } from '@/game-state-machine';
 import { menuState } from '@/game-states/menu.state';
@@ -91,8 +92,12 @@ export class GameBase implements State {
         this.gameOver = true;
         this.text = 'you\'re fired!';
         this.inTransition = true;
-        const { name, gameover } = gameData.getBoss();
-        setBossDialog(name, gameover);
+        if (!gameData.endless) {
+          const { name, gameover } = gameData.getBoss();
+          setBossDialog(name, gameover);
+        } else if(gameData.level > gameData.highScore) {
+          saveHiScore(gameData.level);
+        }
         this.confirmCallback = () => {
           gameStateMachine.setState(menuState);
         };
@@ -185,7 +190,7 @@ export class GameBase implements State {
       }
     }
 
-    if (this.inTransition) {
+    if (this.inTransition && !gameData.endless) {
       renderBossDialog(delta);
     }
 

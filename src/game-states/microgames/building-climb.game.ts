@@ -15,7 +15,7 @@ const difficultyRange: Record<string, [number,number]> = {
 export class BuildingClimbGame extends JumpGame {
   acceleration = { x: 0.01, y: 0.05 };
   buildingNum = 10;
-  jumpSpeed = 8;
+  jumpSpeed = 7.5;
   maxJumps = 1;
 
   onEnter() {

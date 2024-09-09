@@ -17,7 +17,7 @@ export class RopeJumpingGame extends JumpGame {
   rope = new Collider({x:0,y:0}, {x:5,y:5});
   ropeHeight = 110;
   swingTime = 2000;
-  swingPos = 0; // from 0 to 1
+  swingPos = 1; // from 0 to 1
   grabbing = false;
   isJumping = false;
   maxSpeed = 3;

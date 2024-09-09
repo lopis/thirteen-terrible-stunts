@@ -17,6 +17,7 @@ class FallingBuildingGame extends MoveGame {
   windowOffset = 0.2;
   windowSize = {x: 0.2, y: 0.1};
   goalCollider: Collider | null = null;
+  fallingRight = false;
 
   onEnter(){
     super.onEnter();
@@ -26,6 +27,7 @@ class FallingBuildingGame extends MoveGame {
     const difficulty = gameData.getDifficulty(); // From 0.0 to 1.0
     const bushNum = interpolate(difficultyRange.bushNum, difficulty);
     this.houseFallDuration = interpolate(difficultyRange.houseFallDuration, difficulty);
+    this.fallingRight = Math.random() > 0.5;
 
     const originalWidth = WIDTH * this.windowSize.x;
     const originalHeight = HEIGHT * this.windowSize.y * 2;
@@ -36,7 +38,7 @@ class FallingBuildingGame extends MoveGame {
     const newX = originalX + (originalWidth - newWidth) / 2;
     const newY = originalY + (originalHeight - newHeight) / 2;
     this.goalCollider = new Collider(
-      { x: newX, y: newY },
+      { x: this.fallingRight ? newX : this.windowOffset * WIDTH, y: newY },
       { x: newWidth, y: newHeight }
     );
 
@@ -77,7 +79,13 @@ class FallingBuildingGame extends MoveGame {
       } else {
         this.progress += delta / this.houseFallDuration;
       }
+      c.save();
+      if (!this.fallingRight) {
+        c.translate(WIDTH, 0);
+        c.scale(-1, 1);
+      }
       drawEngine.drawHouse(Math.pow(this.progress, 3), this.windowSize, this.windowOffset);
+      c.restore();
     }
   }
 }

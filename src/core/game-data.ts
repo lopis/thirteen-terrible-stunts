@@ -13,7 +13,7 @@ import { mattressGame } from "@/game-states/microgames/mattress.game";
 import jumpingTrainGame from "@/game-states/microgames/jumping-train.game";
 import ropeJumpingGame from "@/game-states/microgames/rope-jumping.game";
 import startState from "@/game-states/start.state";
-import { loadLevel, saveLevel } from "./storage";
+import { loadHiScore, loadLevel, saveLevel } from "./storage";
 
 export type Boss = {
   name: string
@@ -93,6 +93,7 @@ const allLevels: Set<GameBase> = new Set(levels.flat());
 
 export const MAX_LIVES = 4;
 class GameData {
+  highScore = 0;
   boss = 0;
   level = -1;
   maxLevel = 0;
@@ -105,6 +106,7 @@ class GameData {
   constructor() {
     this.randomLevels = shuffleArray(Array.from(allLevels));
     this.boss = loadLevel();
+    this.highScore = loadHiScore();
   }
 
   getBoss(): Boss {

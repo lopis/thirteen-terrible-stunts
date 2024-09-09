@@ -55,18 +55,19 @@ class BoatWheel extends GameBase {
         this.wheelPos -= 1;
       }
 
-      if (!this.isFalling && !this.isDrifting) {
-        if (character.pos.y > (HEIGHT/2 + 20)) {
-          this.isFalling = false;
-          this.isDrifting = true;
-          addTimeEvent(() => this.loseLife(), 500);
-        } else if (character.pos.x < (WIDTH/2 - 20)) {
-          this.isFalling = true;
-          this.isDrifting = false;
-          addTimeEvent(() => this.loseLife(), 500);
-        } else {
-          this.setCharacterPos();
-        }
+    }
+
+    if (!this.isFalling && !this.isDrifting) {
+      if (character.pos.y > (HEIGHT/2 + 20)) {
+        this.isFalling = false;
+        this.isDrifting = true;
+        addTimeEvent(() => this.loseLife(), 500);
+      } else if (character.pos.x < (WIDTH/2 - 20)) {
+        this.isFalling = true;
+        this.isDrifting = false;
+        addTimeEvent(() => this.loseLife(), 500);
+      } else {
+        this.setCharacterPos();
       }
     }
 

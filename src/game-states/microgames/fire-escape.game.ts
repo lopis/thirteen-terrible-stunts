@@ -11,6 +11,8 @@ const difficultyRange: Record<string, [number,number]> = {
 };
 
 class FireEscapeGame extends BuildingClimbGame {
+  acceleration = { x: 0.3, y: 0.05 };
+  maxSpeed = 2;
   ladders: number[] = [];
   fireAnimationProgress = 0;
   fireAnimationTime = 40;

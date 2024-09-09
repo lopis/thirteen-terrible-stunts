@@ -31,12 +31,7 @@ yarn dev
 - Microgame ideas
   - clean the floor
   - rolling rocks
-- Implement saving
-  - Save high score in endless mode
-- There's no variation in the falling building level
 - There should be an arrow pointing to where the goal is
-- Don't show the boss gameover when playing endless
-- The escape level is too hard
 
 ## Inspiration
 

@@ -39,25 +39,23 @@ class LevelsState implements State {
       });
     });
 
-    if (gameData.easyMode) {
-      drawEngine.drawText({
-        text: '# Easy Mode Enabled #',
-        x: WIDTH / 2,
-        y: HEIGHT - 35,
-        textAlign: 'center',
-        color: colors.gray,
-        size: 1,
-      });
-    } else {
-      drawEngine.drawText({
-        text: 'Press E for easy mode',
-        x: WIDTH / 2,
-        y: HEIGHT - 35,
-        textAlign: 'center',
-        color: colors.light,
-        size: 1,
-      });
-    }
+    drawEngine.drawText({
+      text: ` Hi score: ${gameData.highScore}`,
+      x: x - 10,
+      y: 175,
+      color: colors.light,
+      size: 2,
+    });
+
+
+    drawEngine.drawText({
+      text: gameData.easyMode ? '# Easy Mode Enabled #' : 'Press E for easy mode',
+      x: WIDTH / 2,
+      y: HEIGHT - 35,
+      textAlign: 'center',
+      color: gameData.easyMode ? colors.gray : colors.light,
+      size: 1,
+    });
 
     drawEngine.drawText({
       text: 'Press ENTER to start',
