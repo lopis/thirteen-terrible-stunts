@@ -10,7 +10,7 @@ const difficultyRange: Record<string, [number,number]> = {
   actorSpeed: [0.04, 0.08],
 };
 
-enum actorState {
+const enum ActorState {
   MOVING_LEFT  = 0,
   FACING_LEFT  = 1,
   FACING_RIGHT = 2,
@@ -20,7 +20,7 @@ enum actorState {
 class SpotlightGame extends GameBase {
   actorPos = 0;
   actorSpeed = 0.07;
-  actorState = actorState.MOVING_RIGHT;
+  actorState = ActorState.MOVING_RIGHT;
   changeChance = 0;
 
   spotlightSpeed = 0.0002;
@@ -32,7 +32,7 @@ class SpotlightGame extends GameBase {
     this.text = 'Spotlight';
     this.actorPos = WIDTH / 2;
     this.spotlightAngle = 0;
-    this.actorState = actorState.MOVING_RIGHT;
+    this.actorState = Math.random() > 0.5 ? ActorState.MOVING_RIGHT : ActorState.MOVING_LEFT;
 
     const difficulty = gameData.getDifficulty();
     this.actorSpeed = interpolate(difficultyRange.actorSpeed, difficulty);
@@ -50,7 +50,7 @@ class SpotlightGame extends GameBase {
       drawEngine.drawIcon(IconKey.plant, {x: WIDTH/2 - 16*i*2 - 24, y: HEIGHT-50-16});
       drawEngine.drawIcon(IconKey.plant, {x: WIDTH/2 + 16*i*2 + 8, y: HEIGHT-50-16});
     }
-    const facingLeft = this.actorState == actorState.FACING_LEFT || this.actorState == actorState.MOVING_LEFT;
+    const facingLeft = this.actorState == ActorState.FACING_LEFT || this.actorState == ActorState.MOVING_LEFT;
     drawEngine.drawIcon(IconKey.npc1, {x: this.actorPos - 8, y: HEIGHT-50-10}, false, facingLeft);
 
     // Spotlight
@@ -97,16 +97,16 @@ class SpotlightGame extends GameBase {
       //   }
       // }
       this.actorPos += delta * this.actorSpeed * (
-        this.actorState === actorState.MOVING_LEFT ? -1
-        : this.actorState === actorState.MOVING_RIGHT ? 1
+        this.actorState === ActorState.MOVING_LEFT ? -1
+        : this.actorState === ActorState.MOVING_RIGHT ? 1
         : 0
       );
     }
 
-    if (this.actorPos > WIDTH*0.8 && this.actorState === actorState.MOVING_RIGHT) {
-      this.actorState = actorState.MOVING_LEFT;
-    } else if (this.actorPos < WIDTH*0.2 && this.actorState === actorState.MOVING_LEFT) {
-      this.actorState = actorState.MOVING_RIGHT;
+    if (this.actorPos > WIDTH*0.8 && this.actorState === ActorState.MOVING_RIGHT) {
+      this.actorState = ActorState.MOVING_LEFT;
+    } else if (this.actorPos < WIDTH*0.2 && this.actorState === ActorState.MOVING_LEFT) {
+      this.actorState = ActorState.MOVING_RIGHT;
     }
   }
 

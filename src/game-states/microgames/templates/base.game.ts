@@ -222,11 +222,11 @@ export class GameBase implements State {
         });
       });
     });
-    const width = Math.round(50 * this.timeLeft / this.maxTime / 2) * 2;
+    const width = Math.round(100 * this.timeLeft / this.maxTime / 2) * 2;
     drawEngine.drawRect(
       {x: WIDTH/2 - width/2, y: 20},
       {x: width, y: 8},
-      colors.black,
+      colors.gray,
       colors.white,
     );
   }
