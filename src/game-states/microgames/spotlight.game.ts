@@ -87,15 +87,15 @@ class SpotlightGame extends GameBase {
 
     if (!this.isEnding && !this.isStarting) {
       // Change Direction
-      // const isMoving = this.actorState === actorState.MOVING_LEFT || this.actorState === actorState.MOVING_RIGHT;
-      // if(delta * Math.random() < this.changeChance * (isMoving ? 1 : 2)) {
-      //   const r = Math.random();
-      //   if (r > 0.5) {
-      //     this.actorState = Math.abs(this.actorState - 1);
-      //   } else {
-      //     this.actorState += (this.actorState === 3 ? -1 : 1);
-      //   }
-      // }
+      const isMoving = this.actorState === ActorState.MOVING_LEFT || this.actorState === ActorState.MOVING_RIGHT;
+      if(delta * Math.random() < this.changeChance * (isMoving ? 1 : 2)) {
+        const r = Math.random();
+        if (r > 0.5) {
+          this.actorState = Math.abs(this.actorState - 1);
+        } else {
+          this.actorState += (this.actorState === 3 ? -1 : 1);
+        }
+      }
       this.actorPos += delta * this.actorSpeed * (
         this.actorState === ActorState.MOVING_LEFT ? -1
         : this.actorState === ActorState.MOVING_RIGHT ? 1

@@ -31,7 +31,6 @@ yarn dev
 - Microgame ideas
   - clean the floor
   - rolling rocks
-- There should be an arrow pointing to where the goal is
 
 ## Inspiration
 
