@@ -23,6 +23,10 @@ class MusicPlayer {
       this.isPlaying = false;
     }
   }
+
+  speedUp() {
+    this.musicProcessorNode?.port.postMessage({ name: "speed-up" });
+  }
 }
 
 export default new MusicPlayer();

@@ -73,7 +73,7 @@ class LevelsState implements State {
       c.scale(2, 2);
       const pos = {x: width * i, y: 0};
       drawEngine.drawRect(pos, {x: 16, y: 16}, colors.light, colors.light);
-      drawEngine.drawIcon(boss, pos, true);
+      drawEngine.drawIcon(boss, pos, gameData.boss <= i);
       c.restore();
     });
     c.restore();

@@ -40,9 +40,12 @@ const low = `${lowPart1}${lowPart1}${lowPart1}${lowPart2},11 -1,,11 15 18,,-9 3,
 const lowNotes = {
   gen: Square,
   notes: genNotes(
-    `${low},${low}`
+    `${low},${low},,,`
   )
 };
+
+console.log(lowNotes.notes);
+
 
 const highPart1 =
   "17,18 6,19 7,20 8,21 9,,22 10,,23 11,,24 12,,25 13,,26 14,,27 15 26,,27 15 26,,27 15 26,,";
@@ -52,15 +55,21 @@ const highPart3 =
 const highNotes = {
   gen: Tri,
   notes: genNotes(
-    `5 9 ${highPart1} ${highPart2} ${highPart1} 26 15,,27 26 15,,27 26 15,,28 16,,28 16,,5 ${highPart1} ${highPart2} 17,18 6,19 7,20 8,21 9,,22 10,22 10,23 11,,24 12,,25 13,,26 14,,27 15 26,,27 15 26,,27 15 26,,27 26 15,,28 16,,28 16,,28 16,,28 16,,${highPart3}`
+    `5 9 ${highPart1} ${highPart2} ${highPart1} 26 15,,27 26 15,,27 26 15,,28 16,,28 16,,5 ${highPart1} ${highPart2} 17,18 6,19 7,20 8,21 9,,22 10,22 10,23 11,,24 12,,25 13,,26 14,,27 15 26,,27 15 26,,27 15 26,,27 26 15,,28 16,,28 16,,28 16,,28 16,,${highPart3},,,`
   )
 };
 
-const voices = [highNotes, lowNotes];
+const speedUpNotes = {
+  gen: Tri,
+  notes: genNotes('17 29,30 18,31 19,32 20,33 21,34 22,23 35,36 24')
+};
+
+const music = [highNotes, lowNotes];
+
 let queue = [];
 const noteLength = SAMPLE_RATE / 8;
-const processNote = t => {
-  t = t * SAMPLE_RATE;
+const processNote = (t, playbackRate, voices) => {
+  t = Math.round(t * playbackRate);
   t |= 0;
   let out = 0;
   if (t % noteLength == 0) {
@@ -82,27 +91,48 @@ const processNote = t => {
 };
 
 class MusicProcessor extends AudioWorkletProcessor {
+  speedUp = false;
+  playbackRate = 1;
+
   constructor() {
     super();
+    
     this.currentIndex = 0;
     this.chunkSize = 128; // Adjust chunk size as needed
     this.sampleCount = highNotes.notes.length * SAMPLE_RATE / 8;
+
+    this.port.onmessage = this.handleMessage.bind(this);
+  }
+
+  handleMessage(event) {
+    const data = event.data;
+    if (data.name === "speed-up") {
+      this.speedUp = true;
+      this.currentIndex = 0;
+    }
   }
 
   process(_inputs, outputs, _parameters) {
     const outputBuffer = outputs[0][0]; // Assuming mono output
     const startIndex = this.currentIndex;
-    const endIndex = Math.min(this.currentIndex + this.chunkSize, this.sampleCount);
+    const endIndex = this.currentIndex + this.chunkSize;
+    const sampleRate = SAMPLE_RATE / this.playbackRate;
 
     for (let i = startIndex; i < endIndex; i++) {
-      outputBuffer[i - startIndex] = processNote(i / SAMPLE_RATE);
+      outputBuffer[i - startIndex] = processNote(i, this.playbackRate, this.speedUp ? [speedUpNotes] : music);
     }
 
     this.currentIndex = endIndex;
 
+    if(this.speedUp && this.currentIndex > (speedUpNotes.notes.length * sampleRate / 8)) {
+      this.currentIndex = 0;
+      this.speedUp = false;
+      this.playbackRate = 1.20;
+    }
+
     // Check if processing is complete
-    if (this.currentIndex >= this.sampleCount) {
-      return false; // Stop processing
+    if (this.currentIndex > (this.sampleCount / this.playbackRate)) {
+      this.currentIndex = 0;
     }
 
     return true; // Continue processing

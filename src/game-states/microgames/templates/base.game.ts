@@ -133,7 +133,7 @@ export class GameBase implements State {
     this.inTransition = true;
     let startTime = this.animationDuration;
     for (let i = 13; i >= 1; i--) {
-      startTime += 100 + 500 * (13 - i) / 13;
+      startTime += 100 + 250 * (13 - i) / 13;
       
       addTimeEvent(() => {      
         ooof();  
@@ -142,6 +142,7 @@ export class GameBase implements State {
     }
     addTimeEvent(() => {        
       this.text = `SPEED UP!`;
+      music.speedUp();
       addTimeEvent(() => {        
         gameData.speedUp = true;
         gameData.level = -1;
