@@ -11,21 +11,10 @@ const menu = [
   'about',
 ];
 
-const bylines = [
-  'Optimized for Firefox 2+',
-  'Asbestos Free',
-  'Not tested on animals',
-  'Requires MS-DOS 5.0 or later',
-  'For up-to 1 players',
-];
-
-let byline = '';
-
 class MenuState implements State {
   private selectedButton = 0;
 
   onEnter() {
-    byline = bylines[Math.floor(Math.random() * bylines.length)];
     music.stop();
   }
 
@@ -66,7 +55,7 @@ class MenuState implements State {
     c.restore();
 
     drawEngine.drawText({
-      text: byline,
+      text: 'Press Enter to start',
       x: WIDTH / 2,
       y: HEIGHT - 15,
       textAlign: 'center',

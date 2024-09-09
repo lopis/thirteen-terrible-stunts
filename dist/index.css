@@ -6,7 +6,6 @@
 }
 
 #c2d {
-  position: fixed;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   background: var(--c2);
@@ -21,7 +20,7 @@
   position: absolute;
 }
 
-html, body {
+html {
   margin: 0;
   display: flex;
   justify-content: center;
@@ -33,9 +32,22 @@ html, body {
   background: var(--c1);
 }
 
+body {
+  position: relative;
+}
+
 * {
   user-select: none !important;
   -webkit-user-select: none !important;
+}
+
+.vignette {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	box-shadow: 0 0 10vh 0px #1f0a00 inset;
 }
 
 #fps {
