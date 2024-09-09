@@ -37,7 +37,7 @@ class MenuState implements State {
 
     menu.forEach((text, i) => {
       drawEngine.drawText({
-        text,
+        text: (i === this.selectedButton ? '& ' : '  ') + text,
         x: WIDTH / 2,
         y: 120 + i * 16,
         textAlign: 'center',
@@ -59,7 +59,7 @@ class MenuState implements State {
       x: WIDTH / 2,
       y: HEIGHT - 15,
       textAlign: 'center',
-      color: colors.light,
+      color: colors.gray,
       size: 1,
     });
   }

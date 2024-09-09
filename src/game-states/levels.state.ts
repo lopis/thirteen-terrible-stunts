@@ -60,7 +60,7 @@ class LevelsState implements State {
     drawEngine.drawText({
       text: 'Press ENTER to start',
       x: WIDTH / 2,
-      y: HEIGHT - 20,
+      y: HEIGHT - 15,
       textAlign: 'center',
       color: colors.gray,
       size: 1,

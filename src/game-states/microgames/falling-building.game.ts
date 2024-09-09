@@ -29,17 +29,17 @@ class FallingBuildingGame extends MoveGame {
     this.houseFallDuration = interpolate(difficultyRange.houseFallDuration, difficulty);
     this.fallingRight = Math.random() > 0.5;
 
-    const originalWidth = WIDTH * this.windowSize.x;
-    const originalHeight = HEIGHT * this.windowSize.y * 2;
-    const newWidth = originalWidth * 0.6;
-    const newHeight = originalHeight * 0.6;
+    const windowWidth = WIDTH * this.windowSize.x;
+    const windowHeight = HEIGHT * this.windowSize.y * 2;
+    const goalWidth = windowWidth * 0.6;
+    const goalHeight = windowHeight * 0.6;
     const originalX = WIDTH * (1 - this.windowOffset * 2);
     const originalY = HEIGHT / 2 - HEIGHT * this.windowSize.y;
-    const newX = originalX + (originalWidth - newWidth) / 2;
-    const newY = originalY + (originalHeight - newHeight) / 2;
+    const newX = originalX + (windowWidth * 0.1) + (windowWidth - goalWidth) / 2;
+    const newY = originalY + (windowHeight - goalHeight) / 2;
     this.goalCollider = new Collider(
-      { x: this.fallingRight ? newX : this.windowOffset * WIDTH, y: newY },
-      { x: newWidth, y: newHeight }
+      { x: this.fallingRight ? newX : this.windowOffset * WIDTH  + (windowWidth * 0.2), y: newY },
+      { x: goalWidth, y: goalHeight }
     );
 
     this.entities = Array.from({ length: ROWS }, () => []);
