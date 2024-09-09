@@ -20,7 +20,7 @@ export default class JumpGame extends GameBase {
   maxJumps = 2;
   platforms: Platform[] = [];
   deathColliders: Collider[] = [];
-  goalColliders: Collider[] = [];
+  goalCollider: Collider | undefined;
   isGrounded = true;
   maxY = HEIGHT*2;
   minY = -HEIGHT;
@@ -38,7 +38,7 @@ export default class JumpGame extends GameBase {
   }
 
   hasWon() {
-    return !this.isEnding && this.goalColliders.some((c) => c.collision().standsOn);
+    return !this.isEnding && this.goalCollider?.collision().collides;
   }
 
   onUpdate(delta: number) {
@@ -78,8 +78,8 @@ export default class JumpGame extends GameBase {
 
     c.save();
     c.translate(0, this.yOffset);
-    [...this.platforms, ...this.deathColliders, ...this.goalColliders].forEach(p => {
-      p.update(delta);
+    [...this.platforms, ...this.deathColliders, this.goalCollider].forEach(p => {
+      p?.update(delta);
     });
     this.drawExtras();
     this.renderCharacter(delta);

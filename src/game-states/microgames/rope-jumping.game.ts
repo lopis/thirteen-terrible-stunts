@@ -36,10 +36,10 @@ export class RopeJumpingGame extends JumpGame {
       { x: 0, y: HEIGHT + 20 },
       { x: WIDTH, y: 10 },
     )];
-    this.goalColliders = [new Collider(
+    this.goalCollider = new Collider(
       {x: WIDTH - BUILDING_WIDTH/3, y: 100 + CHARACTER_SIZE - 1},
       {x: BUILDING_WIDTH, y: 10}
-    )];
+    );
 
     const difficulty = gameData.getDifficulty();
     this.swingTime = interpolate(difficultyRange.swingTime, difficulty);

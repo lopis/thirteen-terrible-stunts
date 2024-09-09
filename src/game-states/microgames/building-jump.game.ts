@@ -31,10 +31,10 @@ export class BuildingJumpGame extends JumpGame {
       { x: 0, y: HEIGHT + 20 },
       { x: WIDTH, y: 10 },
     )];
-    this.goalColliders = [new Collider(
+    this.goalCollider = new Collider(
       {x: WIDTH - 102 + distance, y: 120 + CHARACTER_SIZE - 1 - heightDifference},
       {x: BUILDING_WIDTH, y: 10}
-    )];
+    );
   }
 }
 

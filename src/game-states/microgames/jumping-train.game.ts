@@ -40,10 +40,10 @@ export class BuildingJumpGame extends JumpGame {
       { x: 0, y: HEIGHT - 10 },
       { x: WIDTH, y: 10 },
     )];
-    this.goalColliders = [new Collider(
+    this.goalCollider = new Collider(
       {x: WIDTH - 102, y: HEIGHT - 45},
       {x: CHARACTER_SIZE * this.goalSize, y: 10}
-    )];
+    );
 
     character.pos = {x: 20, y: 70};
   }
@@ -51,11 +51,11 @@ export class BuildingJumpGame extends JumpGame {
   onUpdate(delta: number): void {
     drawEngine.drawRect({x: 0, y: HEIGHT - 35}, {x: WIDTH, y: 35}, colors.gray, colors.gray);
 
-    this.goalColliders[0].render(colors.white, colors.black);
+    this.goalCollider!.render(colors.white, colors.black);
     drawEngine.drawText({
       text: '(', // Pointer symbol
-      x: this.goalColliders[0].pos.x + this.goalColliders[0].size.x / 2 - 5,
-      y: this.goalColliders[0].pos.y - 20 - Math.round(this.timeLeft * 6) % 2,
+      x: this.goalCollider!.pos.x + this.goalCollider!.size.x / 2 - 5,
+      y: this.goalCollider!.pos.y - 20 - Math.round(this.timeLeft * 8) % 2,
     });
 
     super.onUpdate(delta);

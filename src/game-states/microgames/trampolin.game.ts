@@ -41,9 +41,7 @@ class TrampolinGame extends BuildingJumpGame {
       new Building({x: -BUILDING_WIDTH*spaceApart, y: HEIGHT - buildingHeight + CHARACTER_SIZE}, 4),
       new Building({x: WIDTH -BUILDING_WIDTH*(1-spaceApart), y: HEIGHT - buildingHeight + CHARACTER_SIZE}, 4),
     ];
-    this.goalColliders = [
-      new Collider({x: this.platforms[1].pos.x, y: this.platforms[1].pos.y -1}, {x: BUILDING_WIDTH, y: 1})
-    ];
+    this.goalCollider = new Collider({x: this.platforms[1].pos.x, y: this.platforms[1].pos.y -1}, {x: BUILDING_WIDTH, y: 1});
 
     const size = CHARACTER_SIZE * trampolinSize;
     this.trampolin = new Collider(

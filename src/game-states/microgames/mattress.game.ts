@@ -35,7 +35,7 @@ class MattressGame extends BuildingJumpGame {
       {x: CHARACTER_SIZE * this.goalSize, y: 5}
     );
     goal.setColor(colors.black, colors.white);
-    this.goalColliders = [goal];
+    this.goalCollider = goal;
     this.platforms = [
       new Building({x: -20, y: this.buildingHeight + CHARACTER_SIZE}, 4),
       new Platform({...goal.pos}, {...goal.size})
@@ -44,7 +44,7 @@ class MattressGame extends BuildingJumpGame {
   }
 
   hasWon() {
-    return !this.isEnding && this.goalColliders[0].collision().standsOn;
+    return !this.isEnding && this.goalCollider!.collision().standsOn;
   }
 }
 
