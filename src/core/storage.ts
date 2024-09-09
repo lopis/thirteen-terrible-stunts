@@ -18,7 +18,7 @@ export function saveHiScore(level: number) {
 }
 
 export function loadHiScore(): number {
-  const storage = localStorage.getItem(`${STORAGE_KEY}_hs`) || "";
+  const storage = localStorage.getItem(`${STORAGE_KEY}hs`) || "";
 
   return parseInt(storage, 10) || 0;
 }

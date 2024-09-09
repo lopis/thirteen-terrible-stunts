@@ -52,11 +52,6 @@ export class BuildingJumpGame extends JumpGame {
     drawEngine.drawRect({x: 0, y: HEIGHT - 35}, {x: WIDTH, y: 35}, colors.gray, colors.gray);
 
     this.goalCollider!.render(colors.white, colors.black);
-    drawEngine.drawText({
-      text: '(', // Pointer symbol
-      x: this.goalCollider!.pos.x + this.goalCollider!.size.x / 2 - 5,
-      y: this.goalCollider!.pos.y - 20 - Math.round(this.timeLeft * 8) % 2,
-    });
 
     super.onUpdate(delta);
 

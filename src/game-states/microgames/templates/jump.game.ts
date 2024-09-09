@@ -3,7 +3,7 @@ import { controls } from '@/core/controls';
 import { cap } from '@/util/util';
 import { Collider } from '@/core/entities/collider';
 import { GameBase } from './base.game';
-import { HEIGHT, WIDTH } from '@/core/draw-engine';
+import { drawEngine, HEIGHT, WIDTH } from '@/core/draw-engine';
 import { Platform } from '@/core/entities/platform';
 
 export default class JumpGame extends GameBase {
@@ -81,6 +81,12 @@ export default class JumpGame extends GameBase {
     [...this.platforms, ...this.deathColliders, this.goalCollider].forEach(p => {
       p?.update(delta);
     });
+    this.goalCollider && drawEngine.drawText({
+      text: '(', // Pointer symbol
+      x: this.goalCollider!.pos.x + this.goalCollider!.size.x / 2 - 5,
+      y: this.goalCollider!.pos.y - 20 - Math.round(this.timeLeft * 8) % 2,
+    });
+
     this.drawExtras();
     this.renderCharacter(delta);
     c.restore();

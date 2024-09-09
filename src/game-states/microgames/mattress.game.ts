@@ -41,6 +41,7 @@ class MattressGame extends BuildingJumpGame {
       new Platform({...goal.pos}, {...goal.size})
     ];
     goal.pos.y--;
+    goal.size.y += 3;
   }
 
   hasWon() {
