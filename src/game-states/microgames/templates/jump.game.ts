@@ -47,6 +47,8 @@ export default class JumpGame extends GameBase {
       x: WIDTH / 2,
       y: 100,
       color: colors.light,
+      size: 1,
+      textAlign: 'center',
     });
 
     if(!this.isEnding && this.deathColliders.some((c) => c.collision().collides)) {

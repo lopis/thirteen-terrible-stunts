@@ -2,10 +2,6 @@ const STORAGE_KEY = '13_terrible_stunts_game_';
 
 export function loadLevel(): number {
   const storage = localStorage.getItem(`${STORAGE_KEY}save`) || "";
-
-  console.log(storage);
-  
-
   return parseInt(storage, 10) || 0;
 }
 

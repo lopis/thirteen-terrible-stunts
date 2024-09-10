@@ -117,7 +117,7 @@ class GameData {
   getDifficulty(): number {
     const difficulty = this.endless ? this.level / 26 : (this.boss /3 + this.level / 12) / 2;
 
-    return this.easyMode ? difficulty * 0.5 : difficulty;
+    return Math.min(this.easyMode ? difficulty * 0.5 : difficulty, 2);
   }
 
   start() {

@@ -4,6 +4,7 @@ import { gameStateMachine } from '@/game-state-machine';
 import { gameData, MAX_LIVES } from '@/core/game-data';
 import { levelsState } from './levels.state';
 import music from '@/core/music';
+import aboutState from './about.state';
 // import { musicPlayer } from '@/core/music';
 
 const menu = [
@@ -102,6 +103,8 @@ class MenuState implements State {
       gameData.level = -1;
       gameData.lives = MAX_LIVES;
       gameStateMachine.setState(levelsState);
+    } else if (this.selectedButton === 1){
+      gameStateMachine.setState(aboutState);
     }
   }
 }

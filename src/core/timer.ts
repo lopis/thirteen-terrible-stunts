@@ -22,6 +22,9 @@ export function clearTimers() {
 export function updateTimeEvents(delta: number) {
   for (let i = timeEvents.length - 1; i >= 0; i--) {
     const timeEvent = timeEvents[i];
+    if (!timeEvent) {
+      return;
+    }
     timeEvent.timeLeft -= delta;
     if (timeEvent.timeLeft <= 0) {
       timeEvent.callback();
