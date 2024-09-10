@@ -16,7 +16,9 @@ export class AboutState implements State {
       'by Kevin MacLeod.',
       'CC BY 3.0',
       '',
-      'Special thanks to the js13k community #'
+      '# Special thanks to the js13k community,',
+      '# to the organizers who make it all possible',
+      '# and to all the friends who helped testing.'
     ].forEach((text, i) => {
       drawText({
         text,

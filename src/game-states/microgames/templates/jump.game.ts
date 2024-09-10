@@ -5,6 +5,7 @@ import { Collider } from '@/core/entities/collider';
 import { GameBase } from './base.game';
 import { colors, drawEngine, HEIGHT, WIDTH } from '@/core/draw-engine';
 import { Platform } from '@/core/entities/platform';
+import { gameData } from '@/core/game-data';
 
 export default class JumpGame extends GameBase {
   maxSpeed = 4;
@@ -43,14 +44,16 @@ export default class JumpGame extends GameBase {
   }
 
   onUpdate(delta: number) {
-    drawEngine.drawText({
-      text: 'You can double jump',
-      x: WIDTH / 2,
-      y: 100,
-      color: colors.light,
-      size: 1,
-      textAlign: 'center',
-    });
+    if (gameData.level < 7) {
+      drawEngine.drawText({
+        text: 'You can double jump',
+        x: WIDTH / 2,
+        y: 80,
+        color: colors.light,
+        size: 1,
+        textAlign: 'center',
+      });
+    }
 
     if(!this.isEnding && this.deathColliders.some((c) => c.collision().collides)) {
       character.dead = true;
