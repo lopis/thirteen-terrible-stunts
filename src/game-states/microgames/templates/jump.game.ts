@@ -29,6 +29,7 @@ export default class JumpGame extends GameBase {
 
   onEnter() {
     super.onEnter();
+    this.jumps = 0;
     Object.assign(character, {
       mirror: false,
       dead: false,
