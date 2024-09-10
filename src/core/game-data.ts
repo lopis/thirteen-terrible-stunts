@@ -112,7 +112,7 @@ class GameData {
   }
 
   getBoss(): Boss {
-    return bossData[this.boss];
+    return bossData[Math.min(this.boss, bossData.length-1)];
   }
 
   getDifficulty(): number {

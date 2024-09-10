@@ -7,7 +7,7 @@ import { gameData, MAX_LIVES } from '@/core/game-data';
 import music from '@/core/music';
 // import { musicPlayer } from '@/core/music';
 import { State } from '@/core/state';
-import { saveHiScore } from '@/core/storage';
+import { saveHiScore, saveLevel } from '@/core/storage';
 import { addTimeEvent, clearTimers } from '@/core/timer';
 import { gameStateMachine } from '@/game-state-machine';
 import { levelsState } from '@/game-states/levels.state';
@@ -127,6 +127,7 @@ export class GameBase implements State {
     this.confirmCallback = () => {
       if(gameData.boss === 3) {
         this.text = '# You\'re a star! #';
+        saveLevel(gameData.boss);
         this.confirmCallback = () => {
           gameStateMachine.setState(levelsState);
         };
