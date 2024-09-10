@@ -5,6 +5,7 @@ import { colors, drawEngine, HEIGHT, IconKey, WIDTH } from '@/core/draw-engine';
 import { Platform } from '@/core/entities/platform';
 import { interpolate, vecAdd } from '@/util/util';
 import { gameData } from '@/core/game-data';
+import { drawText } from '@/core/font';
 
 const trainSize = 70;
 
@@ -59,7 +60,8 @@ export class BuildingJumpGame extends JumpGame {
       character.pos.x -= this.acceleration.x * delta;
     }
 
-    this.platforms.forEach(p => {
+    // Draw train extras (trains are platforms)
+    this.platforms.forEach((p, i) => {
       if (!this.isStarting) {
         p.pos.x -= delta * this.trainSpeed / 1000;
       }
@@ -67,6 +69,13 @@ export class BuildingJumpGame extends JumpGame {
       drawEngine.drawIcon(IconKey.wheel, vecAdd(p.pos, 16*3, trainSize - 8));
       drawEngine.drawIcon(IconKey.wheel, vecAdd(p.pos, 3 * trainSize - 16, trainSize - 8));
       drawEngine.drawIcon(IconKey.wheel, vecAdd(p.pos, 3 * trainSize - 16*3, trainSize - 8));
+      drawText({
+        text: (this.trainNum - i).toString(),
+        x: p.pos.x + 15,
+        y: p.pos.y + 15,
+        size: 6,
+        color: colors.gray,
+      });
     });
   }
 

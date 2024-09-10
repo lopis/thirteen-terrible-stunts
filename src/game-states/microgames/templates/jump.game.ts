@@ -91,13 +91,13 @@ export default class JumpGame extends GameBase {
 
     c.save();
     c.translate(0, this.yOffset);
-    [...this.platforms, ...this.deathColliders, this.goalCollider].forEach(p => {
-      p?.update(delta);
-    });
     this.goalCollider && drawEngine.drawText({
       text: '(', // Pointer symbol
       x: this.goalCollider!.pos.x + this.goalCollider!.size.x / 2 - 5,
       y: this.goalCollider!.pos.y - 20 - Math.round(this.timeLeft * 8) % 2,
+    });
+    [...this.platforms, ...this.deathColliders, this.goalCollider].forEach(p => {
+      p?.update(delta);
     });
 
     this.drawExtras();
