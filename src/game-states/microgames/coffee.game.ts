@@ -7,30 +7,23 @@ import { gameData } from "@/core/game-data";
 import { interpolate } from "@/util/util";
 
 type ObjectProps = [IconKey, number, number, boolean?]
-const getObjects = () => {
-  const objects: ObjectProps[] = [
-    [IconKey.chair, 6, 6],
-    [IconKey.chair, 8, 6, true],
-  
-    [IconKey.table, 7, 6],
-    
-    [IconKey.table, 7, 7],
-    [IconKey.chair, 8, 7, true],
-    [IconKey.chair, 6, 7],
-  
-    [IconKey.plant, 6, 5],
-    [IconKey.plant, 7, 5],
-    [IconKey.plant, 8, 5],
-    [IconKey.camera, 12, 7, true],
-  ];
-  return objects.sort((a,b) => (a[2]) - (b[2]));
-};
+const objects: ObjectProps[] = [
+  [IconKey.plant, 6, 5],
+  [IconKey.plant, 7, 5],
+  [IconKey.plant, 8, 5],
+  [IconKey.chair, 6, 6],
+  [IconKey.chair, 8, 6, true],
+  [IconKey.table, 7, 6],
+  [IconKey.table, 7, 7],
+  [IconKey.chair, 8, 7, true],
+  [IconKey.chair, 6, 7],
+  [IconKey.camera, 12, 7, true],
+];
 
 // Difficulty range of each property
 const difficultyRange: Record<string, [number,number]> = {
   npcNum: [1, 5],
 };
-
 
 preLoadStrings(['TY#'], [colors.black, colors.gray, colors.light], 1);
 
@@ -50,7 +43,7 @@ class CoffeeGame extends MoveGame {
     super.onEnter();
     character.setPos(30, 30);
     character.holding = [];
-    getObjects().forEach(([icon, x, y, mirror = false]) => {
+    objects.forEach(([icon, x, y, mirror = false]) => {
       this.entities[y][x] = new Entity({x: x * 16, y: y * 16}, icon, {mirror});
     });
 

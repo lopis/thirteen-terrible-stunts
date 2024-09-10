@@ -1,6 +1,6 @@
 import { character, CHARACTER_SIZE } from '@/core/entities/character';
 import { controls } from '@/core/controls';
-import { cap, clampNearZero } from '@/util/util';
+import { cap } from '@/util/util';
 import { Entity } from '@/core/entities/entity';
 import { GameBase } from './base.game';
 import { HEIGHT, WIDTH } from '@/core/draw-engine';
@@ -43,8 +43,8 @@ export class MoveGame extends GameBase {
       character.pos.y = cap(character.pos.y, 0, HEIGHT - CHARACTER_SIZE);
       
       character.velocity = {
-        x: clampNearZero(cap(character.velocity.x, -this.maxSpeed, this.maxSpeed)),
-        y: clampNearZero(cap(character.velocity.y, -this.maxSpeed, this.maxSpeed)),
+        x: cap(character.velocity.x, -this.maxSpeed, this.maxSpeed),
+        y: cap(character.velocity.y, -this.maxSpeed, this.maxSpeed),
       };
     }
 

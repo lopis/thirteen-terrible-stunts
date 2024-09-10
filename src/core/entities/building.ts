@@ -15,30 +15,23 @@ export class Building extends Platform {
     this.floors = floors;
   }
 
-  getPlatform(y: number) {
-    return [
-      {x: this.pos.x - 1, y: this.pos.y + y},
-      {x: this.size.x + 2, y: 6},
-    ];
-  }
-
-  drawWindow() {
-    const height = 12;
-    const width = 14;
-    drawEngine.drawRect({x: 0, y: 0}, {x: width, y: height}, colors.gray, colors.white);
-    drawEngine.drawRect({x: 0, y: height}, {x: width, y: height}, colors.gray, colors.white);
-  }
-
   update() {
     drawEngine.drawRect(this.pos, this.size, colors.gray, colors.light);
     for (let floor = 0; floor < this.floors; floor++) {
-      const [pos, size] = this.getPlatform(floor * FLOOR_HEIGHT);
+      const pos = {x: this.pos.x - 1, y: this.pos.y + floor * FLOOR_HEIGHT};
+      const size = {x: this.size.x + 2, y: 6};
       drawEngine.drawRect(pos, size, colors.gray, colors.gray);
 
       for (let w = 0; w < 5; w++) {
         c.save();
         c.translate(this.pos.x + 8 + 25 * w, this.pos.y + 14 + FLOOR_HEIGHT * floor);
-        this.drawWindow();
+        
+        // Window
+        const height = 12;
+        const width = 14;
+        drawEngine.drawRect({x: 0, y: 0}, {x: width, y: height}, colors.gray, colors.white);
+        drawEngine.drawRect({x: 0, y: height}, {x: width, y: height}, colors.gray, colors.white);
+
         c.restore();
       }
     }
