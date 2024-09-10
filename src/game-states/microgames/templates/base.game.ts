@@ -10,6 +10,7 @@ import { State } from '@/core/state';
 import { saveHiScore } from '@/core/storage';
 import { addTimeEvent, clearTimers } from '@/core/timer';
 import { gameStateMachine } from '@/game-state-machine';
+import { levelsState } from '@/game-states/levels.state';
 import { menuState } from '@/game-states/menu.state';
 
 const panelWidth = 200;
@@ -126,7 +127,9 @@ export class GameBase implements State {
     this.confirmCallback = () => {
       if(gameData.boss === 3) {
         this.text = '# You\'re a star! #';
-        this.confirmCallback = gameData.nextBoss;
+        this.confirmCallback = () => {
+          gameStateMachine.setState(levelsState);
+        };
       } else {
         gameData.nextBoss();
       }

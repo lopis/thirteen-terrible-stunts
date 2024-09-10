@@ -133,7 +133,6 @@ class GameData {
     let level;
     if (this.endless) {
       level = this.randomLevels[this.level%this.randomLevels.length];
-      level = jumpingTrainGame;
     } else {
       const bossLevels = levels[this.boss];
       level = bossLevels[this.level % bossLevels.length];

@@ -13,7 +13,7 @@ class FireEscapeGame extends BuildingClimbGame {
   buildingNum = 5;
   standingOnStairs = false;
   difficultyRange: Record<string, [number,number]> = {
-    buildingNum: [4, 6],
+    buildingNum: [4, 9],
   };
 
   onEnter(): void {
