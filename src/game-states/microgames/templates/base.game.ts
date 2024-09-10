@@ -42,6 +42,7 @@ export class GameBase implements State {
     character.velocity = {x:0, y:0};
 
     music.start();
+    music.setPlayHighNotes(true);
     this.start();
   }
 

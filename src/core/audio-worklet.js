@@ -61,7 +61,7 @@ const speedUpNotes = {
   notes: genNotes('17 29,30 18,31 19,32 20,33 21,34 22,23 35,36 24')
 };
 
-const music = [highNotes, lowNotes];
+let music = [highNotes, lowNotes];
 
 let queue = [];
 const noteLength = SAMPLE_RATE / 8;
@@ -87,9 +87,14 @@ const processNote = (t, playbackRate, voices) => {
   return out / 8;
 };
 
+const STATE_NORMAL = 0;
+const STATE_ONLY_LOW = 1;
+const STATE_WAITING = 2;
+
 class MusicProcessor extends AudioWorkletProcessor {
   speedUp = false;
   playbackRate = 1;
+  state = STATE_NORMAL;
 
   constructor() {
     super();
@@ -106,6 +111,15 @@ class MusicProcessor extends AudioWorkletProcessor {
     if (data.name === "speed-up") {
       this.speedUp = true;
       this.currentIndex = 0;
+    }
+    if (data.name === "voices") {
+      if (data.high && this.state === STATE_ONLY_LOW) {
+        this.state = STATE_WAITING;
+      } else if(!data.high) {
+        this.state = STATE_ONLY_LOW;
+        music = [lowNotes];
+      }
+
     }
   }
 
@@ -127,9 +141,15 @@ class MusicProcessor extends AudioWorkletProcessor {
       this.playbackRate = 1.20;
     }
 
-    // Check if processing is complete
-    if (this.currentIndex > (this.sampleCount / this.playbackRate)) {
+    const end = (this.sampleCount / this.playbackRate);
+    if (this.currentIndex > end) {
       this.currentIndex = 0;
+    }
+
+    if((this.currentIndex === 0 || this.currentIndex >= end/4) && this.state === STATE_WAITING) {
+      this.currentIndex = 0;
+      this.state = STATE_NORMAL;
+      music = [highNotes, lowNotes];
     }
 
     return true; // Continue processing

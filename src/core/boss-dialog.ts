@@ -20,7 +20,7 @@ export function setBossDialog(n: string, t: string) {
   playSentence(t);
 }
 
-export function renderBossDialog(delta: number) {
+export function renderBossDialog(delta: number, showEnter = false) {
   timePassed += delta;
   if (timePassed >= timePerLetter) {
     letterIndex++;
@@ -63,4 +63,13 @@ export function renderBossDialog(delta: number) {
   drawEngine.drawIcon(icon, { x: 0, y: 0 });
   c.restore();
   c.restore();
+
+  showEnter && drawEngine.drawText({
+    text: 'Press Enter to continue',
+    x: WIDTH / 2,
+    y: HEIGHT - 15,
+    textAlign: 'center',
+    color: colors.gray,
+    size: 1,
+  });
 }

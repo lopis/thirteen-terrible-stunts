@@ -4,6 +4,7 @@ import { gameStateMachine } from '@/game-state-machine';
 import startState from './start.state';
 import { gameData } from '@/core/game-data';
 import { controls } from '@/core/controls';
+import cutsceneState from './cutscene.state';
 
 const menu: string[] = [
   'Story mode',
@@ -27,7 +28,7 @@ class LevelsState implements State {
 
     const width = 16;
     let x = WIDTH / 2 - 2 * width;
-    let i = 0;
+    let y = 0;
     const base = 130;
     [
       ...menu,
@@ -35,7 +36,7 @@ class LevelsState implements State {
       drawEngine.drawText({
         text,
         x: x,
-        y: base + (i++) * 12,
+        y: base + (y++) * 12,
         color: colors.black,
         size: 1,
       });
@@ -51,7 +52,7 @@ class LevelsState implements State {
     drawEngine.drawText({
       text: `Hi score: ${gameData.highScore}`,
       x: x,
-      y: base + (i++) * 12,
+      y: base + (y++) * 12,
       color: colors.light,
       size: 1,
     });
@@ -110,11 +111,11 @@ class LevelsState implements State {
   onConfirm() {
     if (this.selectedButton === 0) {
       gameData.endless = false;
-      gameStateMachine.setState(startState);
+      gameStateMachine.setState(gameData.boss === 0 ? cutsceneState : startState);
     } else if (this.selectedButton === 1) {
       gameData.endless = false;
       gameData.boss = 0;
-      gameStateMachine.setState(startState);
+      gameStateMachine.setState(cutsceneState);
     } else {
       gameData.endless = true;
       gameData.nextLevel();

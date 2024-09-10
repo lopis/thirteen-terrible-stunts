@@ -9,18 +9,24 @@ export class StartState implements State {
 
   onEnter() {
     music.stop();
+    music.start()
+    .then(() => {
+      music.setPlayHighNotes(false);
+    });
     const { name, intro } = gameData.getBoss();
     setBossDialog(name, intro);
   }
 
+  onLeave() {
+    stopPlayingSentence();
+  }
+
   onUpdate(delta: number) {
     drawEngine.drawControls();
-
-    renderBossDialog(delta);
+    renderBossDialog(delta, true);
   }
 
   onConfirm() {
-    stopPlayingSentence();
     gameData.start();
   }
 }

@@ -13,8 +13,13 @@ class MusicPlayer {
     await this.audioContext.audioWorklet.addModule("a.js");
 
     this.musicProcessorNode = new AudioWorkletNode(this.audioContext, "music-processor");
+    
     this.musicProcessorNode.connect(this.audioContext.destination);
     this.isPlaying = true;
+  }
+
+  setPlayHighNotes(playHighNotes: boolean) {
+    this.musicProcessorNode?.port.postMessage({ name: "voices", high: playHighNotes });
   }
 
   stop() {
