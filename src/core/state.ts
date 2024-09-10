@@ -9,5 +9,4 @@ export interface State {
   onLeft?: () => void;
   onRight?: () => void;
   onConfirm?: () => void;
-  onEscape?: () => void;
 }

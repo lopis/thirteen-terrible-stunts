@@ -1,6 +1,7 @@
 import { gameStateMachine } from "@/game-state-machine";
 import { menuState } from "@/game-states/menu.state";
 import { State } from "./state";
+import { gameData } from "./game-data";
 
 interface KeyboardLayoutMap {
   get: (key: string) => string
@@ -62,10 +63,6 @@ class Controls {
     this.isConfirm = Boolean(this.keyMap.get('Enter')) || Boolean(this.keyMap.get('Space'));
     this.isEscape = Boolean(this.keyMap.get('Escape'));
     this.isKeyE = Boolean(this.keyMap.get('KeyE'));
-
-    if (this.isEscape && gameStateMachine.getState() != menuState) {
-      gameStateMachine.setState(menuState);
-    }
   }
 
   onUpdate(state: State) {
@@ -100,16 +97,19 @@ class Controls {
         typeof state.onConfirm == 'function' && state.onConfirm();
       }
     }
-
-    if(this.isEscape) {
-      if (!this.previousState.isEscape) {
-        typeof state.onEscape == 'function' && state.onEscape();
-      }
-    }
   }
 
-  private toggleKey(event: KeyboardEvent, isPressed: boolean) {
+  toggleKey(event: KeyboardEvent, isPressed: boolean) {
     this.keyMap.set(event.code, isPressed);
+
+    if (!isPressed) {
+      if (event.key === 'Escape' && gameStateMachine.getState() != menuState) {
+        gameStateMachine.setState(menuState);
+      }
+      if (event.code === 'KeyP') {
+        gameData.pause = !gameData.pause;
+      }
+    }
   }
 }
 

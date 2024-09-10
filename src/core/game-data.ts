@@ -103,6 +103,7 @@ class GameData {
   randomLevels: GameBase[] = [];
   easyMode = false;
   speedUp = false;
+  pause = false;
 
   constructor() {
     this.randomLevels = shuffleArray(Array.from(allLevels));
@@ -132,7 +133,6 @@ class GameData {
     let level;
     if (this.endless) {
       level = this.randomLevels[this.level%this.randomLevels.length];
-      level = buildingJumpGame;
     } else {
       const bossLevels = levels[this.boss];
       level = bossLevels[this.level % bossLevels.length];

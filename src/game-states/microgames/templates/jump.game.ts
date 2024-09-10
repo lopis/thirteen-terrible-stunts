@@ -44,7 +44,7 @@ export default class JumpGame extends GameBase {
   }
 
   onUpdate(delta: number) {
-    if (gameData.level < 7) {
+    if (gameData.level < 7 && !gameData.speedUp) {
       drawEngine.drawText({
         text: 'You can double jump',
         x: WIDTH / 2,

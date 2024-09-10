@@ -34,11 +34,20 @@ function update(currentTime: number) {
     // }
   
     drawEngine.clear();
+
+    if (gameData.pause){
+      delta = 0;
+    }
+
     const state = gameStateMachine.getState();
     controls.onUpdate(state);
     state.onUpdate(delta);
     state.postRender && state.postRender(delta);
     updateTimeEvents(delta);
+
+    if (gameData.pause){
+      drawEngine.renderPause();
+    }
   }
 
   requestAnimationFrame(update);

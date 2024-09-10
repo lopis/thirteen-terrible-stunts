@@ -363,6 +363,23 @@ class DrawEngine {
     c.fill();
   }
 
+  renderPause() {
+    c.fillStyle = colors.black + 'DD';
+    c.fillRect(0, 0, WIDTH, HEIGHT);
+    ['paused', 'press \'P\' to continue'].forEach((text, i) => {
+      [colors.black, colors.white].forEach((color, c) => {
+        drawText({
+          text: text,
+          x: WIDTH/2 - c * 1,
+          y: HEIGHT/2 + i * 30 - 30 - c * 1,
+          textAlign: 'center',
+          color,
+          size: 3 - i,
+        });
+      });
+    });
+  }
+
   // drawGrid() {
   //   c.strokeStyle = '#ccc';
   //   c.lineWidth = 1;
