@@ -243,22 +243,38 @@ class DrawEngine {
     c.save();
     c.translate(WIDTH / 2, 80);
     [
-      {x: 0, y: 0},
-      {x: 0, y: space},
-      {x: -space, y: space},
-      {x: space, y: space},
+      {x: -50, y: 0},
+      {x: -50, y: space},
+      {x: -50 - space, y: space},
+      {x: -50 + space, y: space},
     ].forEach(({x, y}) => {
-      this.drawRect({x: x - space/2, y}, {x: keySize, y: keySize}, colors.gray, colors.light);
+      this.drawRect({x: x - space/2, y}, {x: keySize, y: keySize}, colors.gray, colors.gray);
+      this.drawRect({x: x - space/2, y}, {x: keySize-2, y: keySize-2}, colors.light, colors.light);
     });
     this.drawText({
       text: 'move with arrows or wasd',
-      x: 0,
+      x: -50,
       y: keySize * 3,
       textAlign: 'center',
       size: 1,
     });
-    c.restore();
 
+    [
+      ['esc', 'exit game'],
+      [' P ', 'pause game'],
+    ].forEach(([text, label], i) => {
+      const y = i * space;
+      this.drawRect({x: 40, y: y as number}, {x: 26, y: keySize}, colors.gray, colors.gray);
+      this.drawRect({x: 40, y: y as number}, {x: 26-2, y: keySize-2}, colors.light, colors.light);
+      this.drawText({
+        text: `${text}  ${label}`,
+        x: 45,
+        y: y + 8,
+        size: 1,
+      });
+    });
+
+    c.restore();
     c.save();
     c.restore();
   }

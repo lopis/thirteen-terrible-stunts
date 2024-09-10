@@ -5,9 +5,10 @@ import startState from './start.state';
 import { gameData } from '@/core/game-data';
 import { controls } from '@/core/controls';
 
-const menu: [string, number][] = [
-  [' Story mode', 80],
-  [' Endless mode', 160],
+const menu: string[] = [
+  'Story mode',
+  'Restart story',
+  'Endless mode',
 ];
 
 class LevelsState implements State {
@@ -24,27 +25,35 @@ class LevelsState implements State {
       size: 3,
     });
 
-    const width = 16 + 5;
-    const x = WIDTH / 2 - 4 * width;
+    const width = 16;
+    let x = WIDTH / 2 - 2 * width;
+    let i = 0;
+    const base = 130;
     [
       ...menu,
-      ['&', this.selectedButton === 0 ? menu[0][1] : menu[1][1]] as [string, number],
-    ].forEach(([text, y]) => {
+    ].forEach((text) => {
       drawEngine.drawText({
         text,
-        x: x - 10,
-        y,
+        x: x,
+        y: base + (i++) * 12,
         color: colors.black,
-        size: 2,
+        size: 1,
       });
+    });
+    drawEngine.drawText({
+      text: '&',
+      x: x - 10,
+      y: base + this.selectedButton * 12,
+      color: colors.black,
+      size: 1,
     });
 
     drawEngine.drawText({
-      text: ` Hi score: ${gameData.highScore}`,
-      x: x - 10,
-      y: 175,
+      text: `Hi score: ${gameData.highScore}`,
+      x: x,
+      y: base + (i++) * 12,
       color: colors.light,
-      size: 2,
+      size: 1,
     });
 
 
@@ -66,13 +75,14 @@ class LevelsState implements State {
       size: 1,
     });
   
+    x = WIDTH / 2 - 4 * width;
     c.save();
-    c.translate(x, 100);
+    c.translate(x, 80);
+    drawEngine.drawRect({x: -width, y: 0}, {x: width * 10, y: width*2}, colors.light, colors.light);
     [IconKey.boss1, IconKey.boss2, IconKey.boss3, IconKey.boss4].forEach((boss, i) => {
       c.save();
       c.scale(2, 2);
       const pos = {x: width * i, y: 0};
-      drawEngine.drawRect(pos, {x: 16, y: 16}, colors.light, colors.light);
       drawEngine.drawIcon(boss, pos, gameData.boss <= i);
       c.restore();
     });
@@ -100,6 +110,10 @@ class LevelsState implements State {
   onConfirm() {
     if (this.selectedButton === 0) {
       gameData.endless = false;
+      gameStateMachine.setState(startState);
+    } else if (this.selectedButton === 1) {
+      gameData.endless = false;
+      gameData.boss = 0;
       gameStateMachine.setState(startState);
     } else {
       gameData.endless = true;

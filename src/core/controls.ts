@@ -100,11 +100,16 @@ class Controls {
   }
 
   toggleKey(event: KeyboardEvent, isPressed: boolean) {
-    this.keyMap.set(event.code, isPressed);
+    if (!gameData.pause) {
+      this.keyMap.set(event.code, isPressed);
+    }
 
     if (!isPressed) {
-      if (event.key === 'Escape' && gameStateMachine.getState() != menuState) {
-        gameStateMachine.setState(menuState);
+      if (event.key === 'Escape') {
+        if (gameStateMachine.getState() != menuState) {
+          gameStateMachine.setState(menuState);
+        }
+        gameData.pause = false;
       }
       if (event.code === 'KeyP') {
         gameData.pause = !gameData.pause;

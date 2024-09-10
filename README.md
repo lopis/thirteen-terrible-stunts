@@ -30,7 +30,6 @@ yarn dev
 - Microgame ideas
   - clean the floor
   - rolling rocks
-- Enable pausing via P key
 - Add Esc and P to the controls page
 
 ## Inspiration
