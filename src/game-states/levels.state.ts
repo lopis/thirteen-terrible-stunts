@@ -5,6 +5,7 @@ import startState from './start.state';
 import { gameData } from '@/core/game-data';
 import { controls } from '@/core/controls';
 import cutsceneState from './cutscene.state';
+import music from '@/core/music';
 
 const menu: string[] = [
   'Story mode',
@@ -14,6 +15,10 @@ const menu: string[] = [
 
 class LevelsState implements State {
   selectedButton = 0;
+
+  onEnter() {
+    music.stop();
+  }
 
   onUpdate(_delta: number) {
     // title
