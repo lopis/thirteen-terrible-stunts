@@ -204,15 +204,17 @@ function ectPlugin(): Plugin {
         const result = execFileSync(ect, args);
         // console.log('ECT result', result.toString().trim());
         const stats = statSync('dist/index.zip');
-        const sizeInKB = (stats.size / 1000).toFixed(2);
-        const progress = stats.size / 13000;
+        const sizeInKB = stats.size;
+        const progress = stats.size / 13312;
         const percentage = (100 * progress).toFixed(1);
 
         let colorCode = '';
         if (stats.size < 10000) {
           colorCode = '\x1b[32m'; // green
-        } else if (stats.size > 13000) {
+        } else if (stats.size > 13312) {
           colorCode = '\x1b[31m'; // red
+        } else if (stats.size > 12900) {
+            colorCode = '\x1b[38;5;214m'; // orange
         } else {
           colorCode = '\x1b[33m'; // yellow
         }
@@ -220,7 +222,7 @@ function ectPlugin(): Plugin {
         const colorBar = '█'.repeat(Math.round(progress * 20));
         const grayBar = progress >= 0.95 ? '' : '█'.repeat(Math.round((1 - progress) * 20));
         const progressBar = `${colorCode}${colorBar}\x1b\x1b[37m${grayBar}\x1b`;
-        console.log(`\n\nSize: ${colorCode}${sizeInKB}KB (${percentage}%)\x1b[0m  ${progressBar}\n`);
+        console.log(`\n\nSize: ${colorCode}${sizeInKB}B / 13312B (${percentage}%)\x1b[0m  ${progressBar}\n`);
 
       } catch (err) {
         console.log('ECT error', err);
