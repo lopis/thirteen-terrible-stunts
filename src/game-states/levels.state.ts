@@ -50,7 +50,7 @@ class LevelsState implements State {
     });
 
     drawEngine.drawText({
-      text: `Hi score: ${gameData.highScore}`,
+      text: `High score: ${gameData.highScore}`,
       x: x,
       y: base + (y++) * 12,
       color: colors.light,
