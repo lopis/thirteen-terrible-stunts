@@ -39,7 +39,7 @@ const bossData: Boss[] = [
     intro: 'Just do what one tells you, and stay out of my way.',
     final: 'Hurry, I have not the whole day.',
     outro: 'Obedient and disciplined. You\'ll get far, child.',
-    gameover: 'Is there some reason my coffee isn\t here?',
+    gameover: 'Is there some reason my coffee isn\'t here?',
   },
   {
     // https://en.wikipedia.org/wiki/Alfred_Hitchcock
@@ -147,7 +147,9 @@ class GameData {
     }
 
     this.boss++;
-    saveLevel(this.boss);
+    if(loadLevel() < this.boss) {
+      saveLevel(this.boss);
+    }
     this.level = -1;
     this.speedUp = false;
     gameStateMachine.setState(startState);

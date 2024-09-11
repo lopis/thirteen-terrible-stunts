@@ -98,6 +98,7 @@ export class GameBase implements State {
           const { name, gameover } = gameData.getBoss();
           setBossDialog(name, gameover);
         } else if(gameData.level > gameData.highScore) {
+          gameData.highScore = gameData.level;
           saveHiScore(gameData.level);
         }
         this.confirmCallback = () => {
