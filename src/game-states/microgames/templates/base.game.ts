@@ -134,7 +134,21 @@ export class GameBase implements State {
           gameStateMachine.setState(levelsState);
         };
       } else {
-        gameData.nextBoss();
+        // Restore lives
+        if (gameData.lives < 4) {
+          for (let lives = gameData.lives; lives < MAX_LIVES; lives++) {
+            addTimeEvent(() => {
+              ooof(26 + (lives - gameData.lives) * 0.5);
+              this.text = ` ${this.getHearts(gameData.lives - lives -1)} `;
+            }, 0, 0, this.animationDuration * lives);
+          }
+          addTimeEvent(() => {
+            gameData.nextBoss();
+          }, 0, 0, this.animationDuration * (MAX_LIVES + 1));
+          this.confirmCallback = () => {};
+        } else {
+          gameData.nextBoss();
+        }
       }
     };
   }
@@ -148,7 +162,7 @@ export class GameBase implements State {
       startTime += 100 + 250 * (13 - i) / 13;
       
       addTimeEvent(() => {      
-        ooof(i);  
+        ooof(i);
         this.text = `Level ${(' ' + i).slice(-2)}`;
       }, startTime, 0, this.animationDuration * 2);
     }
@@ -204,7 +218,7 @@ export class GameBase implements State {
     }
 
     if (this.inTransition && !gameData.endless) {
-      renderBossDialog(delta);
+      renderBossDialog(delta, this.inTransition);
     }
 
     this.renderStats();

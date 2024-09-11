@@ -17,13 +17,12 @@ export const ooof = (pitch: number) => playSound((i: number) => {
   var n=2e4;
   if (i > n) return 0;
   var q = t(i,n);
-  return 0.3 * Math.tan(Math.cbrt(Math.sin(i/(145 - 5 * pitch))))*q*q;
+  return 0.2 * Math.tan(Math.cbrt(Math.sin(i/(145 - 5 * pitch))))*q*q;
 });
 
 export const doorSound = () => playSound((i: number) => {
-  return 0.2 * Math.sin(i/50 + Math.random()*50) * (8000 - i%8000) / 5000 * Math.exp(-i/8000);
+  return 0.1 * Math.sin(i/50 + Math.random()*50) * (8000 - i%8000) / 5000 * Math.exp(-i/8000);
 });
-
 
 // Voice Effects
 export const voiceFn = function(i: number, syllables: number, pitchShift: number): number {

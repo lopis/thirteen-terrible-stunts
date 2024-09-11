@@ -28,9 +28,7 @@ yarn dev
 ## TODO
 
 - Microgame ideas
-  - clean the floor
   - rolling rocks
-- Add Esc and P to the controls page
 
 ## Inspiration
 
