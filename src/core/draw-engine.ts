@@ -18,6 +18,7 @@ export const enum IconKey {
   falling,
   jumping,
   dead,
+  broom,
 
   boss1,
   boss2,
@@ -52,6 +53,7 @@ export const iconsData = [
   /*falling*/      '@@@@@@@@@@@@@@@@@TUUA@djjZ@PjjjA@ijjF@dZjY@PjjjA@iZeF@TUUU@TjjjEDijjFQTUUUD@UUU@@@EPA@',
   /*jumping*/      '@TUUA@djjZ@PjifA@ijjF@djUZ@PjjjQ@ijjFATUUUATjjjADiejFPTUUU@@UUU@@PAU@@@@U@@@@T@@@@@@@@',
   /*dead*/         "@@@@@@@@@@@@@@@@@@@@@@@@@@@PUUUA@YijZ@eejjFUVjjZEYiZfEdfffFPZZfYUiiijUUUUUE@D@@@@@U@@@",
+  /*broom*/        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@E@@@@}A@@`U_ji`@tgAh@@}U`@@PoF@@@djA@@PjZ@@@TUA",
                    
   /*boss1*/        '@@@@@@@UUE@@UUUA@ijjU@dfZZAPjYjE@iifV@ifZZAdjjjFPjUeZ@iZUjAPjjjA@TejU@UijUEUUjUUTUUUUA',
   /*boss2*/        '@@@@@@PUUE@PeZUAPijjU@ijjVAeUVYUTjifVQijjZEejjjUPjUjVAijjZ@PjjZ@@TiU@@@dF@@PUVUAPUUUU@',
