@@ -83,18 +83,3 @@ export const playSentence = (sentence: string) => {
 export const stopPlayingSentence = () => {
   isPlayingVoice = false;
 };
-
-// const text = "Hello i am lopis how are you?".replace(/[^a-zA-Z\s]/g, '');;
-// const words = text.split(" ").map(w => w.length);
-
-// let cumulativeDelay = 0;
-
-// words.forEach((w, i) => {
-//   const r = Math.floor(w/2) || 1;
-//   cumulativeDelay += i == 0 ? 0 : (1000 * (r + 1) * 4e3 / 48e3);  // Increase the cumulative delay based on the word length
-//   const pitchShift = 1 + (Math.random() - 0.5) * 0.5;
-//   setTimeout(() => {
-//     play(r, pitchShift);
-//   }, cumulativeDelay);  // Add an initial delay of 500ms
-// });
-
