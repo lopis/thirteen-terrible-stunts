@@ -16,6 +16,7 @@ import spotlightGame from "@/game-states/microgames/spotlight.game";
 import boatWheelGame from "@/game-states/microgames/boat.wheel.game";
 import fireEscapeGame from "@/game-states/microgames/fire-escape.game";
 import cleanGame from "@/game-states/microgames/clean.game";
+import balancingGame from "@/game-states/microgames/balancing.game";
 
 export type Boss = {
   name: string
@@ -81,6 +82,7 @@ export const levels: GameBase[][] = [
     fallingBuildingGame,
     jumpingTrainGame,
     trampolinGame,
+    balancingGame,
   ],
   [
     spotlightGame,
@@ -88,7 +90,7 @@ export const levels: GameBase[][] = [
     mattressGame,
     ropeJumpingGame,
     fallingBuildingGame,
-    //rollingRockGame,
+    balancingGame,
   ],
 ];
 
