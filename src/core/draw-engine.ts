@@ -299,6 +299,7 @@ class DrawEngine {
   }
 
   drawHouseFace(points: number[][], progress: number) {
+    progress = Math.min(1, progress);
     c.save();
     const skewY = 0.5 * (-1 + progress);
     const scaleX = Math.pow(progress, 3);
@@ -311,6 +312,7 @@ class DrawEngine {
     c.fillStyle = colors.white;
     c.strokeStyle = colors.light;
     c.stroke();
+    c.save();
     c.clip();
     const plankSize = Math.round(WIDTH / 30);
     c.fillRect(0, 0, WIDTH, HEIGHT);
@@ -318,24 +320,27 @@ class DrawEngine {
       c.strokeRect(plankSize * i, 0, plankSize, HEIGHT);
     }
     c.restore();
+    this.drawLine(points[1][0]*WIDTH, points[1][1]*HEIGHT, points[2][0]*WIDTH, points[2][1]*HEIGHT, colors.light);
+    this.drawLine(points[2][0]*WIDTH, points[2][1]*HEIGHT, points[10][0]*WIDTH, points[10][1]*HEIGHT, colors.light);
+    c.restore();
   }
 
   drawHouse(progress: number, windowSize: Vec2, windowOffset: number) {
     const points = [
-      [0, 0],
-      [0.5, 0],
-      [1, 0.5],
+      /*  0 */ [0, 0],
+      /*  1 */ [0.5, 0],
+      /*  2 */ [1, 0.5],
     
-      [1 - windowOffset, 0.5],
-      [1 - windowOffset, 0.5 - windowSize.y],
-      [1 - (windowOffset + windowSize.x), 0.5 - windowSize.y],
-      [1 - (windowOffset + windowSize.x), 0.5 + windowSize.y],
-      [1 - windowOffset, 0.5 + windowSize.y],
-      [1 - windowOffset, 0.5],
+      /*  3 */ [1 - windowOffset, 0.5],
+      /*  4 */ [1 - windowOffset, 0.5 - windowSize.y],
+      /*  5 */ [1 - (windowOffset + windowSize.x), 0.5 - windowSize.y],
+      /*  6 */ [1 - (windowOffset + windowSize.x), 0.5 + windowSize.y],
+      /*  7 */ [1 - windowOffset, 0.5 + windowSize.y],
+      /*  8 */ [1 - windowOffset, 0.5],
     
-      [1, 0.5],
-      [0.5, 1],
-      [0, 1],
+      /*  9 */ [1, 0.5],
+      /* 10 */ [0.5, 1],
+      /* 11 */ [0, 1],
     ];
 
     //  Draw shadow

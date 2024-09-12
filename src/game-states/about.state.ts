@@ -7,19 +7,25 @@ import { colors } from '@/core/draw-engine';
 export class AboutState implements State {
 
   onUpdate() {
-    [
-      'About',
-      'Game developed for js13kgames 2024.',
-      'Copyright )lopis.',
-      '',
-      'Music adapted from \'Batty McFaddin\'',
-      'by Kevin MacLeod.',
-      'CC BY 3.0',
-      '',
-      '# Special thanks to the js13k community,',
-      '# to the organizers who make it all possible',
-      '# and to all the friends who helped testing.'
-    ].forEach((text, i) => {
+`About
+
+It's 1924 and you\'re aiming to become a
+movie star. Work yourself up through
+grueling jobs to reach your goals.
+
+
+Game developed for js13kgames 2024.
+Copyright )lopis.
+
+Music adapted from \'Batty McFaddin\'
+by Kevin MacLeod'
+CC BY 3.0'
+
+# Special thanks to the js13k community,
+# to the js13k organizers,
+# and all the friends who helped testing`
+    .split('\n')
+    .forEach((text, i) => {
       drawText({
         text,
         x: 20,
