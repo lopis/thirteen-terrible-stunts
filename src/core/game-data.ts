@@ -85,12 +85,12 @@ export const levels: GameBase[][] = [
     balancingGame,
   ],
   [
+    mattressGame,
     spotlightGame,
     fireEscapeGame,
-    mattressGame,
     ropeJumpingGame,
     fallingBuildingGame,
-    balancingGame,
+    boatWheelGame,
   ],
 ];
 

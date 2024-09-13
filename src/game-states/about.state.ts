@@ -23,7 +23,7 @@ CC BY 3.0'
 
 # Special thanks to the js13k community,
 # to the js13k organizers,
-# and all the friends who helped testing`
+# and the friends who helped testing`
     .split('\n')
     .forEach((text, i) => {
       drawText({
