@@ -65,10 +65,7 @@ export default class JumpGame extends GameBase {
     }
 
     if (!this.isEnding) {
-      character.velocity = {
-        x: cap(character.velocity.x, -this.maxSpeed, this.maxSpeed),
-        y: character.velocity.y,
-      };
+      character.velocity.x = cap(character.velocity.x, -this.maxSpeed, this.maxSpeed);
   
       character.setPos(
         cap(character.pos.x + character.velocity.x, 0, WIDTH - CHARACTER_SIZE),
@@ -91,11 +88,7 @@ export default class JumpGame extends GameBase {
 
     c.save();
     c.translate(0, this.yOffset);
-    this.goalCollider && drawEngine.drawText({
-      text: '(', // Pointer symbol
-      x: this.goalCollider!.pos.x + this.goalCollider!.size.x / 2 - 5,
-      y: this.goalCollider!.pos.y - 20 - Math.round(this.timeLeft * 8) % 2,
-    });
+    
     [...this.platforms, ...this.deathColliders, this.goalCollider].forEach(p => {
       p?.update(delta);
     });
@@ -107,9 +100,15 @@ export default class JumpGame extends GameBase {
 
   }
 
-  drawExtras() {}
+  drawExtras() {
+    this.goalCollider && drawEngine.drawText({
+      text: '(', // Pointer symbol
+      x: this.goalCollider!.pos.x + this.goalCollider!.size.x / 2 - 5,
+      y: this.goalCollider!.pos.y - 20 - Math.round(this.timeLeft * 8) % 2,
+    });
+  }
 
-  renderCharacter(delta: number) {
+  renderCharacter(delta: number) {  
     if (character.dead) {
       character.drawDead();
     } else if (character.velocity.x === 0 && character.velocity.y === 0) {
@@ -146,7 +145,7 @@ export default class JumpGame extends GameBase {
       this.readyToJump = true;
     }
 
-    if (this.isGrounded) {
+    // if (this.isGrounded) {
       if (controls.isLeft) {
         character.velocity.x -= this.acceleration.x * delta;
       } else if (controls.isRight) {
@@ -158,6 +157,6 @@ export default class JumpGame extends GameBase {
           character.velocity.x = Math.min(0, character.velocity.x + 2*this.acceleration.x * delta);
         }
       }
-    }
+    // }
   }
 }

@@ -33,6 +33,8 @@ export const enum IconKey {
   bigCoffee,
   coffeMachine,
   wheel,
+  lamp,
+  pole,
 
   npc1,
   npc2,
@@ -68,6 +70,8 @@ export const iconsData = [
   /*bigCoffee*/    "@@@@@@@@@@@@TUE@@djjA@d~Z@T^UmAdZUUFPfVUZ@YjjjEtjjjfQujj^Fi}_ZPZUUZ@djjZ@@UUU@@@@@@@",
   /*coffeMachine*/ "PUUUU@ijjjAdjjjFPjjjZ@UUUUAtGPUUu^@@@PAPUEmGPTVt_@QYQADeE}G@TUt_@UUUAtGPUUUU@",
   /*wheel*/        "@@C@@pkzC@pzz@p~Np~oC{N{oo~~{{os~oC{Np~N@l~oN@@ojO@@@C@@",
+  /*lamp*/         "@@|O@@|C@|C@@pC@pC@O@@OpO@|pjjCpsjjz@OkjjC|kjjzpojjjCO|`kzBpCnjK@O`K@|@hJ@pC",
+  /*pole*/         "@@@@pC@@@@O@@@@|@@@@pC@@@@O@@@@|@@@@pC@@@@O@@@@|@@@@pC@@@@O@@@@|@@@@pC@@@@O@@@@|@@@@pC",
                    
   /*npc1*/         "@@@@@@TUUA@TejZATUffEPUYZV@UejZAPeZiA@djjF@PUiV@PUYfEPTUfEAQUeUDPUUUE@TUUE@@E@E@@@@@@@",
   /*npc2*/         "@@@@@@PUUA@PjjZ@@ijjA@dZZF@PjiY@@iZiA@djjF@PUUU@PiZiEPdjjFAQUUUDPUUUE@PAPA@@E@E@@@@@@@",

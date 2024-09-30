@@ -1,7 +1,7 @@
 import { hexToRgb } from "@/util/colors";
 import { colors } from "./draw-engine";
 
-export const tinyFont = /* font-start */'6v7ic,2rwzo,6nvic,58jgo,55eyo,jz6bo,933m7,3ugt8,34ao,7k,b28,m0,20o0o,9a7vy,jbmjj,jf63j,ivhmn,etrs7,ju8e7,jalrz,jeyks,jwdj3,jwdlv,2t8g,2t8s,34yo,lskg,m2yo,jf4lo,jysjy,98ruh,j8htq,9v7zj,j8d32,ju78f,ju8t4,9ul2n,g44e1,jykrj,jewdq,g4rbt,fgsgv,hha5t,g6xgz,98rou,j8d7c,98uwe,j8d7d,9xgxq,jykqs,g3zn2,g3z9g,b1ipn,h4qu3,c8oz2,jhyfz,,,,'/* font-end */.split(',');
+export const tinyFont = /* font-start */'6v7ic,2rwzo,6nvic,58jgo,55eyo,jz6bo,933m7,3ugt8,34ao,7k,b28,m0,20o0o,9a7vy,jbmjj,jf63j,ivhmn,etrs7,ju8e7,jalrz,jeyks,jwdj3,jwdlv,2t8g,2t8s,34yo,lskg,m2yo,jf4lo,jysjy,98ruh,j8htq,9v7zj,j8d32,ju78f,ju8t4,9ul2n,g44e1,jykrj,jewdq,g4rbt,fgsgv,hha5t,g6xgz,98rou,j8d7c,98uwe,j8d7d,9xgxq,jykqs,g3zn2,g3z9g,b1ipn,h4qu3,c8oz2,jhyfz,7uq18,,3xjqe,'/* font-end */.split(',');
 
 const bitmaps: {[key: string]: ImageBitmap} = {};
 
@@ -17,15 +17,16 @@ export type DrawTextProps = {
   textBaseline?: CanvasTextBaseline
   size?: number
   maxLetters?: number
+  space?: number
 }
 
-const createImageData = async (text: string, size: number, color: string) => {
+const createImageData = async (text: string, size: number, color: string, space: number = 1) => {
   const id = text+color+size;
   if (bitmaps[id]) {
     return;
   }
   const letterWidth = 5 * size;
-  const spacing = 1 * size;
+  const spacing = space * size;
   const spaced = letterWidth + spacing;
   const width = spaced * text.length - spacing;
   const imageData = new ImageData(width, letterWidth);
@@ -74,6 +75,7 @@ export const drawText = (
     textBaseline = 'top',
     size = 2,
     maxLetters = 999,
+    space = 1,
     ...rest
   } : DrawTextProps
 ) => {
@@ -81,7 +83,7 @@ export const drawText = (
   const y = Math.round(rest.y);
   if (!text) text = ' ';
   const letterWidth = 5 * size;
-  const spacing = 1 * size;
+  const spacing = space * size;
   const spaced = letterWidth + spacing;
   const width = spaced * text.length - spacing;
   const id = text+color+size;
@@ -91,7 +93,7 @@ export const drawText = (
     const maxWidth = maxLetters * spaced;
     c.drawImage(bitmaps[id], 0, 0, maxWidth, spaced, x - offsetX, y - offsetY, maxWidth, spaced);
   } else {
-    createImageData(text, size, color)
+    createImageData(text, size, color, space)
     .then(() => {
       c.drawImage(bitmaps[id], x - offsetX, y);
     });

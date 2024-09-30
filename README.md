@@ -29,6 +29,10 @@ yarn dev
 
 - Microgame ideas
   - rolling rocks
+- Add a tutorial in the first 3 games without a timer
+- Replace the menu with the intro animation
+- Fix max difficulty of jumping levels so building don't float
+- Make the train level more clear and disable "walking backwards"
 
 ## Inspiration
 

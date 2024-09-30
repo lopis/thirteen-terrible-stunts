@@ -47,7 +47,7 @@ export default defineConfig(({ command }) => {
       }
     };
     // @ts-ignore
-    config.plugins = [typescriptPlugin(), closurePlugin(), roadrollerPlugin(), ectPlugin()];
+    config.plugins = [typescriptPlugin(), closurePlugin(), /*roadrollerPlugin(),*/ ectPlugin()];
   }
 
   return config;

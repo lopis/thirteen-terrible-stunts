@@ -2,7 +2,6 @@ import { gameStateMachine } from "@/game-state-machine";
 import { GameBase } from "@/game-states/microgames/templates/base.game";
 import { shuffleArray } from "@/util/util";
 import buildingJumpGame from "@/game-states/microgames/building-jump.game";
-import { trampolinGame } from "@/game-states/microgames/trampolin.game";
 import { mattressGame } from "@/game-states/microgames/mattress.game";
 import ropeJumpingGame from "@/game-states/microgames/rope-jumping.game";
 import startState from "@/game-states/start.state";
@@ -65,36 +64,44 @@ const bossData: Boss[] = [
 export const levels: GameBase[][] = [
   [
     coffeeGame,
-    buildingJumpGame,
     cleanGame,
+    buildingJumpGame,
     jumpingTrainGame,
+    buildingClimbGame,
+    ropeJumpingGame,
   ],
   [
+    spotlightGame,
+    mattressGame,
+
     buildingClimbGame,
     buildingJumpGame,
-    coffeeGame,
-    trampolinGame,
-    fallingBuildingGame,
-  ],
-  [
-    spotlightGame,
-    boatWheelGame,
-    fallingBuildingGame,
     jumpingTrainGame,
-    trampolinGame,
-    balancingGame,
+    ropeJumpingGame,
   ],
   [
-    mattressGame,
-    spotlightGame,
-    fireEscapeGame,
-    ropeJumpingGame,
+    balancingGame,
     fallingBuildingGame,
+
+    spotlightGame,
+    mattressGame,
+    jumpingTrainGame,
+    ropeJumpingGame,
+  ],
+  [
+    fireEscapeGame,
     boatWheelGame,
+
+    spotlightGame,
+    ropeJumpingGame,
+    balancingGame,
+    fallingBuildingGame,
   ],
 ];
 
 const allLevels: Set<GameBase> = new Set(levels.flat());
+console.log(allLevels);
+
 
 export const MAX_LIVES = 4;
 class GameData {
@@ -108,9 +115,9 @@ class GameData {
   easyMode = false;
   speedUp = false;
   pause = false;
+  hasPassedTutorial = true;
 
   constructor() {
-    this.randomLevels = shuffleArray(Array.from(allLevels));
     this.boss = loadLevel();
     this.highScore = loadHiScore();
   }
@@ -126,7 +133,7 @@ class GameData {
   }
 
   start() {
-    this.level = -1;
+    this.randomLevels = shuffleArray(Array.from(allLevels));
     this.level = -1;
     this.speedUp = false;
     this.nextLevel();

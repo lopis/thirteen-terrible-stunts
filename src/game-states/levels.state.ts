@@ -123,7 +123,7 @@ class LevelsState implements State {
       gameStateMachine.setState(cutsceneState);
     } else {
       gameData.endless = true;
-      gameData.nextLevel();
+      gameData.start();
     }
   }
 }

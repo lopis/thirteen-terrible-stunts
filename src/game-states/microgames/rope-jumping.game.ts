@@ -48,7 +48,6 @@ export class RopeJumpingGame extends JumpGame {
   }
 
   onUpdate(delta: number) {
-    super.onUpdate(delta);
     this.swingPos += delta / this.swingTime;
     const ropeAngle = Math.sin(this.swingPos * 2 * Math.PI);
 
@@ -78,6 +77,8 @@ export class RopeJumpingGame extends JumpGame {
         this.grabbing = false;
       }
     }
+
+    super.onUpdate(delta);
   }
 
   onUp() {

@@ -20,6 +20,7 @@ export class GameBase implements State {
   isStarting = false;
   isEnding = false;
   inTransition = false;
+  inTutorial = false;
 
   animationDuration = 500;
   animationTimer = 0;
@@ -33,6 +34,7 @@ export class GameBase implements State {
 
   onEnter() {
     this.maxTime = gameData.easyMode ? 20 : 10;
+    this.inTutorial = !gameData.hasPassedTutorial;
     
     this.timeLeft = this.maxTime;
     this.isStarting = false;
@@ -194,9 +196,12 @@ export class GameBase implements State {
   onUpdate(delta: number) {
     if (!this.isEnding && !this.isStarting) {
       this.queryControls(delta);
-      this.timeLeft = Math.max(0, this.timeLeft - delta / 1000);
-      if (Math.round(this.timeLeft) <= 0) {
-        this.timeOver();
+
+      if(!this.inTutorial) {
+        this.timeLeft = Math.max(0, this.timeLeft - delta / 1000);
+        if (Math.round(this.timeLeft) <= 0) {
+          this.timeOver();
+        }
       }
     }
   }
@@ -225,12 +230,12 @@ export class GameBase implements State {
   }
 
   renderStats() {
-    const stats: [string|number, CanvasTextAlign, number][] = [
+    const stats: [string|number, CanvasTextAlign, number, number?][] = [
       [this.getHearts(), 'left', 7],
-      [Math.round(this.timeLeft), 'center', WIDTH / 2],
+      [this.inTutorial ? '[]' : Math.round(this.timeLeft), 'center', WIDTH / 2, 0],
       [`Lvl ${gameData.level + 1}`, 'right', WIDTH - 7],
     ];
-    stats.forEach(([text, textAlign, x]) => {
+    stats.forEach(([text, textAlign, x, space = 1]) => {
       [colors.light, colors.black].forEach((color, i) => {
         drawEngine.drawText({
           text: text.toString(),
@@ -239,6 +244,7 @@ export class GameBase implements State {
           textAlign,
           color,
           size: 2,
+          space,
         });
       });
     });
