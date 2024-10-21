@@ -38,7 +38,7 @@ export class MoveGame extends GameBase {
           }
         }
       });
-      character.move();
+      character.move(delta);
       character.pos.x = cap(character.pos.x, 0, WIDTH - CHARACTER_SIZE);
       character.pos.y = cap(character.pos.y, 0, HEIGHT - CHARACTER_SIZE);
       

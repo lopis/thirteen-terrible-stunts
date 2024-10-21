@@ -15,6 +15,7 @@ class FireEscapeGame extends BuildingClimbGame {
   difficultyRange: Record<string, [number,number]> = {
     buildingNum: [4, 9],
   };
+  goDown: boolean;
 
   onEnter(): void {
     super.onEnter();
@@ -31,6 +32,13 @@ class FireEscapeGame extends BuildingClimbGame {
   onUpdate(delta: number): void {
     this.fireAnimationProgress += delta/this.fireAnimationTime;
     super.onUpdate(delta);
+
+    if (this.goDown) {
+      this.goDown = false;
+      character.velocity.y = 2;
+      character.velocity.x = 0;
+      character.pos.y += 60 * (delta / 16);
+    }
   }
 
   hasWon(): boolean {
@@ -81,10 +89,8 @@ class FireEscapeGame extends BuildingClimbGame {
   }
 
   onDown() {
-    if (this.standingOnStairs) {
-      character.velocity.y = 2;
-      character.velocity.x = 0;
-      character.pos.y += 15;
+    if (this.standingOnStairs && !this.goDown) {
+      this.goDown = true;
     }
   }
 }

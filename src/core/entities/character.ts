@@ -20,8 +20,8 @@ export class Character {
     this.pos = roundVec({x, y});
   }
 
-  move() {
-    this.pos = addVec(this.pos, this.velocity);
+  move(delta: number) {
+    this.pos = addVec(this.pos, this.velocity, delta / 16);
   }
 
   draw(iconKey: IconKey) {

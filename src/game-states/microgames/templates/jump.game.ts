@@ -68,8 +68,8 @@ export default class JumpGame extends GameBase {
       character.velocity.x = cap(character.velocity.x, -this.maxSpeed, this.maxSpeed);
   
       character.setPos(
-        cap(character.pos.x + character.velocity.x, 0, WIDTH - CHARACTER_SIZE),
-        cap(character.pos.y + Math.min(this.maxFallSpeed, character.velocity.y * delta/16), this.minY, this.maxY) + 1,
+        cap(character.pos.x + character.velocity.x * (delta/16), 0, WIDTH - CHARACTER_SIZE),
+        cap(character.pos.y + Math.min(this.maxFallSpeed, character.velocity.y) * (delta/16), this.minY, this.maxY) + 1,
       );
       const platform = this.platforms.find(p => p.standsOn());
   
@@ -152,9 +152,9 @@ export default class JumpGame extends GameBase {
         character.velocity.x += this.acceleration.x * delta;
       } else if (character.velocity.y == 0) {
         if (character.velocity.x > 0) {
-          character.velocity.x = Math.max(0, character.velocity.x - 2*this.acceleration.x * delta);
+          character.velocity.x = Math.max(0, character.velocity.x - 2 * this.acceleration.x * delta);
         } else if (character.velocity.x < 0) {
-          character.velocity.x = Math.min(0, character.velocity.x + 2*this.acceleration.x * delta);
+          character.velocity.x = Math.min(0, character.velocity.x + 2 * this.acceleration.x * delta);
         }
       }
     // }
