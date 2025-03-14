@@ -4,7 +4,7 @@ import { drawEngine } from './core/draw-engine';
 import { updateTimeEvents } from './core/timer';
 import { preLoadLevels as preLoadLevelsStrings } from './core/font';
 import { gameData } from './core/game-data';
-import fireEscapeGame from './game-states/microgames/fire-escape.game';
+import { menuState } from './game-states/menu.state';
 
 // @ts-ignore -- is not undefined for sure
 document.querySelector('link[type="image/x-icon"]').href = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ctext y=\'.9em\' font-size=\'90\'%3E🎞%3C/text%3E%3C/svg%3E';
@@ -56,6 +56,6 @@ function update(currentTime: number) {
 
 init()
 .then(() => {
-  createGameStateMachine(fireEscapeGame);
+  createGameStateMachine(menuState);
   setInterval(update, 16);
 });

@@ -15,7 +15,7 @@ class FireEscapeGame extends BuildingClimbGame {
   difficultyRange: Record<string, [number,number]> = {
     buildingNum: [4, 9],
   };
-  goDown: boolean;
+  goDown: boolean = false;
 
   onEnter(): void {
     super.onEnter();
