@@ -1,0 +1,4 @@
+ignoredBuiltDependencies:
+  - canvas
+  - ect-bin
+  - esbuild
